@@ -229,15 +229,15 @@
         </div>
     </div>
     
-    <div class="footer">
-        <p>Não hospedamos nenhum dos vídeos nos nossos servidores, apenas o indexamos.</p>
-        <div class="social-links">
-            <a href="https://www.instagram.com/jose_sta" alt="Instagram"></a>
-            <a href="https://twitter.com" alt="Twitter"></a>
-            <a href="https://sites.google.com/view/jose-status-yt/" alt="WhatsApp"></a>
-            <a href="https://sites.google.com/view/jose-status-y" alt="Discord"></a>
-            <a href="https://sites.google.com/view/jose-status-yt/" alt="Telegram"></a>
-        </div>
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
     </div>
 </body>
 </html>
