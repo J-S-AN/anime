@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <link rel="icon" href="../../jose.ico" type="jose.ico">
+    <link rel="icon" href="../../../jose.ico" type="jose.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>86 Part 2 - Legendado</title>
-    <link rel="stylesheet" href="../../menu.css">
+    <link rel="stylesheet" href="../../../menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8906506021952813"
         crossorigin="anonymous"></script>
@@ -20,7 +20,7 @@
         <div class="episode">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-sjzbZGb9tOnHEGnlKLYwLaGDsWuF8sOpjaGrgsqaPbqLRRjKNv0eTjjNqXq_VNi1RUT25dYKDxdrHKeDWk8kstg_taiSrlafhQI1NjHLL60vbsKcTCBrMN55Pulnb2Ep7buDgT6Jxg6ShfsRTNWdfTkrHGfjjgfY2H-DueTTF8YQ_qcgqn9GU1QgGZU/w640-h360/86.jpg" alt="Temporada">
             <div class="episode-title">Anterior Temporada</div>
-            <a href="../../tv-1/dublado/menu.html">Temporada 1</a>
+            <a href="../../tv-1/legendado/menu.html">Temporada 1</a>
         </div>
         <div class="episode">
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJatfJQKDC6DhEqdgpgtuyYsb07mSVMasvGFvDIT135MiStY9nNUfh652SvQT1fYvm5bLf5oR3TziqKaRVNFt3gIR0gdOnYHx9AimyVbDfGIapqL0pYpHwVn93XNfcE6p2jhS5OYSZOX0roCrp0woT8Ufh5LVIIqZSgNDnVBT-NFeNuMEnZgkr0CfWJNo/s320/01.webp" alt="Episódio 1">
@@ -92,7 +92,28 @@
                 .then(data => {
                     document.body.insertAdjacentHTML('beforeend', data);
                 });
-        </script>
-    </div>
+            </script>
+        </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let anime = "86 Part 2"; // Nome do anime
+        let idioma = "legendado"; // Pode ser "legendado" também
+        let temporada = "1"; // Número da temporada
+
+        let episodios = document.querySelectorAll(".episode a");
+
+        episodios.forEach(function (link) {
+            let episodioNome = link.getAttribute("href").replace(".html", "");
+            let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+
+            if (localStorage.getItem(chaveEpisodio)) {
+                link.innerText = "Assistido ✅"; // Altera o texto do botão
+                link.classList.add("assistido"); // Adiciona a classe de estilo
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
