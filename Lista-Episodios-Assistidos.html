@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episódios Assistidos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            padding: 20px;
+        }
+        #lista-episodios-assistidos {
+            list-style: none;
+            padding: 0;
+        }
+        #lista-episodios-assistidos li {
+            background: #333;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px 10px;
+    position: sticky;
+    top: 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.header a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 18px;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html">← Voltar ao site de anime</a>
+    </div>
+    <h1>Episódios Assistidos</h1>
+    <ul id="lista-episodios-assistidos"></ul>
+
+    <script>
+        function carregarEpisodiosAssistidos() {
+            let listaAssistidos = document.getElementById("lista-episodios-assistidos");
+            listaAssistidos.innerHTML = "";
+            let episodiosUnicos = new Set();
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                let chave = localStorage.key(i);
+                if (chave.includes("_E")) {
+                    let partes = chave.split("_");
+                    let nomeAnime = partes[0];
+                    let episodio = chave.split("_E")[1];
+                    
+                    // Remove referência à temporada, caso exista
+                    episodio = episodio.replace(/T\d+\//, "");
+                    // Remove palavras duplicadas
+                    episodio = episodio.replace(/\b(episodio)\b.*\b(episodio)\b/i, "$1");
+                    
+                    if (!episodiosUnicos.has(episodio)) {
+                        episodiosUnicos.add(episodio);
+                        let item = document.createElement("li");
+                        item.textContent = `${nomeAnime} - Episódio ${episodio} ✅`;
+                        listaAssistidos.appendChild(item);
+                    }
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", carregarEpisodiosAssistidos);
+    </script>
+</body>
+</html>
