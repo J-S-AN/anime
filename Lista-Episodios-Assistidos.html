@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Episódios Assistidos</title>
+    <link rel="icon" href="jose.ico" type="jose.ico">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #fff;
             padding: 20px;
+            text-align: center;
         }
         #lista-episodios-assistidos {
             list-style: none;
@@ -20,27 +22,34 @@
             padding: 10px;
             margin: 5px 0;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .header {
-    background-color: #333;
-    color: #fff;
-    padding: 15px 10px;
-    position: sticky;
-    top: 0;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-.header a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 18px;
-}
+        .btn-remover {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .btn-voltar {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="index.html">← Voltar ao site de anime</a>
-    </div>
+
+    <button class="btn-voltar" onclick="history.back()">⬅️ Voltar</button>
+
     <h1>Episódios Assistidos</h1>
     <ul id="lista-episodios-assistidos"></ul>
 
@@ -55,24 +64,34 @@
                 if (chave.includes("_E")) {
                     let partes = chave.split("_");
                     let nomeAnime = partes[0];
+                    let idioma = partes[1];
                     let episodio = chave.split("_E")[1];
-                    
-                    // Remove referência à temporada, caso exista
+
                     episodio = episodio.replace(/T\d+\//, "");
-                    // Remove palavras duplicadas
-                    episodio = episodio.replace(/\b(episodio)\b.*\b(episodio)\b/i, "$1");
-                    
-                    if (!episodiosUnicos.has(episodio)) {
+                    episodio = episodio.replace(/\bepisodio\b/i, "").trim();
+                    episodio = episodio.replace(/[^\d]+/g, "");
+
+                    if (episodio && !episodiosUnicos.has(episodio)) {
                         episodiosUnicos.add(episodio);
                         let item = document.createElement("li");
-                        item.textContent = `${nomeAnime} - Episódio ${episodio} ✅`;
+                        item.innerHTML = `${nomeAnime} (${idioma}) - Episódio ${episodio} ✅ 
+                            <button class="btn-remover" onclick="removerEpisodio('${chave}')">❌</button>`;
                         listaAssistidos.appendChild(item);
                     }
                 }
             }
         }
 
+        function removerEpisodio(chave) {
+            localStorage.removeItem(chave);
+            carregarEpisodiosAssistidos();
+        }
+
         document.addEventListener("DOMContentLoaded", carregarEpisodiosAssistidos);
     </script>
+
+<p>Verão 2.0</p>
+
 </body>
 </html>
+
