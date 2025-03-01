@@ -104,5 +104,25 @@
                 });
         </script>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let anime = "Spy x Family Part 2"; // Nome do anime
+            let idioma = "dublado"; // Pode ser "legendado" também
+            let temporada = "1"; // Número da temporada
+    
+            let episodios = document.querySelectorAll(".episode a");
+    
+            episodios.forEach(function (link) {
+                let episodioNome = link.getAttribute("href").replace(".html", "");
+                let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+    
+                if (localStorage.getItem(chaveEpisodio)) {
+                    link.innerText = "Assistido ✅"; // Altera o texto do botão
+                    link.classList.add("assistido"); // Adiciona a classe de estilo
+                }
+            });
+        });
+    </script>
 </body>
 

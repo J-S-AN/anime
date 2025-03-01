@@ -84,15 +84,36 @@
         </div>
     </div>
     
-    <div class="footer">
-        <p>Não hospedamos nenhum dos vídeos nos nossos servidores, apenas o indexamos.</p>
-        <div class="social-links">
-            <a href="https://www.instagram.com/jose" alt="Instagram"></a>
-            <a href="https://twitter" alt="Twitter"></a>
-            <a href="https://sites.google.com/view/jose-status" alt="WhatsApp"></a>
-            <a href="https://sites.google.com/view/jose-stat" alt="Discord"></a>
-            <a href="https://sites.google.com/view/jose-status" alt="Telegram"></a>
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+            </script>
         </div>
-    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let anime = "Kono Sekai wa Fukanzen Sugiru"; // Nome do anime
+        let idioma = "dublado"; // Pode ser "legendado" também
+        let temporada = "1"; // Número da temporada
+
+        let episodios = document.querySelectorAll(".episode a");
+
+        episodios.forEach(function (link) {
+            let episodioNome = link.getAttribute("href").replace(".html", "");
+            let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+
+            if (localStorage.getItem(chaveEpisodio)) {
+                link.innerText = "Assistido ✅"; // Altera o texto do botão
+                link.classList.add("assistido"); // Adiciona a classe de estilo
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
