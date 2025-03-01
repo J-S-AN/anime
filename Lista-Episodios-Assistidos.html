@@ -13,6 +13,22 @@
             padding: 20px;
             text-align: center;
         }
+        #filtros {
+            margin-bottom: 20px;
+        }
+        .btn-filtro {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn-filtro.ativo {
+            background-color: #28a745;
+        }
         #lista-episodios-assistidos {
             list-style: none;
             padding: 0;
@@ -44,10 +60,10 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
-        #btn-carregar-mais {
+        .btn-carregar {
             display: none;
-            background-color: #28a745;
-            color: white;
+            background-color: #ffc107;
+            color: black;
             border: none;
             padding: 10px;
             font-size: 16px;
@@ -62,26 +78,38 @@
     <button class="btn-voltar" onclick="history.back()">⬅️ Voltar</button>
 
     <h1>Episódios Assistidos</h1>
+
+    <div id="filtros">
+        <button class="btn-filtro ativo" id="btn-todos" onclick="filtrarEpisodios('Todos')">Todos</button>
+        <button class="btn-filtro" id="btn-legendado" onclick="filtrarEpisodios('Legendado')">Legendado</button>
+        <button class="btn-filtro" id="btn-dublado" onclick="filtrarEpisodios('Dublado')">Dublado</button>
+    </div>
+
     <ul id="lista-episodios-assistidos"></ul>
-    <button id="btn-carregar-mais" onclick="carregarMaisEpisodios()">Carregar mais</button>
+    
+    <button class="btn-carregar" id="btn-carregar-mais" onclick="carregarMais()">Carregar mais</button>
 
     <script>
-        let episodiosExibidos = 0;
         let todosOsEpisodios = [];
+        let episodiosExibidos = 0;
+        const LIMITE_INICIAL = 100;
+        let filtroAtual = "Todos";
 
         function carregarEpisodiosAssistidos() {
             let episodiosUnicos = new Set();
+            todosOsEpisodios = [];
 
             for (let i = 0; i < localStorage.length; i++) {
                 let chave = localStorage.key(i);
                 if (chave.includes("_E")) {
                     let partes = chave.split("_");
-                    let nomeAnime = partes[0];
+                    if (partes.length < 3) continue;
+
+                    let nomeAnime = partes[0].replace(/%20/g, " ");
                     let idioma = partes[1];
                     let episodio = chave.split("_E")[1];
 
-                    episodio = episodio.replace(/T\d+\//, "");
-                    episodio = episodio.replace(/\bepisodio\b/i, "").trim();
+                    episodio = episodio.replace(/T\d+\//, "").replace(/\bepisodio\b/i, "").trim();
                     episodio = episodio.replace(/[^\d]+/g, "");
 
                     if (episodio && !episodiosUnicos.has(chave)) {
@@ -91,46 +119,74 @@
                 }
             }
 
-            // Ordena os episódios pelo nome do anime e número do episódio
-            todosOsEpisodios.sort((a, b) => {
-                if (a.nomeAnime !== b.nomeAnime) {
-                    return a.nomeAnime.localeCompare(b.nomeAnime);
-                }
-                return parseInt(a.episodio) - parseInt(b.episodio);
-            });
-
-            carregarMaisEpisodios();
+            todosOsEpisodios.sort((a, b) => a.nomeAnime.localeCompare(b.nomeAnime) || parseInt(a.episodio) - parseInt(b.episodio));
+            filtrarEpisodios("Todos");
         }
 
-        function carregarMaisEpisodios() {
-            let listaAssistidos = document.getElementById("lista-episodios-assistidos");
-            let btnCarregarMais = document.getElementById("btn-carregar-mais");
+        function filtrarEpisodios(filtro) {
+            filtroAtual = filtro;
+            episodiosExibidos = 0;
 
-            let limite = episodiosExibidos + 100;
-            for (; episodiosExibidos < limite && episodiosExibidos < todosOsEpisodios.length; episodiosExibidos++) {
-                let ep = todosOsEpisodios[episodiosExibidos];
-                let item = document.createElement("li");
-                item.innerHTML = `${ep.nomeAnime} (${ep.idioma}) - Episódio ${ep.episodio} ✅ 
-                    <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
-                listaAssistidos.appendChild(item);
+            document.querySelectorAll(".btn-filtro").forEach(btn => btn.classList.remove("ativo"));
+            document.getElementById(`btn-${filtro.toLowerCase()}`).classList.add("ativo");
+
+            let episodiosFiltrados = todosOsEpisodios;
+            if (filtro !== "Todos") {
+                episodiosFiltrados = todosOsEpisodios.filter(ep => ep.idioma.toLowerCase() === filtro.toLowerCase());
             }
 
-            // Se ainda há mais episódios para carregar, exibe o botão
-            btnCarregarMais.style.display = episodiosExibidos < todosOsEpisodios.length ? "block" : "none";
+            if (episodiosFiltrados.length === 0) {
+                document.getElementById("lista-episodios-assistidos").innerHTML = `<p>Nenhum episódio encontrado para ${filtro}.</p>`;
+                document.getElementById("btn-carregar-mais").style.display = "none";
+                return;
+            }
+
+            mostrarEpisodios(episodiosFiltrados);
+        }
+
+        function mostrarEpisodios(lista) {
+            let listaAssistidos = document.getElementById("lista-episodios-assistidos");
+            listaAssistidos.innerHTML = "";
+
+            let total = lista.length;
+            let maxExibir = Math.min(LIMITE_INICIAL, total);
+            episodiosExibidos = maxExibir;
+
+            lista.slice(0, maxExibir).forEach(ep => {
+                let item = document.createElement("li");
+                item.innerHTML = `${ep.nomeAnime} (${ep.idioma}) - Episódio ${ep.episodio} ✅
+                    <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
+                listaAssistidos.appendChild(item);
+            });
+
+            document.getElementById("btn-carregar-mais").style.display = total > maxExibir ? "block" : "none";
+        }
+
+        function carregarMais() {
+            let listaAssistidos = document.getElementById("lista-episodios-assistidos");
+            let episodiosFiltrados = todosOsEpisodios.filter(ep => filtroAtual === "Todos" || ep.idioma.toLowerCase() === filtroAtual.toLowerCase());
+
+            let maxExibir = Math.min(episodiosExibidos + 100, episodiosFiltrados.length);
+            episodiosFiltrados.slice(episodiosExibidos, maxExibir).forEach(ep => {
+                let item = document.createElement("li");
+                item.innerHTML = `${ep.nomeAnime} (${ep.idioma}) - Episódio ${ep.episodio} ✅
+                    <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
+                listaAssistidos.appendChild(item);
+            });
+
+            episodiosExibidos = maxExibir;
+            document.getElementById("btn-carregar-mais").style.display = episodiosExibidos < episodiosFiltrados.length ? "block" : "none";
         }
 
         function removerEpisodio(chave) {
             localStorage.removeItem(chave);
-            document.getElementById("lista-episodios-assistidos").innerHTML = "";
-            episodiosExibidos = 0;
-            todosOsEpisodios = [];
             carregarEpisodiosAssistidos();
         }
 
         document.addEventListener("DOMContentLoaded", carregarEpisodiosAssistidos);
     </script>
 
-    <p>Versão 2.5</p>
+    <p>Versão 3.0</p>
 
 </body>
 </html>
