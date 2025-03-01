@@ -44,6 +44,17 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+        #btn-carregar-mais {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -52,13 +63,15 @@
 
     <h1>Episódios Assistidos</h1>
     <ul id="lista-episodios-assistidos"></ul>
+    <button id="btn-carregar-mais" onclick="carregarMaisEpisodios()">Carregar mais</button>
 
     <script>
+        let episodiosExibidos = 0;
+        let todosOsEpisodios = [];
+
         function carregarEpisodiosAssistidos() {
-            let listaAssistidos = document.getElementById("lista-episodios-assistidos");
-            listaAssistidos.innerHTML = "";
             let episodiosUnicos = new Set();
-            
+
             for (let i = 0; i < localStorage.length; i++) {
                 let chave = localStorage.key(i);
                 if (chave.includes("_E")) {
@@ -71,27 +84,53 @@
                     episodio = episodio.replace(/\bepisodio\b/i, "").trim();
                     episodio = episodio.replace(/[^\d]+/g, "");
 
-                    if (episodio && !episodiosUnicos.has(episodio)) {
-                        episodiosUnicos.add(episodio);
-                        let item = document.createElement("li");
-                        item.innerHTML = `${nomeAnime} (${idioma}) - Episódio ${episodio} ✅ 
-                            <button class="btn-remover" onclick="removerEpisodio('${chave}')">❌</button>`;
-                        listaAssistidos.appendChild(item);
+                    if (episodio && !episodiosUnicos.has(chave)) {
+                        episodiosUnicos.add(chave);
+                        todosOsEpisodios.push({ chave, nomeAnime, idioma, episodio });
                     }
                 }
             }
+
+            // Ordena os episódios pelo nome do anime e número do episódio
+            todosOsEpisodios.sort((a, b) => {
+                if (a.nomeAnime !== b.nomeAnime) {
+                    return a.nomeAnime.localeCompare(b.nomeAnime);
+                }
+                return parseInt(a.episodio) - parseInt(b.episodio);
+            });
+
+            carregarMaisEpisodios();
+        }
+
+        function carregarMaisEpisodios() {
+            let listaAssistidos = document.getElementById("lista-episodios-assistidos");
+            let btnCarregarMais = document.getElementById("btn-carregar-mais");
+
+            let limite = episodiosExibidos + 100;
+            for (; episodiosExibidos < limite && episodiosExibidos < todosOsEpisodios.length; episodiosExibidos++) {
+                let ep = todosOsEpisodios[episodiosExibidos];
+                let item = document.createElement("li");
+                item.innerHTML = `${ep.nomeAnime} (${ep.idioma}) - Episódio ${ep.episodio} ✅ 
+                    <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
+                listaAssistidos.appendChild(item);
+            }
+
+            // Se ainda há mais episódios para carregar, exibe o botão
+            btnCarregarMais.style.display = episodiosExibidos < todosOsEpisodios.length ? "block" : "none";
         }
 
         function removerEpisodio(chave) {
             localStorage.removeItem(chave);
+            document.getElementById("lista-episodios-assistidos").innerHTML = "";
+            episodiosExibidos = 0;
+            todosOsEpisodios = [];
             carregarEpisodiosAssistidos();
         }
 
         document.addEventListener("DOMContentLoaded", carregarEpisodiosAssistidos);
     </script>
 
-<p>Verão 2.0</p>
+    <p>Versão 2.5</p>
 
 </body>
 </html>
-
