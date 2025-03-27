@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +14,11 @@
             padding: 20px;
             text-align: center;
         }
+
         #filtros {
             margin-bottom: 20px;
         }
+
         .btn-filtro {
             background-color: #007bff;
             color: white;
@@ -26,13 +29,16 @@
             border-radius: 5px;
             margin: 5px;
         }
+
         .btn-filtro.ativo {
             background-color: #28a745;
         }
+
         #lista-episodios-assistidos {
             list-style: none;
             padding: 0;
         }
+
         #lista-episodios-assistidos li {
             background: #333;
             padding: 10px;
@@ -42,6 +48,7 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .btn-remover {
             background-color: red;
             color: white;
@@ -50,6 +57,7 @@
             padding: 5px;
             border-radius: 3px;
         }
+
         .btn-voltar {
             background-color: #007bff;
             color: white;
@@ -60,6 +68,7 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         .btn-carregar {
             display: none;
             background-color: #ffc107;
@@ -73,6 +82,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <button class="btn-voltar" onclick="history.back()">⬅️ Voltar</button>
@@ -86,7 +96,7 @@
     </div>
 
     <ul id="lista-episodios-assistidos"></ul>
-    
+
     <button class="btn-carregar" id="btn-carregar-mais" onclick="carregarMais()">Carregar mais</button>
 
     <script>
@@ -120,8 +130,11 @@
             }
 
             todosOsEpisodios.sort((a, b) => a.nomeAnime.localeCompare(b.nomeAnime) || parseInt(a.episodio) - parseInt(b.episodio));
-            filtrarEpisodios("Todos");
+
+            // Em vez de sempre resetar para "Todos", usa o filtro que já estava ativo
+            filtrarEpisodios(filtroAtual);
         }
+
 
         function filtrarEpisodios(filtro) {
             filtroAtual = filtro;
@@ -180,8 +193,10 @@
 
         function removerEpisodio(chave) {
             localStorage.removeItem(chave);
-            carregarEpisodiosAssistidos();
+            carregarEpisodiosAssistidos(); // Vai chamar filtrarEpisodios() com o filtro atual
         }
+
+
 
         document.addEventListener("DOMContentLoaded", carregarEpisodiosAssistidos);
     </script>
@@ -189,4 +204,5 @@
     <p>Versão 3.0</p>
 
 </body>
+
 </html>
