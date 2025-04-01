@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="../../../jose.ico" type="jose.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slime Taoshite 300-nen, Shiranai Uchi ni Level Max ni Nattemashita: Sono Ni - Legendado</title>
+    <link rel="stylesheet" href="../../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8906506021952813"
+        crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="header">
+        <a href="https://sites.google.com/view/jose-status-anime/anime/Slime-Taoshite/TV-2">← Voltar</a>
+        <span>Slime Taoshite 300-nen, Shiranai Uchi ni Level Max ni Nattemashita: Sono Ni - Legendado</span>
+    </div>
+    
+    <div class="episodes">
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiBtqhaYsiRjZ7ft9Gm2Kz2XPGPvP2soMHIW4nqPmTXMlEb0XACA9lYRJoStkNMpwQw5LmCEumhGLXNNWvLxfPlsKcrIMM2Xg-n0_dP7bCrx6V65VeN8uG9c_67Yy9_J1kAGdHMfKp-HhX6VofCDb9AOfMlA7IqFEI_NKqVfyaN6S19Evp06pDl7Ix6QY/w640-h264/Slime%20Taoshite.png" alt="Temporada">
+            <div class="episode-title">Anterior Temporada</div>
+            <a href="../../tv-1/legendado/menu.html">Temporada 1</a>
+        </div>
+        <div class="episode">
+            <img src="https://j-s-yt.github.io/J-S-Y/foto/JOSE%20STATUS%20ANIME.png">
+            <div class="episode-title">EM BREVE LANÇAMENTO</div>
+        </div>
+        <!--
+        <div class="episode">
+            <img src="https://j-s-yt.github.io/J-S-Y/foto/JOSE%20STATUS%20ANIME.png" alt="Episódio 1">
+            <div class="episode-title">Episódio 1</div>
+            <a href="episodio-1.html">Assistir</a>
+        </div>
+        -->
+    </div>
+    
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let anime = "Slime Taoshite 300-nen, Shiranai Uchi ni Level Max ni Nattemashita: Sono Ni"; // Nome do anime
+            let idioma = "legendado"; // Pode ser "legendado" também
+            let temporada = "1"; // Número da temporada
+    
+            let episodios = document.querySelectorAll(".episode a");
+    
+            episodios.forEach(function (link) {
+                let episodioNome = link.getAttribute("href").replace(".html", "");
+                let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+    
+                if (localStorage.getItem(chaveEpisodio)) {
+                    link.innerText = "Assistido ✅"; // Altera o texto do botão
+                    link.classList.add("assistido"); // Adiciona a classe de estilo
+                }
+            });
+        });
+    </script>
+</body>
+
