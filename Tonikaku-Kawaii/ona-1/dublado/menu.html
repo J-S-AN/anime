@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="../../../jose.ico" type="jose.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonikaku Kawaii: Joshikou-hen - Dublado</title>
+    <link rel="stylesheet" href="../../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8906506021952813"
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="header">
+        <a href="https://sites.google.com/view/jose-status-anime/anime/Tonikaku-Kawaii/ONA-1">← Voltar</a>
+        <span>Tonikaku Kawaii: Joshikou-hen - Dublado</span>
+    </div>
+    
+    <div class="episodes">
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjAiwD7CMdziPG3wULb0gKt7GLt_0NNxhMUboqgv_UydPygZ5seDhENtEp5d8md2FWRtiSMtwBAB59p4ZAFrdoKVlco439rBWYWigWxvHuz_nVubssy_3-ZihSfA5UwyiaMCIMsk4Lry271Pr0sYrBoG83a9BEcYh73G2SCRwHtAEAeNU1zW_bUbz6VBb8/w640-h206/Tonikaku%20Kawaii.png" alt="Temporada">
+            <div class="episode-title">Anterior Temporada</div>
+            <a href="../../tv-2/dublado/menu.html">Temporada 2</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivhX8t0CsartA6pv8mfYrdnKi8tatgpbNTrZ_PPo32Lum3U16PyKu2E6LhPYJWSsca72rlxNajBr7aRFlBqImQatstb319u-3YbxlPxGpFFKb9AV3NS5AaKiMPvxc-h_294ypYGKrjt6Dcpd81Ee_BjWeEPKkwt2kVTMt09X_vOAlehO33OU63_NpmHKo/s320/01.webp" alt="Episódio 1">
+            <div class="episode-title">Episódio 1</div>
+            <a href="episodio-1.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJkkiCoiDDu436lxp2rZ9f2euTm5gk88wLqKbxNivHQGMyShFOFzI22R13bksFEnAIeYe78oo9TBqBwETpZrcFSzhIu5Iw8ywu84u01ExKW32qUIWKTIQ5pc6wpW8wYblIZuYFbgSkpMvUdK2mCAVHHTPY5aAMk91JCrkh6K75109husQ3XbXlL6NTqLk/s320/02.webp" alt="Episódio 2">
+            <div class="episode-title">Episódio 2</div>
+            <a href="episodio-2.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirJwGm-naR2branCVZ8UNe_COrD72KRb13XanT6xavNEWDqejUdYgqzr2xQiGJz1e_orPcB8u7nef-OCaNrynXX5XgvmDysghQA3RDdqf9gLlKsmL5wO_n9Zx4fKWuIRqHVVCWGq5Of4yX9F4rHepfJ5DeTSRYApffttyIjMYQHKUDfr0uUMuvTT7kIPQ/s320/03.webp" alt="Episódio 3">
+            <div class="episode-title">Episódio 3</div>
+            <a href="episodio-3.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhVk_DyoyPzZfVkoAguvWrUzgxMaKZq9_DBQB8OVOp3fi68vPpzKUusw5pO165HN-JqpzR_9dIYFHBVhD8a34i7NHCZ8vWEBrtprX-PXCMgBb0QFe5xLmtmlEhVmHQRHSz3VtN0T0277QaDEFgJfJuw3ZLsIgPgmOsnL7z3Z3DJ2hfoO-VLL7LZAulUs0Y/s320/04.webp" alt="Episódio 4">
+            <div class="episode-title">Episódio 4 Final</div>
+            <a href="episodio-4.html">Assistir</a>
+        </div>
+    </div>
+    
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let anime = "Tonikaku Kawaii: Joshikou-hen"; // Nome do anime
+                    let idioma = "dublado"; // Pode ser "legendado" também
+                    let temporada = "1"; // Número da temporada
+            
+                    let episodios = document.querySelectorAll(".episode a");
+            
+                    episodios.forEach(function (link) {
+                        let episodioNome = link.getAttribute("href").replace(".html", "");
+                        let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+            
+                        if (localStorage.getItem(chaveEpisodio)) {
+                            link.innerText = "Assistido ✅"; // Altera o texto do botão
+                            link.classList.add("assistido"); // Adiciona a classe de estilo
+                        }
+                    });
+                });
+            </script>
+    </div>
+</body>
+

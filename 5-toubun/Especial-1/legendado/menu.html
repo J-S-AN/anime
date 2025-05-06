@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="../../../jose.ico" type="jose.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-toubun no Hanayome∽ - Legendado</title>
+    <link rel="stylesheet" href="../../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8906506021952813"
+        crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="header">
+        <a href="https://sites.google.com/view/jose-status-anime/anime/5-toubun/ESPECIAL-1">← Voltar</a>
+        <span>5-toubun no Hanayome∽ - Legendado</span>
+    </div>
+    
+    <div class="episodes">
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivsRb44OJFsgSUErbnZf7xiiN0nazHuBWMaJapmqLwZO8WFMirvpW94a0rufE9GaJmd4lyOZnwlSSfDL303_7jXDsudzQd620lpPnqvcMhKr5qQ82fuFSopWqkGOspJDK6WnnNB9Gu_z4cCF1YU1koropboEQk3Yu0r-3_tB_VxJnRAQKHeHpKAkqCXFM/s320/01.webp" alt="Episódio 1">
+            <div class="episode-title">Episódio 1</div>
+            <a href="episodio-1.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdPb4-CY0-K50fgHzGoUog4pXOjT03pfDJHCCpf5dwYUftI-jdMpW5JWmr2DzPhPJnv1rFWQMc6qiMX8JRsKzUSlRlILd1Wqe3KcxzxyME3VWMh53sspWC0AbNRPYNYR2YaPDSzSVj-2bnxyg8JC39PNaDpb9rgRgQMPk5B45ENuk2VkNMlOUlmBSBLf4/s320/02.webp" alt="Episódio 2">
+            <div class="episode-title">Episódio 2 Final</div>
+            <a href="episodio-2.html">Assistir</a>
+        </div>
+    </div>
+    
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let anime = "5-toubun no Hanayome∽"; // Nome do anime
+                    let idioma = "legendado"; // Pode ser "legendado" também
+                    let temporada = "1"; // Número da temporada
+            
+                    let episodios = document.querySelectorAll(".episode a");
+            
+                    episodios.forEach(function (link) {
+                        let episodioNome = link.getAttribute("href").replace(".html", "");
+                        let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+            
+                        if (localStorage.getItem(chaveEpisodio)) {
+                            link.innerText = "Assistido ✅"; // Altera o texto do botão
+                            link.classList.add("assistido"); // Adiciona a classe de estilo
+                        }
+                    });
+                });
+            </script>
+    </div>
+</body>
+

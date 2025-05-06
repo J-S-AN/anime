@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="icon" href="../../../jose.ico" type="jose.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-toubun no hanayome* - Legendado</title>
+    <link rel="stylesheet" href="../../../menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8906506021952813"
+        crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="header">
+        <a href="https://sites.google.com/view/jose-status-anime/anime/5-toubun/ESPECIAL-2">← Voltar</a>
+        <span>5-toubun no hanayome* - Legendado</span>
+    </div>
+    
+    <div class="episodes">
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUGFfxgOEHJW8AO1vZcD0S9TDWBR-kzQxQbATAOBXmks7KG6CFlQJ-6nMQVjvnzxcqiCUFwZJ1f9PyLWNNcAwKKmxUwvTMBAu5zqwbSu7IU_erDTfI9uF7z4trELuugBxUnhdEbzoFHb81DlD6suwb7OESoPwBoUOURz2YKBf_8XV_1HqxkzA_kw5u_Cs/s479/5%20toubun%20no%20Hanayome.jpg" alt="Temporada">
+            <div class="episode-title">Anterior Filme</div>
+            <a href="../../filme-1/legendado/filme.html">Filme</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsIxSt3Tos9LAkWk8Yc53aSF84wunaZnWFk6OvDZDth3vKi647zBy0LAotqRpyNZYnkZvmMfrWeId-CiouOoCRyKXXeEL1_wsiRe4x7KsMMC8Rc2WinEp1wqorh58LzS7rJf_iO1VwH9qVwVb3Tu1EARY3jTnwgQ666ePvb68VrjJzicIIAF7m0osfoAc/s320/01.webp" alt="Episódio 1">
+            <div class="episode-title">Episódio 1</div>
+            <a href="episodio-1.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsb2r7lIqkJwsQDHczodJG2YP87-0tpYr2kTw-zrHnCAxQUXHQlU1QPYcC8UqzgIR2VBqCI4UEM9yBld1A9Gk9yb-Ialfi56pMo94f5lrq1a_ZEjnAAFQOk7Pd6R3RSPniMNV3KCnrhkpiQkwyQ9aRsmV2QOMMhmPFindlhMUjzGMznUXDjvdX8vC5cns/s320/02.webp" alt="Episódio 2">
+            <div class="episode-title">Episódio 2 Final</div>
+            <a href="episodio-2.html">Assistir</a>
+        </div>
+    </div>
+    
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let anime = "5-toubun no hanayome*"; // Nome do anime
+                    let idioma = "legendado"; // Pode ser "legendado" também
+                    let temporada = "1"; // Número da temporada
+            
+                    let episodios = document.querySelectorAll(".episode a");
+            
+                    episodios.forEach(function (link) {
+                        let episodioNome = link.getAttribute("href").replace(".html", "");
+                        let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+            
+                        if (localStorage.getItem(chaveEpisodio)) {
+                            link.innerText = "Assistido ✅"; // Altera o texto do botão
+                            link.classList.add("assistido"); // Adiciona a classe de estilo
+                        }
+                    });
+                });
+            </script>
+    </div>
+</body>
+
