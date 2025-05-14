@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Últimos Episódios</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00ffff;
+    }
+    .episodios {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #000;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+    }
+    .titulo {
+      font-size: 16px;
+      margin: 0 0 10px;
+    }
+    .idioma {
+      font-size: 13px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+    .assistir {
+      display: inline-block;
+      background: #00ffff;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌀 Últimos Episódios</h1>
+  <div class="episodios" id="feed"></div>
+
+  <script>
+    const sheetId = '1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw';
+    const sheetName = 'Página1'; // Nome da aba
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const json = JSON.parse(data.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+        const container = document.getElementById('feed');
+        rows.forEach(row => {
+          const foto = row.c[0]?.v || '';
+          const nome = row.c[1]?.v || 'Sem Nome';
+          const ep = row.c[2]?.v || '';
+          const idioma = row.c[3]?.v || '';
+          const link = row.c[4]?.v || '#';
+
+          const card = `
+            <div class="card">
+              <img src="${foto}" alt="${nome}">
+              <div class="card-content">
+                <div class="titulo">${nome} - Episódio ${ep}</div>
+                <div class="idioma">${idioma}</div>
+                <a class="assistir" href="${link}" target="_blank">Assistir</a>
+              </div>
+            </div>`;
+          container.innerHTML += card;
+        });
+      });
+  </script>
+</body>
+</html>
