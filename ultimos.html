@@ -68,31 +68,32 @@
     const sheetName = 'Página1'; // Nome da aba
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
-    fetch(url)
-      .then(res => res.text())
-      .then(data => {
-        const json = JSON.parse(data.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-        const container = document.getElementById('feed');
-        rows.forEach(row => {
-          const foto = row.c[0]?.v || '';
-          const nome = row.c[1]?.v || 'Sem Nome';
-          const ep = row.c[2]?.v || '';
-          const idioma = row.c[3]?.v || '';
-          const link = row.c[4]?.v || '#';
+fetch(url)
+  .then(res => res.text())
+  .then(data => {
+    const json = JSON.parse(data.substr(47).slice(0, -2));
+    const rows = json.table.rows.reverse(); // 👈 inverte a ordem
+    const container = document.getElementById('feed');
+    rows.forEach(row => {
+      const foto = row.c[0]?.v || '';
+      const nome = row.c[1]?.v || 'Sem Nome';
+      const ep = row.c[2]?.v || '';
+      const idioma = row.c[3]?.v || '';
+      const link = row.c[4]?.v || '#';
 
-          const card = `
-            <div class="card">
-              <img src="${foto}" alt="${nome}">
-              <div class="card-content">
-                <div class="titulo">${nome} - Episódio ${ep}</div>
-                <div class="idioma">${idioma}</div>
-                <a class="assistir" href="${link}" target="_blank">Assistir</a>
-              </div>
-            </div>`;
-          container.innerHTML += card;
-        });
-      });
+      const card = `
+        <div class="card">
+          <img src="${foto}" alt="${nome}">
+          <div class="card-content">
+            <div class="titulo">${nome} - Episódio ${ep}</div>
+            <div class="idioma">${idioma}</div>
+            <a class="assistir" href="${link}" target="_blank">Assistir</a>
+          </div>
+        </div>`;
+      container.innerHTML += card;
+    });
+  });
+
   </script>
 </body>
 </html>
