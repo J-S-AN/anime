@@ -72,7 +72,7 @@ fetch(url)
   .then(res => res.text())
   .then(data => {
     const json = JSON.parse(data.substr(47).slice(0, -2));
-    const rows = json.table.rows.reverse(); // 👈 inverte a ordem
+    const rows = json.table.rows.reverse().slice(0, 100); // 👈 Mostra só os 100 primeiros
     const container = document.getElementById('feed');
     rows.forEach(row => {
       const foto = row.c[0]?.v || '';
