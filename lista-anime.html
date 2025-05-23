@@ -142,6 +142,10 @@
         background-color: #1dd1a1;
     }
 </style>
+
+<!-- PapaParse -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
 </head>
 <body>
 
@@ -183,13 +187,11 @@
     const nextBtn = document.getElementById('next-btn');
     const searchInput = document.getElementById('search-input');
 
-    // URL pública da planilha CSV (exemplo - substitua pela sua URL)
-    // Para obter, na planilha: Arquivo > Publicar na web > selecionar aba e formato CSV
-    // Exemplo: https://docs.google.com/spreadsheets/d/e/ID_PUBLICO/pub?output=csv
+    // Link da planilha CSV
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRr67PSc4Sca9PZdSvnPdQJrq6KsvyaDgrjP75D9uL-nLAyMSShAy_Gert2dPgC2nv2yGrCLu9ssdDw/pub?output=csv';
 
-    let allAnimeData = []; // armazena todos os animes carregados
-    let filteredAnimeData = []; // dados filtrados por busca
+    let allAnimeData = [];
+    let filteredAnimeData = [];
     let currentPage = 0;
     const itemsPerPage = 50;
 
@@ -206,19 +208,11 @@
     }
 
     function parseCSV(csvText) {
-        // Simple CSV parser (assumindo CSV simples, sem vírgulas dentro dos campos)
-        const lines = csvText.trim().split('\n');
-        const headers = lines[0].split(',');
-
-        allAnimeData = lines.slice(1).map(line => {
-            const cols = line.split(',');
-            let obj = {};
-            headers.forEach((header, i) => {
-                obj[header.trim()] = cols[i] ? cols[i].trim() : '';
-            });
-            return obj;
+        const parsed = Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true
         });
-
+        allAnimeData = parsed.data;
         filteredAnimeData = [...allAnimeData];
         currentPage = 0;
         renderPage();
@@ -237,7 +231,6 @@
         }
 
         for (const anime of pageData) {
-            // Assumindo que na planilha as colunas são: nome, capa, link
             const card = document.createElement('a');
             card.className = 'anime-card';
             card.href = anime.link || '#';
@@ -294,7 +287,6 @@
         updatePaginationButtons();
     });
 
-    // Inicializar
     fetchSheetData();
 </script>
 
