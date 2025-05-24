@@ -278,7 +278,7 @@
             pagination.innerHTML = '';
             const totalPages = Math.ceil(filteredAnimeData.length / itemsPerPage);
 
-            const maxButtons = 5;
+            const maxButtons = 6;
             let startPage = Math.max(0, currentPage - Math.floor(maxButtons / 2));
             let endPage = startPage + maxButtons - 1;
 
