@@ -3,15 +3,20 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="jose.ico" type="jose.ico">
+    <link rel="icon" href="jose.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lista de Anime - JSY ANIME</title>
+
     <meta property="og:title" content="LISTA DE ANIME">
     <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
     <meta property="og:url" content="https://bit.ly/JSY-ANIME">
     <meta property="og:type" content="website">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -21,8 +26,10 @@
 
         h1 {
             text-align: center;
+            margin: 20px 0;
         }
 
+        /* MENU */
         .menu {
             display: flex;
             justify-content: space-between;
@@ -78,7 +85,7 @@
                 position: absolute;
                 top: 60px;
                 right: 20px;
-                width: 160px;
+                width: 180px;
                 padding: 10px;
                 border-radius: 8px;
                 box-shadow: 0 0 10px #000;
@@ -89,6 +96,7 @@
             }
         }
 
+        /* CONTEÚDO */
         main {
             max-width: 1500px;
             margin: 20px auto;
@@ -105,26 +113,25 @@
             font-size: 16px;
             border-radius: 6px;
             border: none;
-            box-sizing: border-box;
+            outline: none;
         }
 
+        /* LISTA DE ANIMES */
         #anime-list {
             display: grid;
-            grid-template-columns: repeat(5, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
         }
 
         .anime-card {
             background-color: #222;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
+            text-decoration: none;
+            color: #fff;
             display: flex;
             flex-direction: column;
-            text-align: center;
-            color: #fff;
-            text-decoration: none;
+            transition: transform 0.3s;
         }
 
         .anime-card:hover {
@@ -133,21 +140,22 @@
 
         .anime-card img {
             width: 100%;
-            height: 450px;
+            height: 230px;
             object-fit: cover;
-            border-bottom: 1px solid #444;
         }
 
         .anime-title {
-            padding: 10px 8px;
+            padding: 10px;
             font-weight: bold;
             font-size: 14px;
+            text-align: center;
             flex-grow: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
         }
 
+        /* PAGINAÇÃO */
         #pagination {
             margin-top: 30px;
             text-align: center;
@@ -207,10 +215,12 @@
     </main>
 
     <script>
+        // Menu Toggle
         document.getElementById('menu-toggle').onclick = function () {
             document.getElementById('menu-links').classList.toggle('active');
         };
 
+        // Funções do site
         const animeListEl = document.getElementById('anime-list');
         const pagination = document.getElementById('pagination');
         const searchInput = document.getElementById('search-input');
