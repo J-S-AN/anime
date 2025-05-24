@@ -1,294 +1,322 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Lista de Anime - JSY ANIME</title>
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #111;
-        color: #fff;
-    }
-    .menu {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #1a1a1a;
-        padding: 10px 20px;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-    }
-    .logo {
-        font-size: 20px;
-        font-weight: bold;
-        color: #ff4757;
-    }
-    .menu-links {
-        display: flex;
-        list-style: none;
-        gap: 15px;
-        margin: 0;
-        padding: 0;
-    }
-    .menu-links li a {
-        text-decoration: none;
-        color: #fff;
-        font-size: 14px;
-        transition: color 0.3s;
-    }
-    .menu-links li a:hover {
-        color: #1dd1a1;
-    }
-    .menu-toggle {
-        display: none;
-        font-size: 26px;
-        color: #fff;
-        cursor: pointer;
-    }
-    @media (max-width: 768px) {
-        .menu-toggle {
-            display: block;
-        }
-        .menu-links {
-            display: none;
-            flex-direction: column;
-            background-color: #1a1a1a;
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            width: 160px;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #000;
-        }
-        .menu-links.active {
-            display: flex;
-        }
-    }
-    main {
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 0 15px;
-    }
-    #search-container {
-        margin-bottom: 20px;
-    }
-    #search-input {
-        width: 100%;
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 6px;
-        border: none;
-        box-sizing: border-box;
-    }
-    #anime-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
-        gap: 20px;
-    }
-    .anime-card {
-        background-color: #222;
-        border-radius: 8px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: transform 0.2s;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        color: #fff;
-        text-decoration: none;
-    }
-    .anime-card:hover {
-        transform: scale(1.05);
-    }
-    .anime-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-bottom: 1px solid #444;
-    }
-    .anime-title {
-        padding: 10px 8px;
-        font-weight: bold;
-        font-size: 14px;
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    #pagination {
-        margin-top: 30px;
-        text-align: center;
-    }
-    #pagination button {
-        background-color: #ff4757;
-        border: none;
-        padding: 10px 15px;
-        margin: 0 10px;
-        color: white;
-        font-weight: bold;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    #pagination button:disabled {
-        background-color: #555;
-        cursor: default;
-    }
-    #pagination button:hover:not(:disabled) {
-        background-color: #1dd1a1;
-    }
-</style>
 
-<!-- PapaParse -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="jose.ico" type="jose.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lista de Anime - JSY ANIME</title>
+    <!-- Metatags Open Graph -->
+    <meta property="og:title" content="LISTA DE ANIME">
+    <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
+    <meta property="og:url" content="https://bit.ly/JSY-ANIME">
+    <meta property="og:type" content="website de link">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1a1a1a;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4757;
+        }
+
+        .menu-links {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-links li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .menu-links li a:hover {
+            color: #1dd1a1;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .menu-links {
+                display: none;
+                flex-direction: column;
+                background-color: #1a1a1a;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                width: 160px;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px #000;
+            }
+
+            .menu-links.active {
+                display: flex;
+            }
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        #search-container {
+            margin-bottom: 20px;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        #anime-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 20px;
+        }
+
+        .anime-card {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .anime-card:hover {
+            transform: scale(1.05);
+        }
+
+        .anime-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #444;
+        }
+
+        .anime-title {
+            padding: 10px 8px;
+            font-weight: bold;
+            font-size: 14px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #pagination {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #pagination button {
+            background-color: #ff4757;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #pagination button:disabled {
+            background-color: #555;
+            cursor: default;
+        }
+
+        #pagination button:hover:not(:disabled) {
+            background-color: #1dd1a1;
+        }
+    </style>
+
+    <!-- PapaParse -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 </head>
+
 <body>
 
-<header>
-    <nav class="menu">
-        <div class="logo">JSY ANIME</div>
-        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-        <ul class="menu-links" id="menu-links">
-            <li><a href="https://sites.google.com/view/jose-status-anime/Inicio">Início</a></li>
-            <li><a href="https://sites.google.com/view/jose-status-anime/lista-de-anime">Lista de Anime</a></li>
-            <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
-            <li><a href="https://sites.google.com/view/jose-status-anime/Pedido-de-Anime">Pedido de Anime</a></li>
-            <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <nav class="menu">
+            <div class="logo">JSY ANIME</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://sites.google.com/view/jose-status-anime/Inicio">Início</a></li>
+                <li><a href="https://sites.google.com/view/jose-status-anime/lista-de-anime">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://sites.google.com/view/jose-status-anime/Pedido-de-Anime">Pedido de Anime</a></li>
+                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<main>
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="Pesquisar anime pelo nome..." autocomplete="off" />
-    </div>
+    <main>
+        <h1>LISTA DE ANIME</h1>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Pesquisar anime pelo nome inglês" autocomplete="off" />
+        </div>
 
-    <div id="anime-list"></div>
+        <div id="anime-list"></div>
 
-    <div id="pagination">
-        <button id="prev-btn" disabled>Anterior</button>
-        <button id="next-btn" disabled>Próximo</button>
-    </div>
-</main>
+        <div id="pagination">
+            <button id="prev-btn" disabled>Anterior</button>
+            <button id="next-btn" disabled>Próximo</button>
+        </div>
+    </main>
 
-<script>
-    // Toggle menu mobile
-    document.getElementById('menu-toggle').onclick = function () {
-        document.getElementById('menu-links').classList.toggle('active');
-    };
+    <script>
+        // Toggle menu mobile
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
 
-    const animeListEl = document.getElementById('anime-list');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const searchInput = document.getElementById('search-input');
+        const animeListEl = document.getElementById('anime-list');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const searchInput = document.getElementById('search-input');
 
-    // Link da planilha CSV
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRr67PSc4Sca9PZdSvnPdQJrq6KsvyaDgrjP75D9uL-nLAyMSShAy_Gert2dPgC2nv2yGrCLu9ssdDw/pub?output=csv';
+        // Link da planilha CSV
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRr67PSc4Sca9PZdSvnPdQJrq6KsvyaDgrjP75D9uL-nLAyMSShAy_Gert2dPgC2nv2yGrCLu9ssdDw/pub?output=csv';
 
-    let allAnimeData = [];
-    let filteredAnimeData = [];
-    let currentPage = 0;
-    const itemsPerPage = 50;
+        let allAnimeData = [];
+        let filteredAnimeData = [];
+        let currentPage = 0;
+        const itemsPerPage = 50;
 
-    async function fetchSheetData() {
-        try {
-            const response = await fetch(sheetUrl);
-            if (!response.ok) throw new Error('Erro ao carregar.');
-            const csvText = await response.text();
-            parseCSV(csvText);
-        } catch (err) {
-            animeListEl.innerHTML = '<p>Erro ao carregar..</p>';
-            console.error(err);
-        }
-    }
-
-    function parseCSV(csvText) {
-        const parsed = Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true
-        });
-        allAnimeData = parsed.data;
-        filteredAnimeData = [...allAnimeData];
-        currentPage = 0;
-        renderPage();
-        updatePaginationButtons();
-    }
-
-    function renderPage() {
-        animeListEl.innerHTML = '';
-        const start = currentPage * itemsPerPage;
-        const end = start + itemsPerPage;
-        const pageData = filteredAnimeData.slice(start, end);
-
-        if (pageData.length === 0) {
-            animeListEl.innerHTML = '<p>Nenhum anime encontrado.</p>';
-            return;
+        async function fetchSheetData() {
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) throw new Error('Erro ao carregar.');
+                const csvText = await response.text();
+                parseCSV(csvText);
+            } catch (err) {
+                animeListEl.innerHTML = '<p>Erro ao carregar..</p>';
+                console.error(err);
+            }
         }
 
-        for (const anime of pageData) {
-            const card = document.createElement('a');
-            card.className = 'anime-card';
-            card.href = anime.link || '#';
-            card.target = '_blank';
-            card.rel = 'noopener noreferrer';
-            card.title = anime.nome;
-
-            const img = document.createElement('img');
-            img.src = anime.capa || 'https://via.placeholder.com/200x280?text=Sem+Imagem';
-            img.alt = anime.nome;
-
-            const title = document.createElement('div');
-            title.className = 'anime-title';
-            title.textContent = anime.nome;
-
-            card.appendChild(img);
-            card.appendChild(title);
-            animeListEl.appendChild(card);
-        }
-    }
-
-    function updatePaginationButtons() {
-        prevBtn.disabled = currentPage === 0;
-        nextBtn.disabled = (currentPage + 1) * itemsPerPage >= filteredAnimeData.length;
-    }
-
-    prevBtn.onclick = () => {
-        if (currentPage > 0) {
-            currentPage--;
-            renderPage();
-            updatePaginationButtons();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    };
-
-    nextBtn.onclick = () => {
-        if ((currentPage + 1) * itemsPerPage < filteredAnimeData.length) {
-            currentPage++;
-            renderPage();
-            updatePaginationButtons();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    };
-
-    searchInput.addEventListener('input', () => {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        if (searchTerm === '') {
+        function parseCSV(csvText) {
+            const parsed = Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true
+            });
+            allAnimeData = parsed.data;
             filteredAnimeData = [...allAnimeData];
-        } else {
-            filteredAnimeData = allAnimeData.filter(anime => anime.nome.toLowerCase().includes(searchTerm));
+            currentPage = 0;
+            renderPage();
+            updatePaginationButtons();
         }
-        currentPage = 0;
-        renderPage();
-        updatePaginationButtons();
-    });
 
-    fetchSheetData();
-</script>
+        function renderPage() {
+            animeListEl.innerHTML = '';
+            const start = currentPage * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = filteredAnimeData.slice(start, end);
+
+            const reversedData = pageData.slice().reverse();
+
+            for (const anime of reversedData) {
+                const card = document.createElement('a');
+                card.className = 'anime-card';
+                card.href = anime.link || '#';
+                card.target = '_blank';
+                card.rel = 'noopener noreferrer';
+                card.title = anime.nome;
+
+                const img = document.createElement('img');
+                img.src = anime.capa || 'https://via.placeholder.com/200x280?text=Sem+Imagem';
+                img.alt = anime.nome;
+
+                const title = document.createElement('div');
+                title.className = 'anime-title';
+                title.textContent = anime.nome;
+
+                card.appendChild(img);
+                card.appendChild(title);
+                animeListEl.appendChild(card);
+            }
+        }
+
+        function updatePaginationButtons() {
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = (currentPage + 1) * itemsPerPage >= filteredAnimeData.length;
+        }
+
+        prevBtn.onclick = () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage();
+                updatePaginationButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        nextBtn.onclick = () => {
+            if ((currentPage + 1) * itemsPerPage < filteredAnimeData.length) {
+                currentPage++;
+                renderPage();
+                updatePaginationButtons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            if (searchTerm === '') {
+                filteredAnimeData = [...allAnimeData];
+            } else {
+                filteredAnimeData = allAnimeData.filter(anime => anime.nome.toLowerCase().includes(searchTerm));
+            }
+            currentPage = 0;
+            renderPage();
+            updatePaginationButtons();
+        });
+
+        fetchSheetData();
+    </script>
 
 </body>
+
 </html>
