@@ -6,11 +6,11 @@
     <link rel="icon" href="jose.ico" type="jose.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lista de Anime - JSY ANIME</title>
-    <!-- Metatags Open Graph -->
     <meta property="og:title" content="LISTA DE ANIME">
     <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
     <meta property="og:url" content="https://bit.ly/JSY-ANIME">
-    <meta property="og:type" content="website de link">
+    <meta property="og:type" content="website">
+
     <style>
         body {
             margin: 0;
@@ -90,9 +90,9 @@
         }
 
         main {
-            max-width: 2000px;
+            max-width: 1500px;
             margin: 20px auto;
-            padding: 5 15px;
+            padding: 0 15px;
         }
 
         #search-container {
@@ -110,7 +110,7 @@
 
         #anime-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -133,7 +133,7 @@
 
         .anime-card img {
             width: 100%;
-            height: 200px;
+            height: 450px;
             object-fit: cover;
             border-bottom: 1px solid #444;
         }
@@ -154,10 +154,10 @@
         }
 
         #pagination button {
-            background-color: #ff4757;
+            background-color: #444;
             border: none;
-            padding: 10px 15px;
-            margin: 0 10px;
+            padding: 8px 12px;
+            margin: 0 4px;
             color: white;
             font-weight: bold;
             border-radius: 6px;
@@ -165,17 +165,16 @@
             transition: background-color 0.3s;
         }
 
-        #pagination button:disabled {
-            background-color: #555;
-            cursor: default;
+        #pagination button:hover {
+            background-color: #1dd1a1;
         }
 
-        #pagination button:hover:not(:disabled) {
-            background-color: #1dd1a1;
+        #pagination button.active {
+            background-color: #ff4757;
+            cursor: default;
         }
     </style>
 
-    <!-- PapaParse -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 </head>
@@ -204,30 +203,24 @@
 
         <div id="anime-list"></div>
 
-        <div id="pagination">
-            <button id="prev-btn" disabled>Anterior</button>
-            <button id="next-btn" disabled>Próximo</button>
-        </div>
+        <div id="pagination"></div>
     </main>
 
     <script>
-        // Toggle menu mobile
         document.getElementById('menu-toggle').onclick = function () {
             document.getElementById('menu-links').classList.toggle('active');
         };
 
         const animeListEl = document.getElementById('anime-list');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
+        const pagination = document.getElementById('pagination');
         const searchInput = document.getElementById('search-input');
 
-        // Link da planilha CSV
         const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRr67PSc4Sca9PZdSvnPdQJrq6KsvyaDgrjP75D9uL-nLAyMSShAy_Gert2dPgC2nv2yGrCLu9ssdDw/pub?output=csv';
 
         let allAnimeData = [];
         let filteredAnimeData = [];
         let currentPage = 0;
-        const itemsPerPage = 50;
+        const itemsPerPage = 20;
 
         async function fetchSheetData() {
             try {
@@ -236,7 +229,7 @@
                 const csvText = await response.text();
                 parseCSV(csvText);
             } catch (err) {
-                animeListEl.innerHTML = '<p>Erro ao carregar..</p>';
+                animeListEl.innerHTML = '<p>Erro ao carregar os dados.</p>';
                 console.error(err);
             }
         }
@@ -246,7 +239,7 @@
                 header: true,
                 skipEmptyLines: true
             });
-            allAnimeData = parsed.data;
+            allAnimeData = parsed.data.reverse();
             filteredAnimeData = [...allAnimeData];
             currentPage = 0;
             renderPage();
@@ -256,12 +249,10 @@
         function renderPage() {
             animeListEl.innerHTML = '';
             const start = currentPage * itemsPerPage;
-            const end = start + itemsPerPage;
+            const end = Math.min(start + itemsPerPage, filteredAnimeData.length);
             const pageData = filteredAnimeData.slice(start, end);
 
-            const reversedData = pageData.slice().reverse();
-
-            for (const anime of reversedData) {
+            for (const anime of pageData) {
                 const card = document.createElement('a');
                 card.className = 'anime-card';
                 card.href = anime.link || '#';
@@ -284,27 +275,31 @@
         }
 
         function updatePaginationButtons() {
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = (currentPage + 1) * itemsPerPage >= filteredAnimeData.length;
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(filteredAnimeData.length / itemsPerPage);
+
+            const maxButtons = 5;
+            let startPage = Math.max(0, currentPage - Math.floor(maxButtons / 2));
+            let endPage = startPage + maxButtons - 1;
+
+            if (endPage >= totalPages) {
+                endPage = totalPages - 1;
+                startPage = Math.max(0, endPage - maxButtons + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = (i + 1);
+                btn.className = (i === currentPage) ? 'active' : '';
+                btn.onclick = () => {
+                    currentPage = i;
+                    renderPage();
+                    updatePaginationButtons();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+                pagination.appendChild(btn);
+            }
         }
-
-        prevBtn.onclick = () => {
-            if (currentPage > 0) {
-                currentPage--;
-                renderPage();
-                updatePaginationButtons();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        };
-
-        nextBtn.onclick = () => {
-            if ((currentPage + 1) * itemsPerPage < filteredAnimeData.length) {
-                currentPage++;
-                renderPage();
-                updatePaginationButtons();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        };
 
         searchInput.addEventListener('input', () => {
             const searchTerm = searchInput.value.toLowerCase().trim();
