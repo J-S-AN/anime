@@ -6,75 +6,12 @@
     <title>Lista de Animes - JSY ANIME</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="jose.ico" type="image/x-icon">
-    <meta property="og:title" content="JSY ANIME">
+    <meta property="og:title" content="Lista de Animes - JSY ANIME">
     <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
     <meta property="og:url" content="https://bit.ly/JSY-ANIME">
     <meta property="og:type" content="website">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
     <style>
-        /* MENU */
-        .menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #1a1a1a;
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .menu-links {
-            display: flex;
-            list-style: none;
-            gap: 15px;
-            margin: 0;
-            padding: 0;
-        }
-
-        .menu-links li a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .menu-links li a:hover {
-            color: #1dd1a1;
-        }
-
-        .menu-toggle {
-            display: none;
-            font-size: 26px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .menu-links {
-                display: none;
-                flex-direction: column;
-                background-color: #1a1a1a;
-                position: absolute;
-                top: 60px;
-                right: 20px;
-                width: 180px;
-                padding: 10px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px #000;
-            }
-
-            .menu-links.active {
-                display: flex;
-            }
-        }
-
         * {
             box-sizing: border-box;
         }
@@ -86,6 +23,16 @@
             color: #fff;
         }
 
+        header {
+            background-color: #1a1a1a;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
         .logo {
             font-size: 20px;
@@ -109,7 +56,7 @@
         }
 
         main {
-            max-width: 1700px;
+            max-width: 1600px;
             margin: 20px auto;
             padding: 0 15px;
         }
@@ -119,6 +66,20 @@
             margin-bottom: 20px;
         }
 
+        #search-container {
+            margin-bottom: 15px;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+            background-color: #333;
+            color: white;
+        }
+
         .filters {
             display: flex;
             flex-wrap: wrap;
@@ -126,7 +87,7 @@
             margin-bottom: 20px;
         }
 
-        select, input {
+        select {
             padding: 8px;
             border-radius: 6px;
             border: none;
@@ -158,7 +119,7 @@
 
         .anime-card img {
             width: 100%;
-            height: 250px;
+            height: 230px;
             object-fit: cover;
         }
 
@@ -167,6 +128,10 @@
             text-align: center;
             font-weight: bold;
             font-size: 14px;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #pagination {
@@ -195,29 +160,33 @@
             cursor: default;
         }
     </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 
 <body>
 
     <header>
-        <nav class="menu">
-            <div class="logo">JSY ANIME</div>
-            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-            <ul class="menu-links" id="menu-links">
-                <li><a href="https://sites.google.com/view/jose-status-anime/Inicio">Início</a></li>
-                <li><a href="https://sites.google.com/view/jose-status-anime/lista-de-anime">Lista de Anime</a></li>
-                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
-                <li><a href="https://sites.google.com/view/jose-status-anime/Pedido-de-Anime">Pedido de Anime</a></li>
-                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
-            </ul>
+        <div class="logo">JSY ANIME</div>
+        <nav>
+            <a href="https://sites.google.com/view/jose-status-anime/Inicio">Início</a>
+            <a href="https://j-s-an.github.io/anime/lista-anime.html">Lista</a>
+            <a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a>
+            <a href="https://sites.google.com/view/jose-status-anime/Pedido-de-Anime">Pedido de Anime</a>
+            <a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a>
         </nav>
     </header>
 
     <main>
         <h1>Lista de Animes</h1>
 
-        <div class="filters">
+        <!-- Campo de pesquisa -->
+        <div id="search-container">
             <input type="text" id="search-input" placeholder="Pesquisar anime pelo nome inglês">
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters">
             <select id="filter-genero">
                 <option value="">Gênero</option>
             </select>
@@ -232,7 +201,10 @@
             </select>
         </div>
 
+        <!-- Lista de animes -->
         <div id="anime-list"></div>
+
+        <!-- Paginação -->
         <div id="pagination"></div>
     </main>
 
@@ -241,8 +213,8 @@
 
         const animeListEl = document.getElementById('anime-list');
         const pagination = document.getElementById('pagination');
-
         const searchInput = document.getElementById('search-input');
+
         const filterGenero = document.getElementById('filter-genero');
         const filterTema = document.getElementById('filter-tema');
         const filterExplicito = document.getElementById('filter-explicito');
@@ -280,41 +252,41 @@
             [...explicitos].sort().forEach(e => filterExplicito.add(new Option(e, e)));
             [...demografias].sort().forEach(d => filterDemografia.add(new Option(d, d)));
 
-            [filterGenero, filterTema, filterExplicito, filterDemografia, searchInput].forEach(el => {
-                el.addEventListener('input', () => {
+            [filterGenero, filterTema, filterExplicito, filterDemografia].forEach(el => {
+                el.addEventListener('change', () => {
                     currentPage = 0;
                     applyFilters();
                 });
             });
+
+            searchInput.addEventListener('input', () => {
+                currentPage = 0;
+                applyFilters();
+            });
         }
 
         function applyFilters() {
-            const search = searchInput.value.toLowerCase();
+            const searchTerm = searchInput.value.trim().toLowerCase();
 
             filteredData = allData.filter(item => {
-                return (
-                    (!filterGenero.value || (item.gênero || '').includes(filterGenero.value)) &&
-                    (!filterTema.value || (item.tema || '').includes(filterTema.value)) &&
-                    (!filterExplicito.value || (item.gêneros_explícitos || '').includes(filterExplicito.value)) &&
-                    (!filterDemografia.value || (item.demografia || '').includes(filterDemografia.value)) &&
-                    (!search || (item.nome || '').toLowerCase().includes(search))
-                );
+                const matchesSearch = !searchTerm || (item.nome || '').toLowerCase().includes(searchTerm);
+                const matchesGenero = !filterGenero.value || (item.gênero || '').includes(filterGenero.value);
+                const matchesTema = !filterTema.value || (item.tema || '').includes(filterTema.value);
+                const matchesExplicito = !filterExplicito.value || (item.gêneros_explícitos || '').includes(filterExplicito.value);
+                const matchesDemografia = !filterDemografia.value || (item.demografia || '').includes(filterDemografia.value);
+
+                return matchesSearch && matchesGenero && matchesTema && matchesExplicito && matchesDemografia;
             });
 
+            currentPage = 0;
             renderPage();
             updatePagination();
         }
 
         function renderPage() {
             animeListEl.innerHTML = '';
-            let start = currentPage * itemsPerPage;
-            let pageItems = filteredData.slice(start, start + itemsPerPage);
-
-            while (pageItems.length < itemsPerPage && start > 0) {
-                start -= itemsPerPage;
-                const prevItems = filteredData.slice(start, start + itemsPerPage);
-                pageItems = [...prevItems, ...pageItems].slice(-itemsPerPage);
-            }
+            const start = currentPage * itemsPerPage;
+            const pageItems = filteredData.slice(start, start + itemsPerPage);
 
             pageItems.forEach(anime => {
                 const card = document.createElement('a');
