@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 Pedido de Anime | JSY ANIME</title>
+    <link rel="icon" href="jose.ico" type="image/x-icon">
+    <meta property="og:title" content="👑 Pedido de Anime - JSY ANIME">
+    <meta property="og:image" content="https://j-s-fo.github.io/foto/JOSE%20STATUS%20ANIME.png">
+    <meta property="og:url" content="https://bit.ly/JSY-ANIME">
+    <meta property="og:type" content="website">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+        }
+
+        /* CONTEÚDO */
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .regras {
+            background-color: #2b2b2b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .regras ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MENU -->
+    <header>
+        <nav class="menu">
+            <div class="logo">JSY ANIME</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+            </ul>
+        </nav>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #111;
+                color: #fff;
+            }
+
+            .menu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #1a1a1a;
+                padding: 10px 20px;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .logo {
+                font-size: 20px;
+                font-weight: bold;
+                color: #ff4757;
+            }
+
+            .menu-links {
+                display: flex;
+                list-style: none;
+                gap: 15px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .menu-links li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 14px;
+                transition: color 0.3s;
+            }
+
+            .menu-links li a:hover {
+                color: #1dd1a1;
+            }
+
+            .menu-toggle {
+                display: none;
+                font-size: 26px;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            /* Versão para celular */
+            @media (max-width: 768px) {
+                .menu-toggle {
+                    display: block;
+                }
+
+                .menu-links {
+                    display: none;
+                    flex-direction: column;
+                    background-color: #1a1a1a;
+                    position: absolute;
+                    top: 60px;
+                    right: 20px;
+                    width: 160px;
+                    padding: 10px;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px #000;
+                }
+
+                .menu-links.active {
+                    display: flex;
+                }
+            }
+        </style>
+    </header>
+
+    <script>
+        // Menu toggle no celular
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+    </script>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+        <h1>👑 Pedido de Anime</h1>
+
+        <div class="regras">
+            <h3>📢 Regras para Pedidos</h3>
+            <ul>
+                <li>🔍 Verifique antes se o anime já está no site — <strong>pedidos repetidos serão ignorados</strong>.
+                </li>
+                <li>✅ O pedido deve ser claro, com o nome correto do anime.</li>
+                <li>🕒 O prazo para atendimento pode variar conforme a disponibilidade.</li>
+                <li>✍️ Comente abaixo o nome do anime e se deseja <strong>Legendado, Dublado ou ambos</strong>.</li>
+            </ul>
+        </div>
+
+        <!-- Comentários Disqus -->
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function () {
+                this.page.url = window.location.href;
+                this.page.identifier = window.location.pathname;
+            };
+            (function () {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://jsy-anime.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Por favor, ative o JavaScript para visualizar os comentários do <a
+                href="https://disqus.com/?ref_noscript" target="_blank">Disqus.</a></noscript>
+    </div>
+
+</body>
+
+</html>
