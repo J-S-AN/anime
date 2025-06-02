@@ -1,92 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="jose.ico" type="jose.ico">
+  <link rel="icon" href="jose.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Metatags Open Graph -->
-    <meta property="og:title" content="Lançamentos">
-    <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
-    <meta property="og:url" content="https://bit.ly/JSY-ANIME">
-    <meta property="og:type" content="website de link">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lançamentos - JSY ANIME">
+  <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
+  <meta property="og:url" content="https://bit.ly/JSY-ANIME">
+  <meta property="og:type" content="website">
+
   <title>Lançamentos - JSY ANIME</title>
+
   <style>
     body {
       background: #111;
       color: #fff;
       font-family: sans-serif;
       margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #00ffff;
-    }
-    .episodios {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .card {
-      background: #222;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px #000;
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: scale(1.03);
-    }
-    .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-    }
-    .card-content {
-      padding: 15px;
-    }
-    .titulo {
-      font-size: 16px;
-      margin: 0 0 10px;
-    }
-    .idioma {
-      font-size: 13px;
-      color: #ccc;
-      margin-bottom: 10px;
-    }
-    .assistir {
-      display: inline-block;
-      background: #00ffff;
-      color: #000;
-      padding: 8px 12px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-<header>
-    <nav class="menu">
-      <div class="logo">JSY ANIME</div>
-      <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-      <ul class="menu-links" id="menu-links">
-                <li><a href="/">Início</a></li>
-                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
-                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
-                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
-                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
-      </ul>
-    </nav>
-    <style>
-      body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #fff;
     }
 
+    /* Menu */
     .menu {
       display: flex;
       justify-content: space-between;
@@ -130,7 +66,7 @@
       cursor: pointer;
     }
 
-    /* Versão para celular */
+    /* Responsivo */
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
@@ -153,50 +89,125 @@
         display: flex;
       }
     }
-    </style>
+
+    /* Conteúdo */
+    h1 {
+      text-align: center;
+      color: #00ffff;
+      padding: 20px 0 10px;
+      margin: 0;
+    }
+
+    .episodios {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px #00ffff;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background-color: #000;
+    }
+
+    .card-content {
+      padding: 10px 12px;
+    }
+
+    .titulo {
+      font-size: 15px;
+      line-height: 1.4;
+      color: #fff;
+      margin: 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- MENU -->
+  <header>
+    <nav class="menu">
+      <div class="logo">JSY ANIME</div>
+      <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+      <ul class="menu-links" id="menu-links">
+        <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+        <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+        <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+        <li><a href="https://j-s-an.github.io/anime/em-breve.html">EM BREVE</a></li>
+        <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+        <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+      </ul>
+    </nav>
   </header>
 
+  <!-- TÍTULO -->
+  <h1>🌀 Lançamentos</h1>
+
+  <!-- CONTEÚDO -->
+  <div class="episodios" id="feed"></div>
+
+  <!-- SCRIPT GOOGLE SHEETS -->
   <script>
-    // Menu toggle no celular
+    const sheetId = '1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw';
+    const sheetName = 'Página1';
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const json = JSON.parse(data.substr(47).slice(0, -2));
+        const rows = json.table.rows.reverse().slice(0, 100);
+        const container = document.getElementById('feed');
+        rows.forEach(row => {
+          const foto = row.c[0]?.v || 'https://via.placeholder.com/300x160?text=Sem+Imagem';
+          const nome = row.c[1]?.v || 'Sem Nome';
+          const ep = row.c[2]?.v || '';
+          const idioma = row.c[3]?.v || '';
+          const link = row.c[4]?.v || '#';
+
+          const card = `
+            <a href="${link}" target="_blank">
+              <div class="card">
+                <img src="${foto}" alt="${nome}">
+                <div class="card-content">
+                  <p class="titulo">${nome} - Episódio ${ep} - ${idioma}</p>
+                </div>
+              </div>
+            </a>
+          `;
+          container.innerHTML += card;
+        });
+      });
+  </script>
+
+  <!-- SCRIPT MENU MOBILE -->
+  <script>
     document.getElementById('menu-toggle').onclick = function () {
       document.getElementById('menu-links').classList.toggle('active');
     };
   </script>
 
-  <h1>🌀 Lançamentos</h1>
-  <div class="episodios" id="feed"></div>
-
-  <script>
-    const sheetId = '1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw';
-    const sheetName = 'Página1'; // Nome da aba
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
-
-fetch(url)
-  .then(res => res.text())
-  .then(data => {
-    const json = JSON.parse(data.substr(47).slice(0, -2));
-    const rows = json.table.rows.reverse().slice(0, 100); // 👈 Mostra só os 100 primeiros
-    const container = document.getElementById('feed');
-    rows.forEach(row => {
-      const foto = row.c[0]?.v || '';
-      const nome = row.c[1]?.v || 'Sem Nome';
-      const ep = row.c[2]?.v || '';
-      const idioma = row.c[3]?.v || '';
-      const link = row.c[4]?.v || '#';
-
-      const card = `
-        <div class="card">
-          <img src="${foto}" alt="${nome}">
-          <div class="card-content">
-            <div class="titulo">${nome} - Episódio ${ep}</div>
-            <div class="idioma">${idioma}</div>
-            <a class="assistir" href="${link}">Assistir</a>
-          </div>
-        </div>`;
-      container.innerHTML += card;
-    });
-  });
-
-  </script>
 </body>
+
 </html>

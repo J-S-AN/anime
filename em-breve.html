@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="jose.ico" type="jose.ico">
+    <title>Animes em Breve - JSY ANIME</title>
+    <!-- Metatags Open Graph -->
+    <meta property="og:title" content="Animes em Breve - JSY ANIME">
+    <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
+    <meta property="og:url" content="https://bit.ly/JSY-ANIME">
+    <meta property="og:type" content="website de link">
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            text-transform: capitalize;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        .grupo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .anime {
+            background: #222;
+            border-radius: 8px;
+            padding: 8px;
+            width: 120px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            /* alinhamento vertical */
+        }
+
+        .anime img {
+            width: 100%;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        /* Novo estilo da data de lançamento */
+        .anime .data {
+            font-size: 12px;
+            color: #222;
+            background: linear-gradient(135deg, #f39c12, #d35400);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            align-self: center;
+            box-shadow: 0 2px 6px rgba(211, 84, 0, 0.6);
+            user-select: none;
+            width: max-content;
+        }
+
+        .anime a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-top: 4px;
+            flex-grow: 1;
+        }
+
+        .anime strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="menu">
+            <div class="logo">JSY ANIME</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/em-breve.html">EM BREVE</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+            </ul>
+        </nav>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #111;
+                color: #fff;
+            }
+
+            .menu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #1a1a1a;
+                padding: 10px 20px;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .logo {
+                font-size: 20px;
+                font-weight: bold;
+                color: #ff4757;
+            }
+
+            .menu-links {
+                display: flex;
+                list-style: none;
+                gap: 15px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .menu-links li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 14px;
+                transition: color 0.3s;
+            }
+
+            .menu-links li a:hover {
+                color: #1dd1a1;
+            }
+
+            .menu-toggle {
+                display: none;
+                font-size: 26px;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            /* Versão para celular */
+            @media (max-width: 768px) {
+                .menu-toggle {
+                    display: block;
+                }
+
+                .menu-links {
+                    display: none;
+                    flex-direction: column;
+                    background-color: #1a1a1a;
+                    position: absolute;
+                    top: 60px;
+                    right: 20px;
+                    width: 160px;
+                    padding: 10px;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px #000;
+                }
+
+                .menu-links.active {
+                    display: flex;
+                }
+            }
+        </style>
+    </header>
+
+    <script>
+        // Menu toggle no celular
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+    </script>
+
+    <h1>Lista de Animes em Breve</h1>
+    <div id="lista"></div>
+
+    <script>
+        const planilhaURL =
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vQo5FU5iEr2rD1cmC167yJbqpOcQKnI967aU0T5u8tIu7KFxQfwvBvbFl5vs6ajGYwooPXaudhqRuh_/pub?output=tsv";
+
+        fetch(planilhaURL)
+            .then((response) => response.text())
+            .then((data) => {
+                const linhas = data.trim().split("\n").map((l) => l.split("\t"));
+                const cabecalho = linhas.shift();
+                const lista = {};
+
+                linhas.forEach((linha) => {
+                    const obj = {};
+                    cabecalho.forEach((col, idx) => {
+                        obj[col.trim()] = linha[idx] ? linha[idx].trim() : "";
+                    });
+
+                    const nome = obj["Nome"] || "";
+                    const temporada = obj["Temporada"] || "";
+                    const dataLanc = obj["Data"] || "";
+                    const ano = obj["Ano"] || "";
+                    const capa = obj["Capa"] || "";
+                    const link = obj["Link"] || "";
+
+                    let chave = "";
+                    if (temporada && ano) {
+                        chave = `${temporada.toLowerCase()} ${ano}`;
+                    } else if (ano) {
+                        chave = `${ano}`;
+                    } else {
+                        chave = "Posterior";
+                    }
+
+                    if (!lista[chave]) lista[chave] = [];
+                    lista[chave].push({ nome, temporada, dataLanc, ano, capa, link });
+                });
+
+                const ordemEstacoes = ["inverno", "primavera", "verão", "outono"];
+                const listaDiv = document.getElementById("lista");
+
+                const chavesOrdenadas = Object.keys(lista).sort((a, b) => {
+                    if (a === "Posterior") return 1;
+                    if (b === "Posterior") return -1;
+
+                    const aPartes = a.split(" ");
+                    const bPartes = b.split(" ");
+
+                    const aEstacao = ordemEstacoes.indexOf(aPartes[0]);
+                    const bEstacao = ordemEstacoes.indexOf(bPartes[0]);
+
+                    const aAno = parseInt(aPartes[1]) || parseInt(aPartes[0]) || 0;
+                    const bAno = parseInt(bPartes[1]) || parseInt(bPartes[0]) || 0;
+
+                    if (aEstacao !== -1 && bEstacao !== -1) {
+                        if (aAno !== bAno) return aAno - bAno;
+                        return aEstacao - bEstacao;
+                    }
+
+                    if (aEstacao !== -1) return -1;
+                    if (bEstacao !== -1) return 1;
+
+                    return aAno - bAno;
+                });
+
+                chavesOrdenadas.forEach((chave) => {
+                    const grupo = lista[chave];
+
+                    const h2 = document.createElement("h2");
+                    h2.textContent = chave.charAt(0).toUpperCase() + chave.slice(1);
+                    listaDiv.appendChild(h2);
+
+                    const grupoDiv = document.createElement("div");
+                    grupoDiv.className = "grupo";
+
+                    grupo.forEach((anime) => {
+                        const animeDiv = document.createElement("div");
+                        animeDiv.className = "anime";
+
+                        if (anime.dataLanc) {
+                            const dataDiv = document.createElement("div");
+                            dataDiv.className = "data";
+                            dataDiv.textContent = anime.dataLanc;
+                            animeDiv.appendChild(dataDiv);
+                        }
+
+                        const link = document.createElement("a");
+                        link.href = anime.link;
+
+                        const img = document.createElement("img");
+                        img.src = anime.capa;
+                        img.alt = anime.nome;
+                        link.appendChild(img);
+
+                        const nome = document.createElement("strong");
+                        nome.textContent = anime.nome;
+                        link.appendChild(nome);
+
+                        animeDiv.appendChild(link);
+                        grupoDiv.appendChild(animeDiv);
+                    });
+
+                    listaDiv.appendChild(grupoDiv);
+                });
+            });
+    </script>
+</body>
+
+</html>
