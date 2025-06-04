@@ -249,6 +249,24 @@
                 chavesOrdenadas.forEach((chave) => {
                     const grupo = lista[chave];
 
+                    // 🔥 Ordena dentro do grupo: quem tem data fica no topo
+                    grupo.sort((a, b) => {
+                        const getOrder = (d) => {
+                            if (!d || d === "?") return 999999;
+                            const partes = d.split(' de ');
+                            const dia = parseInt(partes[0]);
+                            const meses = {
+                                "Janeiro": 1, "Fevereiro": 2, "Março": 3, "Abril": 4,
+                                "Maio": 5, "Junho": 6, "Julho": 7, "Agosto": 8,
+                                "Setembro": 9, "Outubro": 10, "Novembro": 11, "Dezembro": 12
+                            };
+                            const mes = meses[partes[1]] || 0;
+                            return mes * 100 + dia;
+                        };
+
+                        return getOrder(a.dataLanc) - getOrder(b.dataLanc);
+                    });
+
                     const h2 = document.createElement("h2");
                     h2.textContent = chave.charAt(0).toUpperCase() + chave.slice(1);
                     listaDiv.appendChild(h2);
@@ -287,6 +305,7 @@
                 });
             });
     </script>
+
 </body>
 
 </html>
