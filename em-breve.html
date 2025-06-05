@@ -10,73 +10,115 @@
     <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
     <meta property="og:url" content="https://bit.ly/JSY-ANIME">
     <meta property="og:type" content="website de link">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            background-color: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+/* Estilo base */
+body {
+    background-color: #111;
+    color: #fff;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    padding: 20px;
+}
 
-        h2 {
-            margin-top: 40px;
-            text-transform: capitalize;
-            border-bottom: 1px solid #444;
-            padding-bottom: 5px;
-        }
+h2 {
+    margin-top: 40px;
+    text-transform: capitalize;
+    border-bottom: 1px solid #444;
+    padding-bottom: 8px;
+    font-size: 22px;
+    color: #fff;
+}
 
-        .grupo {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 10px;
-        }
+/* Container dos animes */
+.grupo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 16px;
+justify-content: flex-start;
+}
 
-        .anime {
-            background: #222;
-            border-radius: 8px;
-            padding: 8px;
-            width: 120px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            /* alinhamento vertical */
-        }
+/* Card do anime */
+.anime {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 10px;
+    flex: 1 1 calc(20% - 16px);
+    max-width: 180px;
+    min-width: 120px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
 
-        .anime img {
-            width: 100%;
-            border-radius: 6px;
-            flex-shrink: 0;
-        }
+.anime:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(255, 165, 0, 0.4);
+}
 
-        /* Novo estilo da data de lançamento */
-        .anime .data {
-            font-size: 12px;
-            color: #222;
-            background: linear-gradient(135deg, #f39c12, #d35400);
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-weight: 600;
-            align-self: center;
-            box-shadow: 0 2px 6px rgba(211, 84, 0, 0.6);
-            user-select: none;
-            width: max-content;
-        }
+/* Imagem do anime */
+.anime img {
+    width: 100%;
+    border-radius: 8px;
+    flex-shrink: 0;
+    object-fit: cover;
+    aspect-ratio: 3/4;
+}
 
-        .anime a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            margin-top: 4px;
-            flex-grow: 1;
-        }
+/* Data de lançamento */
+.anime .data {
+    font-size: 12px;
+    color: #111;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    align-self: center;
+    box-shadow: 0 2px 6px rgba(243, 156, 18, 0.6);
+    user-select: none;
+    width: max-content;
+}
 
-        .anime strong {
-            display: block;
-            margin-top: 4px;
-            font-size: 13px;
-        }
+/* Link do nome do anime */
+.anime a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin-top: 4px;
+    flex-grow: 1;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.anime a:hover {
+    color: #f39c12;
+}
+
+/* Texto adicional */
+.anime strong {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.2;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .anime {
+        flex: 1 1 calc(25% - 16px);
+    }
+}
+
+@media (max-width: 768px) {
+    .anime {
+        flex: 1 1 calc(33.33% - 16px);
+    }
+}
+
     </style>
 </head>
 
