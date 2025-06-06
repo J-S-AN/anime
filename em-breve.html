@@ -242,10 +242,13 @@
 
                     const nome = obj["Nome"] || "";
                     const temporada = obj["Temporada"] || "";
-                    const dataLanc = obj["Data"] || "";
+                    const dia = obj["Data"] || ""; // Apenas o número do dia
+                    const mesNome = obj["Mês"] || ""; // Ex: "Julho"
                     const ano = obj["Ano"] || "";
                     const capa = obj["Capa"] || "";
                     const link = obj["Link"] || "";
+
+                    const dataLanc = (dia && mesNome) ? `${dia} de ${mesNome}` : "?";
 
                     let chave = "";
                     if (temporada && ano) {
@@ -257,7 +260,7 @@
                     }
 
                     if (!lista[chave]) lista[chave] = [];
-                    lista[chave].push({ nome, temporada, dataLanc, ano, capa, link });
+                    lista[chave].push({ nome, temporada, dataLanc, dia, mesNome, ano, capa, link });
                 });
 
                 const ordemEstacoes = ["inverno", "primavera", "verão", "outono"];
@@ -290,22 +293,21 @@
                 chavesOrdenadas.forEach((chave) => {
                     const grupo = lista[chave];
 
-                    // 🔥 Ordena dentro do grupo: quem tem data fica no topo
+                    // Ordena por dia e mês corretamente
                     grupo.sort((a, b) => {
-                        const getOrder = (d) => {
-                            if (!d || d === "?") return 999999;
-                            const partes = d.split(' de ');
-                            const dia = parseInt(partes[0]);
+                        const getOrder = (dia, mesNome) => {
+                            if (!dia || dia === "?" || !mesNome) return 999999;
+                            const diaNum = parseInt(dia);
                             const meses = {
                                 "Janeiro": 1, "Fevereiro": 2, "Março": 3, "Abril": 4,
                                 "Maio": 5, "Junho": 6, "Julho": 7, "Agosto": 8,
                                 "Setembro": 9, "Outubro": 10, "Novembro": 11, "Dezembro": 12
                             };
-                            const mes = meses[partes[1]] || 0;
-                            return mes * 100 + dia;
+                            const mes = meses[mesNome] || 0;
+                            return mes * 100 + diaNum;
                         };
 
-                        return getOrder(a.dataLanc) - getOrder(b.dataLanc);
+                        return getOrder(a.dia, a.mesNome) - getOrder(b.dia, b.mesNome);
                     });
 
                     const h2 = document.createElement("h2");
@@ -346,6 +348,7 @@
                 });
             });
     </script>
+
 
 </body>
 
