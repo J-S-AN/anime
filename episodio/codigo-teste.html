@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSY ANIME - Episódio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+        }
+
+        /* Menu principal */
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1a1a1a;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4757;
+        }
+
+        .menu-links {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-links li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .menu-links li a:hover {
+            color: #1dd1a1;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .menu-links {
+                display: none;
+                flex-direction: column;
+                background-color: #1a1a1a;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                width: 160px;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px #000;
+            }
+
+            .menu-links.active {
+                display: flex;
+            }
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .anime-title {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
+            margin: 0 10px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 10px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            background-color: #222;
+            border: 1px solid #444;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s, color 0.3s;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn:hover,
+        .btn.active {
+            background-color: #1dd1a1;
+            color: #000;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #333;
+            margin: 20px 10px;
+        }
+
+        #players-section {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 10px;
+        }
+
+        .disqus-container {
+            margin: 40px 10px 0 10px;
+        }
+
+        @media (max-width: 600px) {
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .anime-title {
+                font-size: 18px;
+            }
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .footer .watermark {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        .footer .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .social-icons a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-icons a:hover {
+            color: #e6b800;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Menu de Navegação -->
+    <header>
+        <nav class="menu">
+            <div class="logo">JSY ANIME</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/em-breve.html">Em Breve</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+
+        <!-- Nome do anime e episódio -->
+        <div class="anime-title">Nome do Anime - Episódio 01</div>
+
+        <!-- Player de vídeo -->
+        <div class="video-container" id="video-box">
+            <iframe src="https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview"
+                allowfullscreen></iframe>
+        </div>
+
+        <hr>
+
+        <!-- Botões principais -->
+        <div class="btn-group">
+            <!-- <a href="episodio-anterior.html" class="btn">◀ Episódio Anterior</a> -->
+            <a href="https://j-s-an.github.io/anime/" class="btn">JSY ANIME</a>
+            <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download" class="btn" id="btn-download" target="_blank">⬇ Download</a>
+            <a href="proximo-episodio.html" class="btn">Próximo Episódio ▶</a>
+        </div>
+
+        <!-- Mostrar/Ocultar Players -->
+        <div class="btn-group">
+            <button class="btn" onclick="togglePlayers()">SERVIDOR DO VIDEO</button>
+        </div>
+
+        <!-- Lista de players -->
+        <div id="players-section" class="btn-group">
+            <button class="btn"
+                onclick="trocarPlayer('https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download', this)">Player
+                1</button>
+            <button class="btn" onclick="trocarPlayer('https://streamtape.com/e/29obkY2gaOfZMg4/', '', this)">Player
+                2</button> <!-- Sem download -->
+            <button class="btn"
+                onclick="trocarPlayer('https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW', '', this)">Player
+                3</button>
+        </div>
+
+        <!-- Comentários -->
+        <div class="disqus-container">
+            <div id="disqus_thread"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Troca de player
+        function trocarPlayer(playerURL, downloadURL, btn) {
+            document.querySelector('#video-box iframe').src = playerURL;
+            const downloadBtn = document.getElementById('btn-download');
+            if (downloadURL) {
+                downloadBtn.href = downloadURL;
+                downloadBtn.style.display = 'inline-block';
+            } else {
+                downloadBtn.style.display = 'none';
+            }
+            document.querySelectorAll('#players-section .btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+
+        // Mostrar/ocultar players
+        function togglePlayers() {
+            const players = document.getElementById('players-section');
+            players.style.display = (players.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // Menu mobile toggle
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+
+        // Disqus
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://teste-jsy.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+    <script>
+        fetch('../../../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.body.insertAdjacentHTML('beforeend', data);
+            });
+    </script>
+
+</body>
+
+</html>
