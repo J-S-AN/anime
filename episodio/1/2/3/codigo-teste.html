@@ -3,13 +3,11 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JSY ANIME - Episódio EM TESTE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player de Anime - JSY ANIME</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -17,7 +15,6 @@
             color: #fff;
         }
 
-        /* Menu principal */
         .menu {
             display: flex;
             justify-content: space-between;
@@ -61,6 +58,107 @@
             cursor: pointer;
         }
 
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-buttons a {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-buttons a:hover,
+        .nav-buttons a.active {
+            background-color: #ff4757;
+        }
+
+        /* NOVA DIV FIXA PARA NOME E EPISÓDIO */
+        #anime-episode-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff4757;
+            margin: 15px 0 10px 0;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 960px;
+            aspect-ratio: 16 / 9;
+            margin: 10px auto;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .players {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px auto;
+            max-width: 960px;
+            padding: 0 10px;
+        }
+
+        .players button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .players button.active {
+            background-color: #ff4757;
+        }
+
+        .download-below {
+            display: flex;
+            justify-content: center;
+            margin: 15px auto;
+        }
+
+        .download-below a {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .download-below a:hover {
+            background-color: #ff4757;
+        }
+
+        #disqus_thread {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 0 10px;
+        }
+
         @media (max-width: 768px) {
             .menu-toggle {
                 display: block;
@@ -81,93 +179,6 @@
 
             .menu-links.active {
                 display: flex;
-            }
-        }
-
-        .container {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-        }
-
-        .anime-title {
-            font-size: 20px;
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 0 10px;
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #000;
-            margin: 0 10px;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 10px;
-        }
-
-        .btn {
-            padding: 10px 16px;
-            background-color: #222;
-            border: 1px solid #444;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background 0.3s, color 0.3s;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .btn:hover,
-        .btn.active {
-            background-color: #1dd1a1;
-            color: #000;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #333;
-            margin: 20px 10px;
-        }
-
-        #players-section {
-            display: none;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            margin: 0 10px;
-        }
-
-        .disqus-container {
-            margin: 40px 10px 0 10px;
-        }
-
-        @media (max-width: 600px) {
-            .btn-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .anime-title {
-                font-size: 18px;
             }
         }
 
@@ -206,8 +217,6 @@
 </head>
 
 <body>
-
-    <!-- Menu de Navegação -->
     <header>
         <nav class="menu">
             <div class="logo">JSY ANIME</div>
@@ -223,79 +232,61 @@
         </nav>
     </header>
 
-    <!-- Conteúdo principal -->
-    <div class="container">
-
-        <!-- Nome do anime e episódio -->
-        <div class="anime-title">Nome do Anime - Episódio 01</div>
-
-        <!-- Player de vídeo -->
-        <div class="video-container" id="video-box">
-            <iframe src="https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview"
-                allowfullscreen></iframe>
-        </div>
-
-        <hr>
-
-        <!-- Botões principais -->
-        <div class="btn-group">
-            <!-- <a href="episodio-anterior.html" class="btn">◀ Episódio Anterior</a> -->
-            <a href="https://j-s-an.github.io/anime/" class="btn">JSY ANIME</a>
-            <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download" class="btn" id="btn-download" target="_blank">⬇ Download</a>
-            <a href="proximo-episodio.html" class="btn">Próximo Episódio ▶</a>
-        </div>
-
-        <!-- Mostrar/Ocultar Players -->
-        <div class="btn-group">
-            <button class="btn" onclick="togglePlayers()">SERVIDOR DO VIDEO</button>
-        </div>
-
-        <!-- Lista de players -->
-        <div id="players-section" class="btn-group">
-            <button class="btn"
-                onclick="trocarPlayer('https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download', this)">Player
-                1</button>
-            <button class="btn" onclick="trocarPlayer('https://streamtape.com/e/29obkY2gaOfZMg4/', '', this)">Player
-                2</button> <!-- Sem download -->
-            <button class="btn"
-                onclick="trocarPlayer('https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW', '', this)">Player
-                3</button>
-        </div>
-
-        <!-- Comentários -->
-        <div class="disqus-container">
-            <div id="disqus_thread"></div>
-        </div>
+    <div class="nav-buttons">
+        <a href="#" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior</a>
+        <a href="https://j-s-an.github.io/anime/" aria-label="Voltar para JSY ANIME">JSY ANIME</a>
+        <a href="#" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
     </div>
 
-    <!-- Scripts -->
+    <!-- NOVO: Título fixo do anime e episódio -->
+    <div id="anime-episode-title">
+        Naruto Shippuden - Episódio 1
+    </div>
+
+    <div class="players">
+        <button class="active" onclick="switchPlayer(0)">GOOGLE DRIVE</button>
+        <button onclick="switchPlayer(1)">BLOGGER</button>
+        <button onclick="switchPlayer(2)">STREAMTAPE</button>
+    </div>
+
+    <div class="video-container">
+        <iframe id="player" src="https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview"
+            allowfullscreen></iframe>
+    </div>
+
+    <div class="download-below">
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download"
+            download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>
+
+    <div id="disqus_thread"></div>
     <script>
-        // Troca de player
-        function trocarPlayer(playerURL, downloadURL, btn) {
-            document.querySelector('#video-box iframe').src = playerURL;
-            const downloadBtn = document.getElementById('btn-download');
-            if (downloadURL) {
-                downloadBtn.href = downloadURL;
-                downloadBtn.style.display = 'inline-block';
+        var players = [
+            { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' },
+            { src: 'https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW', download: '' },
+            { src: 'https://streamtape.com/e/29obkY2gaOfZMg4/', download: 'https://2371755324.tapecontent.net/.../INTRO+JOSE+STATUS+YT.mp4?dl=1' },
+        ];
+
+        function switchPlayer(index) {
+            document.getElementById('player').src = players[index].src;
+            document.querySelectorAll('.players button').forEach((b, i) => {
+                b.classList.toggle('active', i === index);
+            });
+            const downloadBtnBottom = document.getElementById('download-below-btn');
+            if (players[index].download) {
+                downloadBtnBottom.href = players[index].download;
+                downloadBtnBottom.style.display = 'inline-block';
             } else {
-                downloadBtn.style.display = 'none';
+                downloadBtnBottom.style.display = 'none';
             }
-            document.querySelectorAll('#players-section .btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
         }
+    </script>
 
-        // Mostrar/ocultar players
-        function togglePlayers() {
-            const players = document.getElementById('players-section');
-            players.style.display = (players.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        // Menu mobile toggle
-        document.getElementById('menu-toggle').onclick = function () {
-            document.getElementById('menu-links').classList.toggle('active');
+    <script>
+        var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = document.title;
         };
-
-        // Disqus
         (function () {
             var d = document, s = d.createElement('script');
             s.src = 'https://teste-jsy.disqus.com/embed.js';
@@ -305,7 +296,14 @@
     </script>
 
     <script>
-        fetch('../../../footer.html')
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+    </script>
+
+    <!-- Exemplo de inclusão do rodapé com JavaScript -->
+    <script>
+        fetch('../../../../footer.html')
             .then(response => response.text())
             .then(data => {
                 document.body.insertAdjacentHTML('beforeend', data);
