@@ -183,9 +183,9 @@
           const foto = row.c[0]?.v || 'https://via.placeholder.com/300x160?text=Sem+Imagem';
           const nome = row.c[1]?.v || 'Sem Nome';
           const ep = row.c[2]?.v || '';
-          const final = row.c[3]?.v === "Final" ? "Final" : "";
-          const idioma = row.c[4]?.v || '';
-          const link = row.c[5]?.v || '#';
+          const idioma = row.c[3]?.v || '';
+          const link = row.c[4]?.v || '#';
+          const final = row.c[5]?.v === "Final" ? "Final" : "";
 
           const card = `
             <a href="${link}">
