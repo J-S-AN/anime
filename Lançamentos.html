@@ -140,6 +140,41 @@
       text-decoration: none;
       color: inherit;
     }
+
+    #pagination {
+      text-align: center;
+      padding: 20px;
+    }
+
+    #pagination button {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      margin: 2px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #pagination button:hover {
+      background: #00ffff;
+      color: #000;
+    }
+
+    .anuncio {
+
+      color: #00ffea;
+      text-align: center;
+      padding: 12px 10px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .anuncio a {
+      color: #ff0000;
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -150,57 +185,109 @@
     <nav class="menu">
       <div class="logo">JSY ANIME</div>
       <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-            <ul class="menu-links" id="menu-links">
-                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
-                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
-                <li><a href="https://j-s-an.github.io/anime/em-breve.html">Em Breve</a></li>
-                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
-                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
-                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
-            </ul>
+      <ul class="menu-links" id="menu-links">
+        <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+        <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+        <li><a href="https://j-s-an.github.io/anime/em-breve.html">Em Breve</a></li>
+        <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+        <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+        <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+      </ul>
     </nav>
   </header>
+
+  <div class="anuncio">
+    📢 <strong>ANIME EM LANÇAMENTO 🎬</strong> — Receba novidades no
+    <a href="https://whatsapp.com/channel/0029VakjTxcG8l5DQWBcKO3O" target="_blank">WhatsApp</a> ou
+    <a href="https://t.me/+khy33-_eaUsxYjgx" target="_blank">Telegram</a>
+  </div>
+
 
   <!-- TÍTULO -->
   <h1>🌀 Lançamentos</h1>
 
   <!-- CONTEÚDO -->
   <div class="episodios" id="feed"></div>
+  <div id="pagination"></div>
 
-  <!-- SCRIPT GOOGLE SHEETS -->
+  <!-- SCRIPT GOOGLE SHEETS COM PAGINAÇÃO -->
   <script>
     const sheetId = '1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw';
     const sheetName = 'Página1';
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
+    let allRows = [];
+    const itemsPerPage = 50;
+    let currentPage = 1;
+
     fetch(url)
       .then(res => res.text())
       .then(data => {
         const json = JSON.parse(data.substr(47).slice(0, -2));
-        const rows = json.table.rows.reverse().slice(0, 100);
-        const container = document.getElementById('feed');
-        rows.forEach(row => {
-          const foto = row.c[0]?.v || 'https://via.placeholder.com/300x160?text=Sem+Imagem';
-          const nome = row.c[1]?.v || 'Sem Nome';
-          const ep = row.c[2]?.v || '';
-          const idioma = row.c[3]?.v || '';
-          const link = row.c[4]?.v || '#';
-          const final = row.c[5]?.v === "Final" ? "Final" : "";
-
-          const card = `
-            <a href="${link}">
-              <div class="card">
-                <img src="${foto}" alt="${nome}">
-                <div class="card-content">
-                  <p class="titulo">${nome} - Episódio ${ep} ${final} - ${idioma}</p>
-                </div>
-              </div>
-            </a>
-          `;
-          container.innerHTML += card;
-        });
-
+        allRows = json.table.rows.reverse(); // Mantém a ordem reversa
+        renderPage(currentPage);
       });
+
+    function renderPage(page) {
+      const container = document.getElementById('feed');
+      const pagination = document.getElementById('pagination');
+      container.innerHTML = '';
+      pagination.innerHTML = '';
+
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageItems = allRows.slice(start, end);
+
+      pageItems.forEach(row => {
+        const foto = row.c[0]?.v || 'https://via.placeholder.com/300x160?text=Sem+Imagem';
+        const nome = row.c[1]?.v || 'Sem Nome';
+        const ep = row.c[2]?.v || '';
+        const idioma = row.c[3]?.v || '';
+        const link = row.c[4]?.v || '#';
+        const final = row.c[5]?.v === "Final" ? "Final" : "";
+
+        const card = `
+          <a href="${link}">
+            <div class="card">
+              <img src="${foto}" alt="${nome}">
+              <div class="card-content">
+                <p class="titulo">${nome} - Episódio ${ep} ${final} - ${idioma}</p>
+              </div>
+            </div>
+          </a>
+        `;
+        container.innerHTML += card;
+      });
+
+      const totalPages = Math.ceil(allRows.length / itemsPerPage);
+
+      if (totalPages > 1) {
+        if (page > 1) {
+          pagination.innerHTML += `<button onclick="renderPage(${page - 1})">◀ Anterior</button> `;
+        }
+
+        let maxVisible = 6;
+        let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
+        let endPage = startPage + maxVisible - 1;
+
+        if (endPage > totalPages) {
+          endPage = totalPages;
+          startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          pagination.innerHTML += `<button onclick="renderPage(${i})" style="${i === page ? 'font-weight:bold;background:#00ffff;color:#000;' : ''}">${i}</button> `;
+        }
+
+
+        if (page < totalPages) {
+          pagination.innerHTML += `<button onclick="renderPage(${page + 1})">Próxima ▶</button>`;
+        }
+      }
+
+      // Rolar suavemente até o topo do menu
+      document.querySelector('.menu').scrollIntoView({ behavior: 'smooth' });
+    }
   </script>
 
   <!-- SCRIPT MENU MOBILE -->
