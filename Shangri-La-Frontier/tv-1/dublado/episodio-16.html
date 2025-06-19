@@ -12,6 +12,103 @@
 </head>
 
 <body>
+
+    <header>
+        <nav class="menu">
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/em-breve.html">Em Breve</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+                <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+            </ul>
+        </nav>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: #111;
+                color: #fff;
+            }
+
+            .menu {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #1a1a1a;
+                padding: 10px 20px;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .logo {
+                font-size: 20px;
+                font-weight: bold;
+                color: #ff4757;
+            }
+
+            .menu-links {
+                display: flex;
+                list-style: none;
+                gap: 15px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .menu-links li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 14px;
+                transition: color 0.3s;
+            }
+
+            .menu-links li a:hover {
+                color: #1dd1a1;
+            }
+
+            .menu-toggle {
+                display: none;
+                font-size: 26px;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            /* Versão para celular */
+            @media (max-width: 768px) {
+                .menu-toggle {
+                    display: block;
+                }
+
+                .menu-links {
+                    display: none;
+                    flex-direction: column;
+                    background-color: #1a1a1a;
+                    position: absolute;
+                    top: 60px;
+                    right: 20px;
+                    width: 160px;
+                    padding: 10px;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px #000;
+                }
+
+                .menu-links.active {
+                    display: flex;
+                }
+            }
+        </style>
+    </header>
+
+    <script>
+        // Menu toggle no celular
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+    </script>
+
     <div class="video-page">
         <h1 class="video-title">Shangri-La Frontier - Dublado</h1>
         <h2 class="video-subtitle">Episódio 16</h2>
