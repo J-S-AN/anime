@@ -280,6 +280,7 @@
         }
 
         // CALENDÁRIO (carrossel com dia atual)
+        // CALENDÁRIO (carrossel com dia atual)
         (function () {
             const el = document.getElementById("calendario");
             const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
@@ -292,6 +293,16 @@
                     const json = JSON.parse(txt.substr(47).slice(0, -2));
                     const rows = json.table.rows;
                     const hojeAnimes = rows.filter(r => r.c[0]?.v === hoje);
+
+                    if (hojeAnimes.length === 0) {
+                        const msg = document.createElement("div");
+                        msg.textContent = "Nenhum anime Hoje.";
+                        msg.style.padding = "10px";
+                        msg.style.color = "#ccc";
+                        el.appendChild(msg);
+                        return;
+                    }
+
                     hojeAnimes.forEach(r => {
                         const img = r.c[2]?.v;
                         const nome = r.c[1]?.v;
@@ -308,6 +319,7 @@
                     }, 30);
                 });
         })();
+
 
         // LANÇAMENTOS (últimos 10)
         (function () {
