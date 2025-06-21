@@ -1,51 +1,353 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8906506021952813"
-        crossorigin="anonymous"></script>
-    <link rel="icon" href="jose.ico" type="jose.ico">
-    <title>JOSE STATUS YT</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JSY ANIME - Página Inicial</title>
+    <link rel="icon" href="jose.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #111;
+            color: #fff;
+            font-size: clamp(14px, 2vw, 18px);
+        }
+
+        .menu {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            background-color: #1a1a1a;
-            color: white;
-            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: clamp(18px, 4vw, 24px);
+            font-weight: bold;
+            color: #ff4757;
+        }
+
+        .menu-links {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: clamp(12px, 2.5vw, 16px);
+        }
+
+        .menu-links a:hover {
+            color: #1dd1a1;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .menu-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                background: #1a1a1a;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px #000;
+            }
+
+            .menu-links.active {
+                display: flex;
+            }
+        }
+
+        .section {
+            padding: 20px 5vw;
+        }
+
+        .section h2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #00ffff;
+            margin-bottom: 10px;
+            font-size: clamp(16px, 3vw, 20px);
+        }
+
+        .section h2 a {
+            color: #1dd1a1;
+            text-decoration: underline;
+            font-size: clamp(12px, 2vw, 16px);
+        }
+
+        .card {
+            background: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            aspect-ratio: 16/9;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+        }
+
+        .card-content {
+            padding: 8px;
+            font-size: clamp(12px, 2vw, 16px);
             text-align: center;
-            flex-direction: column;
         }
-        .container {
-            font-size: 24px;
+
+        /* CALENDÁRIO */
+        #calendario {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
         }
-        .social {
-            margin-top: 20px;
+
+        #calendario::-webkit-scrollbar {
             display: none;
         }
+
+        #calendario .card {
+            width: clamp(180px, 40vw, 220px);
+            flex: 0 0 auto;
+        }
+
+        /* Ajusta a imagem no calendário para respeitar proporção */
+        #calendario .card img {
+            aspect-ratio: auto;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        /* LISTA DE ANIME */
+        #lista-anime {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(180px, 40vw, 220px), 1fr));
+            gap: 20px;
+        }
+
+        /* Ajusta a imagem na lista de anime para respeitar proporção */
+        #lista-anime .card img {
+            aspect-ratio: auto;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        /* LANÇAMENTOS - permanece igual */
+        #lancamentos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(200px, 40vw, 280px), 1fr));
+            gap: 20px;
+        }
+
+        #lancamentos .card img {
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .footer .watermark {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        .footer .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .social-icons a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-icons a:hover {
+            color: #e6b800;
+        }
     </style>
-    <script>
-        setTimeout(function() {
-            document.querySelector('.social').style.display = 'block';
-        }, 5000); // 5 segundos
-        
-        setTimeout(function() {
-            window.location.href = 'https://sites.google.com/view/jose-status-anime';
-        }, 15000); // 15 segundos
-    </script>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Bem-vindo ao site de anime!</h1>
-        <p>Você será redirecionado em breve...</p>
-        <div class="social">
-            <p>Antes de ir, siga-nos nas redes sociais:</p>
-            <a href="https://www.instagram.com/jose_status_yt" target="_blank" style="color: white;">Instagram</a> | 
-            <a href="https://youtube.com/JOSESTATUSYT" target="_blank" style="color: white;">YouTube</a>
-        </div>
+    <!-- MENU -->
+    <nav class="menu">
+        <div class="logo">JSY ANIME</div>
+        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+        <ul class="menu-links" id="menu-links">
+            <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+            <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+            <li><a href="https://j-s-an.github.io/anime/em-breve.html">Em Breve</a></li>
+            <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+            <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+            <li><a href="https://forms.gle/9xpodxVW71nXcjAG9">Contato</a></li>
+        </ul>
+    </nav>
+
+    <!-- CALENDÁRIO -->
+    <div class="section">
+        <h2>📅 Calendário <a href="calendario.html">Ver Todos</a></h2>
+        <div id="calendario"></div>
+    </div>
+
+    <!-- LANÇAMENTOS -->
+    <div class="section">
+        <h2>🌀 Lançamentos <a href="Lançamentos.html">Ver Todos</a></h2>
+        <div id="lancamentos"></div>
+    </div>
+
+    <!-- LISTA DE ANIME -->
+    <div class="section">
+        <h2>📚 Últimos Adicionados <a href="lista-anime.html">Ver Todos</a></h2>
+        <div id="lista-anime"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script>
+        // Toggle menu mobile
+        document.getElementById("menu-toggle").onclick = () =>
+            document.getElementById("menu-links").classList.toggle("active");
+
+        // Função para criar card
+        function criarCard({ img, titulo, link }) {
+            const a = document.createElement("a");
+            a.href = link;
+            a.className = "card";
+            a.innerHTML = `<img src="${img}" alt="${titulo}"><div class="card-content">${titulo}</div>`;
+            return a;
+        }
+
+        // CALENDÁRIO (carrossel com dia atual)
+        (function () {
+            const el = document.getElementById("calendario");
+            const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+            const hoje = dias[new Date().getDay()];
+            const url = "https://docs.google.com/spreadsheets/d/1dARnONRgC9LsxwlJG6HlJxtSZkn6Sx5eWIGgCSq2D2Q/gviz/tq?tqx=out:json&sheet=Página1";
+
+            fetch(url)
+                .then(r => r.text())
+                .then(txt => {
+                    const json = JSON.parse(txt.substr(47).slice(0, -2));
+                    const rows = json.table.rows;
+                    const hojeAnimes = rows.filter(r => r.c[0]?.v === hoje);
+                    hojeAnimes.forEach(r => {
+                        const img = r.c[2]?.v;
+                        const nome = r.c[1]?.v;
+                        const link = r.c[3]?.v;
+                        el.appendChild(criarCard({ img, titulo: nome, link }));
+                    });
+
+                    // Carrossel automático
+                    let pos = 0;
+                    setInterval(() => {
+                        pos = el.scrollLeft + 1;
+                        if (pos >= el.scrollWidth - el.clientWidth) pos = 0;
+                        el.scrollLeft = pos;
+                    }, 30);
+                });
+        })();
+
+        // LANÇAMENTOS (últimos 10)
+        (function () {
+            const el = document.getElementById("lancamentos");
+            const url = "https://docs.google.com/spreadsheets/d/1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw/gviz/tq?tqx=out:json&sheet=Página1";
+
+            fetch(url)
+                .then(r => r.text())
+                .then(txt => {
+                    const json = JSON.parse(txt.substr(47).slice(0, -2));
+                    const rows = json.table.rows.reverse().slice(0, 20);
+                    rows.forEach(r => {
+                        const img = r.c[0]?.v;
+                        const nome = r.c[1]?.v;
+                        const ep = r.c[2]?.v;
+                        const idioma = r.c[3]?.v;
+                        const link = r.c[4]?.v;
+                        const titulo = `${nome} - Episódio ${ep} - ${idioma}`;
+                        el.appendChild(criarCard({ img, titulo, link }));
+                    });
+                });
+        })();
+
+        // LISTA DE ANIMES (últimos 10)
+        (function () {
+            const el = document.getElementById("lista-anime");
+            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqvTS2cMNifove9i88TRAn2eXF3Tw4lSYjvfcDaBO4xrKM1Yz2dF-L97EdE4g-mldnbK0NdgnVALYo/pub?output=csv";
+
+            fetch(url)
+                .then(r => r.text())
+                .then(csv => {
+                    const data = Papa.parse(csv, { header: true }).data.reverse().slice(0, 20);
+                    data.forEach(anime => {
+                        el.appendChild(criarCard({ img: anime.capa, titulo: anime.nome, link: anime.link }));
+                    });
+                });
+        })();
+    </script>
+
+    <div>
+        <!-- Exemplo de inclusão do rodapé com JavaScript -->
+        <script>
+            fetch('footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
     </div>
 </body>
+
 </html>
