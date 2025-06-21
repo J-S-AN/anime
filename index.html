@@ -354,7 +354,7 @@
             fetch(url)
                 .then(r => r.text())
                 .then(csv => {
-                    const data = Papa.parse(csv, { header: true }).data.reverse().slice(0, 20);
+                    const data = Papa.parse(csv, { header: true }).data.reverse().slice(0, 10);
                     data.forEach(anime => {
                         el.appendChild(criarCard({ img: anime.capa, titulo: anime.nome, link: anime.link }));
                     });
