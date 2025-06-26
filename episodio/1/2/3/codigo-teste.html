@@ -2,223 +2,30 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player de Anime - JSY ANIME</title>
-    <link rel="icon" href="../../../jose.ico" type="jose.ico">
-    <meta property="og:title" content="Lista de Animes - JSY ANIME">
-    <meta property="og:image" content="https://j-s-an.github.io/anime/jose.ico">
-    <meta property="og:url" content="https://bit.ly/JSY-ANIME">
+    <title>JOSÉ STATUS YT - Episódio 1 - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="JOSÉ STATUS YT - Episódio 1 - JSY ANIME">
+    <meta property="og:description"
+        content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="CAPA-ANIME">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JOSÉ STATUS YT - Episódio 1 - JSY ANIME">
+    <meta name="twitter:description" content="Veja os melhores animes dublados e legendados.">
+    <meta name="twitter:image" content="CAPA-ANIME">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: #fff;
-        }
+    <link rel="stylesheet" href="../../../../0/ep.css">
+    <script src="../../../../0/em-breve.js"></script>
 
-        .menu {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #1a1a1a;
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff4757;
-        }
-
-        .menu-links {
-            display: flex;
-            list-style: none;
-            gap: 15px;
-            margin: 0;
-            padding: 0;
-        }
-
-        .menu-links li a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .menu-links li a:hover {
-            color: #1dd1a1;
-        }
-
-        .menu-toggle {
-            display: none;
-            font-size: 26px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .nav-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-            border-top: 1px solid #333;
-            border-bottom: 1px solid #333;
-        }
-
-        .nav-buttons a {
-            background-color: #222;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: background 0.3s;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        .nav-buttons a:hover,
-        .nav-buttons a.active {
-            background-color: #ff4757;
-        }
-
-        /* NOVA DIV FIXA PARA NOME E EPISÓDIO */
-        #anime-episode-title {
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: #ff4757;
-            margin: 15px 0 10px 0;
-            max-width: 960px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 960px;
-            aspect-ratio: 16 / 9;
-            margin: 10px auto;
-        }
-
-        .video-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .players {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 10px auto;
-            max-width: 960px;
-            padding: 0 10px;
-        }
-
-        .players button {
-            padding: 8px 14px;
-            border: none;
-            border-radius: 5px;
-            background-color: #444;
-            color: #fff;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .players button.active {
-            background-color: #ff4757;
-        }
-
-        .download-below {
-            display: flex;
-            justify-content: center;
-            margin: 15px auto;
-        }
-
-        .download-below a {
-            background-color: #222;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .download-below a:hover {
-            background-color: #ff4757;
-        }
-
-        #disqus_thread {
-            max-width: 960px;
-            margin: 30px auto;
-            padding: 0 10px;
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            .menu-links {
-                display: none;
-                flex-direction: column;
-                background-color: #1a1a1a;
-                position: absolute;
-                top: 60px;
-                right: 20px;
-                width: 160px;
-                padding: 10px;
-                border-radius: 8px;
-                box-shadow: 0 0 10px #000;
-            }
-
-            .menu-links.active {
-                display: flex;
-            }
-        }
-
-        .footer {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #2c2c2c;
-            border-radius: 10px;
-            text-align: center;
-            color: #ccc;
-        }
-
-        .footer .watermark {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            color: #ffcc00;
-        }
-
-        .footer .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .footer .social-icons a {
-            color: #ffcc00;
-            text-decoration: none;
-            font-size: 1.5em;
-            transition: color 0.3s ease;
-        }
-
-        .footer .social-icons a:hover {
-            color: #e6b800;
-        }
-    </style>
 </head>
 
 <body>
@@ -239,19 +46,20 @@
 
     <div class="nav-buttons">
         <a href="#" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior</a>
-        <a href="https://j-s-an.github.io/anime/" aria-label="Voltar para JSY ANIME">JSY ANIME</a>
+        <a href="#" aria-label="Menu Ep">MENU EP</a>
         <a href="#" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
     </div>
 
     <!-- NOVO: Título fixo do anime e episódio -->
     <div id="anime-episode-title">
-        Naruto Shippuden - Episódio 1
+        JOSÉ STATUS YT - Episódio 1
     </div>
 
     <div class="players">
         <button class="active" onclick="switchPlayer(0)">GOOGLE DRIVE</button>
         <button onclick="switchPlayer(1)">BLOGGER</button>
         <button onclick="switchPlayer(2)">STREAMTAPE</button>
+        <button onclick="switchPlayer(3)">doodstream</button>
     </div>
 
     <div class="video-container">
@@ -260,8 +68,8 @@
     </div>
 
     <div class="download-below">
-        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download" target="_blank"
-            download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download"
+            target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
     </div>
 
     <div id="disqus_thread"></div>
@@ -270,6 +78,7 @@
             { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' },
             { src: 'https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW', download: '' },
             { src: 'https://streamtape.com/e/29obkY2gaOfZMg4/', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://2371755324.tapecontent.net/.../INTRO+JOSE+STATUS+YT.mp4?dl=1' },
+            { src: 'https://vide0.net/e/3lzrvbqa9ia8', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://vide0.net/d/3lzrvbqa9ia8' },
         ];
 
         function switchPlayer(index) {
@@ -306,7 +115,6 @@
         };
     </script>
 
-    <!-- Exemplo de inclusão do rodapé com JavaScript -->
     <script>
         fetch('../../../../footer.html')
             .then(response => response.text())
@@ -314,6 +122,22 @@
                 document.body.insertAdjacentHTML('beforeend', data);
             });
     </script>
+
+    <!--
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let anime = "JOSÉ STATUS YT";
+            let idioma = "legendado";
+            let temporada = "1";
+            let episodioAtual = window.location.pathname.split("/").pop().replace(".html", "");
+            let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioAtual}`;
+    
+            localStorage.setItem(chaveEpisodio, "true");
+        });
+    </script>
+
+    -->
 
 </body>
 
