@@ -4,8 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     popup.id = "popup";
     popup.innerHTML = `
         <div class="popup-content">
-            <p>EM BREVE NOVO EPISODIO
-            JSY ANIME</p>
+            <p>EM BREVE MAIS EPISODIO</p>
             <button id="closePopup">Fechar</button>
         </div>
     `;
