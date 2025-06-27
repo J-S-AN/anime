@@ -2,88 +2,98 @@
 <html lang="pt-br">
 
 <head>
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="jose.ico" type="jose.ico">
-    <title>5-toubun no Hanayome - JSY Anime</title>
-    <meta property="og:title" content="5-toubun no Hanayome - JSY ANIME">
-    <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1819/97947l.jpg">
-    <meta property="og:url" content="https://bit.ly/JSY-ANIME">
+    <title>JOSÉ STATUS YT - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="JOSÉ STATUS YT - JSY ANIME">
+    <meta property="og:description"
+        content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="CAPA-ANIME">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
     <meta property="og:type" content="website">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JOSÉ STATUS YT - JSY ANIME">
+    <meta name="twitter:description" content="Veja os melhores animes dublados e legendados.">
+    <meta name="twitter:image" content="CAPA-ANIME">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="#">
+    <script src="#"></script>
+
     <style>
         * {
             box-sizing: border-box;
         }
 
-        html,
         body {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(145deg, #0d0d0d);
+            background-color: #111;
             color: #f1f1f1;
             font-size: 18px;
         }
 
+        /* Menu */
         .menu {
+            background: #000;
+            padding: 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #111;
-            padding: 16px 32px;
-            box-shadow: 0 0 10px #000;
             position: sticky;
             top: 0;
             z-index: 999;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #ff4757;
         }
 
         .menu-links {
             display: flex;
+            gap: 20px;
             list-style: none;
-            gap: 24px;
-            padding: 0;
             margin: 0;
+            padding: 0;
         }
 
         .menu-links li a {
-            color: #fff;
             text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
+            color: #f1f1f1;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s;
         }
 
         .menu-links li a:hover {
-            color: #1dd1a1;
+            color: #00d4ff;
         }
 
         .menu-toggle {
             display: none;
             font-size: 28px;
-            color: #fff;
+            color: white;
             cursor: pointer;
         }
 
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
             .menu-links {
                 display: none;
                 position: absolute;
                 top: 60px;
-                right: 20px;
+                right: 24px;
+                background-color: #000;
                 flex-direction: column;
-                background: #111;
+                border: 1px solid #333;
                 border-radius: 8px;
                 padding: 10px;
             }
@@ -91,117 +101,137 @@
             .menu-links.active {
                 display: flex;
             }
+
+            .menu-toggle {
+                display: block;
+            }
         }
 
         .container {
             max-width: 1100px;
             margin: 40px auto;
             padding: 24px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid #444;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            box-shadow: 0 10px 20px #000;
-        }
-
-        .anime-info {
-            flex: 1 1 300px;
-            text-align: center;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #000;
         }
 
         .anime-info img {
             width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 0 15px #00aaff77;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00d4ff80;
         }
 
         .details {
-            flex: 2 1 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        h1 {
-            font-size: 32px;
-            color: #00aaff;
-            text-align: left;
-        }
-
-        .details p {
-            margin: 8px 0;
-            text-align: left;
-            font-size: 20px;
-        }
-
-        .details b {
-            color: #ddd;
-        }
-
-        .status-label {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            margin-top: 5px;
-            font-size: 16px;
-        }
-
-        .status-lancamento {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .status-concluido {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .status-embreve {
-            background-color: #ffc107;
-            color: black;
-        }
-
-        a {
-            color: #00aaff;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .buttons-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
             margin-top: 24px;
         }
 
-        .buttons-wrapper button,
-        .buttons-wrapper a {
-            background: transparent;
-            border: 2px solid #00aaff;
-            color: white;
-            border-radius: 10px;
-            padding: 18px;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-            font-size: 20px;
+        .details h1 {
+            font-size: 36px;
+            color: #00d4ff;
+            margin-bottom: 16px;
         }
 
-        .buttons-wrapper button:hover,
-        .buttons-wrapper a:hover {
-            background-color: #00aaff;
-            color: #000;
-            box-shadow: 0 0 15px #00aaff;
+        .anime-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            font-size: 18px;
+        }
+
+        .anime-meta-item {
+            display: flex;
+            align-items: center;
+            color: #ddd;
+        }
+
+        .anime-meta-item i {
+            font-size: 20px;
+            margin-right: 10px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .anime-meta-item a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .anime-meta-item a:hover {
+            text-decoration: underline;
+        }
+
+        .status-concluido {
+            color: #28a745;
+        }
+
+        .status-lancamento {
+            color: #007bff;
+        }
+
+        .status-embreve {
+            color: #ffc107;
+        }
+
+.buttons-wrapper {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.button-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.button-row button,
+.button-row a {
+    flex: 1 1 200px;
+    background: linear-gradient(45deg, #00d4ff, #0077ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.button-row button:hover,
+.button-row a:hover {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+
+        /* Desktop layout side by side */
+        @media (min-width: 992px) {
+            .container {
+                display: flex;
+                gap: 40px;
+                align-items: flex-start;
+            }
+
+            .anime-info {
+                flex: 0 0 350px;
+            }
+
+            .anime-info img {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+            }
+
+            .details {
+                flex: 1;
+                margin-top: 0;
+            }
         }
 
         .popup {
@@ -212,7 +242,7 @@
             width: 100%;
             height: 100%;
             backdrop-filter: blur(8px);
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.85);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -222,23 +252,16 @@
             background-color: #222;
             padding: 24px;
             border-radius: 15px;
-            max-width: 800px;
+            max-width: 900px;
             width: 90%;
-            box-shadow: 0 0 15px #00aaff;
+            box-shadow: 0 0 15px #00d4ff;
             position: relative;
-            font-size: 18px;
         }
 
         .popup-content iframe {
             width: 100%;
-            height: 400px;
+            height: 500px;
             border-radius: 10px;
-        }
-
-        .popup-content h2 {
-            color: #00aaff;
-            margin-top: 0;
-            font-size: 24px;
         }
 
         .close {
@@ -251,51 +274,29 @@
         }
 
         .disqus-section {
-            max-width: 1100px;
-            margin: 60px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid #444;
-            border-radius: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .details,
-            .details p,
-            h1 {
-                text-align: center;
-            }
-
-            .popup-content iframe {
-                height: 250px;
-            }
-
-            .buttons-wrapper {
-                grid-template-columns: 1fr;
-            }
+            margin-top: 40px;
+            padding: 24px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
         }
 
         .footer {
-            margin-top: 20px;
+            margin-top: 40px;
             padding: 20px;
-            background-color: #2c2c2c;
+            background-color: #1a1a1a;
             border-radius: 10px;
-            text-align: center;
             color: #ccc;
+            text-align: center;
         }
 
         .footer .watermark {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-size: 1.1em;
             color: #ffcc00;
         }
 
         .footer .social-icons {
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -303,9 +304,8 @@
 
         .footer .social-icons a {
             color: #ffcc00;
-            text-decoration: none;
             font-size: 1.5em;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .footer .social-icons a:hover {
@@ -315,69 +315,124 @@
 </head>
 
 <body>
-    <header>
-        <nav class="menu">
-            <div class="logo">JSY ANIME</div>
-            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-            <ul class="menu-links" id="menu-links">
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Lista de Anime</a></li>
-                <li><a href="#">Lançamentos</a></li>
-                <li><a href="#">Pedidos</a></li>
-                <li><a href="#">Contato</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="menu">
+        <div class="logo">JSY ANIME</div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="menu-links" id="menuLinks">
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Lista de Animes</a></li>
+            <li><a href="#">Lançamentos</a></li>
+            <li><a href="#">Pedidos</a></li>
+            <li><a href="#">Contato</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
         <div class="anime-info">
-            <img src="https://cdn.myanimelist.net/images/anime/1819/97947l.jpg" alt="5-toubun no Hanayome">
-        </div>
-        <div class="details">
-            <h1>5-toubun no Hanayome</h1>
-            <!--<div class="status-label status-concluido">✅ Concluído</div> -->
-            <!-- <div class="status-label status-lancamento">🚧 Em Lançamento</div> -->
-            <!-- <div class="status-label status-embreve">🕒 Em Breve</div> -->
-            <p><b>Tipo:</b> TV</p>
-            <p><b>Episódios:</b> 12</p>
-            <p><b>Estúdio:</b> Tezuka Productions </p>
-            <p><b>Fonte:</b> Mangá</p>
-            <p><b>Gêneros:</b> Comédia, Romance </p>
-            <p><b>Tema:</b> Escolar </p>
-            <p><b>Demográfico:</b> ? </p>
-            <p><b>Classificação:</b> PG-13</p>
-            <p><a href="https://myanimelist.net/anime/38101" target="_blank">Ver no MyAnimeList</a></p>
-            <div class="buttons-wrapper">
-                <button onclick="openPopup('trailer-popup')">🎬 Trailer</button>
-                <button onclick="openPopup('sinopse-popup')">📖 Sinopse</button>
-                <a href="#">📺 Assistir Legendado</a>
-                <a href="#">🔊 Assistir Dublado</a>
-            </div>
+            <img src="https://cdn.myanimelist.net/images/anime/1819/97947l.jpg" alt="5-toubun no Hanayome" />
         </div>
 
-    </div><!-- Pop-ups -->
+        <div class="details">
+            <h1>5-toubun no Hanayome</h1>
+            <div class="anime-meta">
+                <div class="anime-meta-item status-concluido">
+                    <i class="fas fa-circle-check"></i> <b>Status:</b>&nbsp;Concluído
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-tv"></i> <b>Tipo:</b>&nbsp;TV
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-list-ol"></i> <b>Episódios:</b>&nbsp;12
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-building"></i> <b>Estúdio:</b>&nbsp;Tezuka Productions
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-book"></i> <b>Fonte:</b>&nbsp;Mangá
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-tags"></i> <b>Gêneros:</b>&nbsp;Comédia, Romance
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-graduation-cap"></i> <b>Tema:</b>&nbsp;Escolar
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-users"></i> <b>Demográfico:</b>&nbsp;Shounen
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-exclamation-triangle"></i> <b>Classificação:</b>&nbsp;PG-13
+                </div>
+                <div class="anime-meta-item">
+                    <i class="fas fa-link"></i>
+                    <a href="https://myanimelist.net/anime/38101" target="_blank">Ver no MyAnimeList</a>
+                </div>
+            </div>
+
+<div class="buttons-wrapper">
+    <div class="button-row">
+        <button onclick="openPopup('trailer-popup')">🎬 Trailer</button>
+        <button onclick="openPopup('sinopse-popup')">📖 Sinopse</button>
+    </div>
+    <div class="button-row">
+        <a href="#">📺 Legendado</a>
+        <a href="#">🔊 Dublado</a>
+        <!-- <a href="#">🔮 Dublado Futuro</a> -->
+    </div>
+</div>
+
+        </div>
+    </div>
+
     <div id="trailer-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closePopup('trailer-popup')">&times;</span>
             <iframe src="https://www.youtube.com/embed/Qv7N5b0Po3Q" allowfullscreen></iframe>
         </div>
     </div>
+
     <div id="sinopse-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closePopup('sinopse-popup')">&times;</span>
-            <h2>Sinopse</h2>
+            <h2 style="color:#00d4ff;">Sinopse</h2>
             <p>Fuutarou Uesugi é um excelente aluno, mas leva uma vida difícil. Um dia, ele consegue um emprego como
                 tutor de cinco irmãs que odeiam estudar. Agora, ele precisa fazê-las passar de ano lidando com
                 personalidades totalmente diferentes.</p>
         </div>
-    </div><!-- Disqus dentro de uma seção -->
+    </div>
+
     <div class="disqus-section">
-        <h2 style="text-align:center; color:#00aaff;">💬 Comentários</h2>
+        <h2 style="color: #00d4ff; text-align: center;">💬 Comentários</h2>
         <div id="disqus_thread"></div>
     </div>
+
+    <!-- Footer carregado via JavaScript -->
+    <div>
+        <script>
+            fetch('../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+    </div>
+
     <script>
+        function toggleMenu() {
+            document.getElementById('menuLinks').classList.toggle('active');
+        }
+
+        function openPopup(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closePopup(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
         var disqus_config = function () {
             this.page.url = window.location.href;
         };
+
         (function () {
             var d = document, s = d.createElement('script');
             s.src = 'https://teste-jsy.disqus.com/embed.js';
@@ -385,30 +440,6 @@
             (d.head || d.body).appendChild(s);
         })();
     </script>
-    <noscript>Ative o JavaScript para ver os <a href="https://disqus.com/?ref_noscript">comentários do
-            Disqus</a>.</noscript>
-    <script>
-        function openPopup(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-        function closePopup(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-        document.getElementById('menu-toggle').onclick = function () {
-            document.getElementById('menu-links').classList.toggle('active');
-        };
-    </script>
-
-    <div>
-        <!-- Exemplo de inclusão do rodapé com JavaScript -->
-        <script>
-            fetch('footer.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.body.insertAdjacentHTML('beforeend', data);
-                });
-        </script>
-    </div>
 </body>
 
 </html>
