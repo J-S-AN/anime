@@ -1,43 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/link/jose.ico" type="image/x-icon">
-    <meta name="google-adsense-account" content="ca-pub-8906506021952813">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/link/jose.ico" type="image/x-icon" />
+    <meta name="google-adsense-account" content="ca-pub-8906506021952813" />
     <title>JOSE STATUS 404</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+            margin: 0;
+            padding: 0;
+            font-family: "Arial", sans-serif;
             background-color: #000000;
             color: #ffffff;
-            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+        }
+
         h1 {
-            font-size: 48px;
+            font-size: 64px;
             margin-bottom: 20px;
+            letter-spacing: 2px;
         }
+
         p {
-            font-size: 18px;
-            margin-bottom: 30px;
+            font-size: 20px;
+            margin-bottom: 40px;
+            line-height: 1.5;
         }
+
         a {
+            display: inline-block;
             text-decoration: none;
             background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
+            color: #ffffff;
+            padding: 12px 30px;
             border-radius: 5px;
             font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         a:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
     </style>
 </head>
+
 <body>
-    <h1>JOSÉ STATUS 404</h1>
-    <p>Oops! A página que você procura não foi encontrada.</p>
-    <a href="https://sites.google.com/view/jose-status-anime">Voltar para a Página Inicial</a>
+    <div class="container">
+        <h1>JOSÉ STATUS 404</h1>
+        <p>Oops! A página que você procura não foi encontrada.</p>
+        <a id="backButton" href="#">Voltar</a>
+    </div>
+
+    <script>
+        const referrer = document.referrer;
+        const backButton = document.getElementById("backButton");
+
+        if (!referrer || referrer === window.location.href) {
+            // Usuário entrou direto na página
+            backButton.textContent = "Voltar para a Página Inicial";
+            backButton.href = "https://sites.google.com/view/jose-status-anime";
+        } else {
+            // Usuário veio de outra página
+            backButton.textContent = "Voltar para a página anterior";
+            backButton.href = "#";
+            backButton.addEventListener("click", function (e) {
+                e.preventDefault();
+                window.history.back();
+            });
+        }
+    </script>
 </body>
+
 </html>
