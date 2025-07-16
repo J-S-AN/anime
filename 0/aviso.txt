@@ -1,0 +1,3 @@
+<div id="anime-episode-title2">
+    AVISO: Essa legenda é temporária e pode conter erros na tradução
+</div>
