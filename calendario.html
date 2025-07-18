@@ -221,7 +221,7 @@
         document.getElementById("menu-toggle").onclick = () =>
             document.getElementById("menu-links").classList.toggle("active");
 
-        const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+        const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
         const hoje = dias[new Date().getDay()];
         const url = "https://docs.google.com/spreadsheets/d/1dARnONRgC9LsxwlJG6HlJxtSZkn6Sx5eWIGgCSq2D2Q/gviz/tq?tqx=out:json&sheet=Calendário";
 
@@ -278,14 +278,14 @@
 
                 const conteudo = document.getElementById("conteudo");
 
-                // Exibe o dia de hoje no topo
-                conteudo.appendChild(criarDia(hoje, diasAnimes[hoje] || []));
+                // Reorganiza os dias a partir de hoje
+                const indexHoje = dias.indexOf(hoje);
+                const ordemDias = [...dias.slice(indexHoje), ...dias.slice(0, indexHoje)];
 
-                // Exibe os outros dias
-                dias.forEach(dia => {
-                    if (dia === hoje) return;
+                ordemDias.forEach((dia, i) => {
                     conteudo.appendChild(criarDia(dia, diasAnimes[dia] || []));
                 });
+
             })
             .catch(err => {
                 document.getElementById("conteudo").innerHTML = `<div class="erro">Erro ao carregar calendário: ${err}</div>`;
