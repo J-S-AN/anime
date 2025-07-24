@@ -84,6 +84,11 @@
         border-top: 1px solid #333;
     }
 
+        .episode-title2 {
+        color: #fff;
+        height: 30px;
+    }
+
     .episode a {
         display: block;
         padding: 10px;
