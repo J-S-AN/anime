@@ -86,6 +86,18 @@
             margin-right: auto;
         }
 
+        #anime-episode-title2 {
+            background-color: #ccc;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff4757;
+            margin: 15px 0 10px 0;
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         .video-container {
             position: relative;
             width: 100%;
