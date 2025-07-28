@@ -86,12 +86,13 @@
             margin-right: auto;
         }
 
+        /* AISO */
         #anime-episode-title2 {
-            background-color: #ccc;
             text-align: center;
             font-size: 22px;
             font-weight: bold;
-            color: #ff4757;
+            color: #ff0000;
+            background-color: #ccc;
             margin: 15px 0 10px 0;
             max-width: 960px;
             margin-left: auto;
