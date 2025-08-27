@@ -159,7 +159,7 @@
             background-color: #ff4757;
         }
 
-        #disqus_thread {
+        .commentbox {
             max-width: 960px;
             margin: 30px auto;
             padding: 0 10px;
