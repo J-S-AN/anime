@@ -104,6 +104,8 @@
         <!--<a href="#EM-BREVE" class="nav-button right">Próxima Temporada →</a>-->
     </div>
 
+    <iframe src="../../comentario.html" width="100%" height="600px" frameborder="0"></iframe>
+
     <div id="trailer-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closePopup('trailer-popup')">&times;</span>
@@ -119,11 +121,6 @@
                 tutor de cinco irmãs que odeiam estudar. Agora, ele precisa fazê-las passar de ano lidando com
                 personalidades totalmente diferentes.</p>
         </div>
-    </div>
-
-    <div class="disqus-section">
-        <h2 style="color: #00d4ff; text-align: center;">💬 Comentários</h2>
-        <div id="disqus_thread"></div>
     </div>
 
     <!-- Footer carregado via JavaScript -->
@@ -149,17 +146,6 @@
         function closePopup(id) {
             document.getElementById(id).style.display = 'none';
         }
-
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-        };
-
-        (function () {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://teste-jsy.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
     </script>
 </body>
 

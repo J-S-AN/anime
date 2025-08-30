@@ -1,0 +1,189 @@
+<div id="comentarios-section">
+
+    <!-- Título -->
+    <h2 class="titulo-comentarios">💬 Comentários</h2>
+
+    <!-- Reações -->
+    <div id="reacoes">
+        <button onclick="enviarReacao('👍')">👍 <span id="like-count">0</span></button>
+        <button onclick="enviarReacao('❤️')">❤️ <span id="love-count">0</span></button>
+        <button onclick="enviarReacao('😂')">😂 <span id="haha-count">0</span></button>
+        <button onclick="enviarReacao('😢')">😢 <span id="sad-count">0</span></button>
+    </div>
+
+    <!-- Formulário de Comentário -->
+    <div id="comentario-form">
+        <input type="text" id="nome" placeholder="Seu nome (opcional)">
+        <textarea id="comentario" placeholder="Escreva um comentário..."></textarea>
+        <button onclick="enviarComentario()">💬 Enviar</button>
+    </div>
+
+    <!-- Lista de Comentários -->
+    <h3>Comentários</h3>
+    <div id="comentarios-list">
+        <p>Carregando comentários...</p>
+    </div>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec";
+    const urlAtual = window.location.pathname;
+
+    // Carregar comentários da planilha
+    async function carregarComentarios() {
+        try {
+            const res = await fetch(`${API_URL}?url=${encodeURIComponent(urlAtual)}`);
+            const data = await res.json();
+
+            const lista = document.getElementById("comentarios-list");
+            lista.innerHTML = "";
+
+            if (!data.comentarios || data.comentarios.length === 0) {
+                lista.innerHTML = "<p>Seja o primeiro a comentar!</p>";
+                return;
+            }
+
+            data.comentarios.forEach(c => {
+                const div = document.createElement("div");
+                div.className = "comentario";
+                div.innerHTML = `
+                    <b>${c.nome || "Anônimo"}</b> 
+                    <br>${c.comentario}
+                    <br><small>${c.data}</small>
+                `;
+                lista.appendChild(div);
+            });
+
+            // Atualizar contadores de reações
+            document.getElementById("like-count").textContent = data.reacoes["👍"] || 0;
+            document.getElementById("love-count").textContent = data.reacoes["❤️"] || 0;
+            document.getElementById("haha-count").textContent = data.reacoes["😂"] || 0;
+            document.getElementById("sad-count").textContent = data.reacoes["😢"] || 0;
+
+        } catch (err) {
+            console.error("Erro ao carregar:", err);
+        }
+    }
+
+    // Enviar comentário
+    async function enviarComentario() {
+        const nome = document.getElementById("nome").value;
+        const comentario = document.getElementById("comentario").value;
+
+        if (!comentario.trim()) return alert("Digite um comentário!");
+
+        await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ url: urlAtual, nome, comentario }),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        document.getElementById("comentario").value = "";
+        carregarComentarios();
+    }
+
+    // Enviar reação
+    async function enviarReacao(reacao) {
+        await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ url: urlAtual, reacao }),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        carregarComentarios();
+    }
+
+    // Inicializar
+    carregarComentarios();
+    setInterval(carregarComentarios, 5000); // Atualiza a cada 5s
+</script>
+
+<style>
+        #comentarios-section {
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #1e1e1e;
+        color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        font-family: Arial, sans-serif;
+    }
+
+    .titulo-comentarios {
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    #reacoes {
+        display: flex;
+        justify-content: center; /* Centraliza os botões */
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    #reacoes button {
+        font-size: 18px;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 8px;
+        background: #2a2a2a;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    #reacoes button:hover {
+        background: #444;
+    }
+
+    #comentario-form {
+        margin-bottom: 20px;
+    }
+
+    #comentario-form input,
+    #comentario-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 6px 0;
+        border-radius: 6px;
+        border: none;
+        font-size: 14px;
+    }
+
+    #comentario-form textarea {
+        min-height: 70px;
+        resize: vertical;
+    }
+
+    #comentario-form button {
+        width: 100%;
+        padding: 12px;
+        background: #007BFF;
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    #comentario-form button:hover {
+        background: #0056b3;
+    }
+
+    .comentario {
+        padding: 10px;
+        margin-bottom: 10px;
+        background: #2a2a2a;
+        border-radius: 8px;
+    }
+
+    .comentario small {
+        color: #aaa;
+        font-size: 12px;
+    }
+</style>
