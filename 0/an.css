@@ -325,29 +325,6 @@ body {
     padding: 0 10px;
 }
 
-    #comentarios-section {
-        max-width: 600px;
-        margin: auto;
-        padding: 20px;
-    }
-
-    #reacoes button {
-        font-size: 20px;
-        margin: 5px;
-        cursor: pointer;
-    }
-
-    #comentario-form textarea {
-        width: 100%;
-        min-height: 60px;
-        margin: 5px 0;
-    }
-
-    .comentario {
-        border-bottom: 1px solid #ccc;
-        padding: 5px 0;
-    }
-
 /* Footer */
 .footer {
     margin-top: 40px;
