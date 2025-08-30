@@ -18,7 +18,7 @@
         <button type="submit">Enviar</button>
     </form>
 
-    <!-- Lista -->
+    <!-- Lista de comentários -->
     <div id="comentarios-list"></div>
 </div>
 
@@ -26,10 +26,10 @@
     const scriptURL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec";
     const urlPagina = window.location.pathname;
 
-    // Enviar comentário
-    document.getElementById("formComentario").addEventListener("submit", async (e) => {
+    // Função para enviar comentário
+    document.getElementById("comentario-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const nome = document.getElementById("nome").value;
+        const nome = document.getElementById("nome").value || "Anônimo";
         const comentario = document.getElementById("comentario").value;
 
         if (!comentario.trim()) return alert("Digite um comentário!");
@@ -43,7 +43,7 @@
         carregarComentarios();
     });
 
-    // Enviar reação
+    // Função para enviar reação
     async function enviarReacao(reacao) {
         await fetch(scriptURL, {
             method: "POST",
@@ -52,41 +52,50 @@
         carregarComentarios();
     }
 
-    // Carregar comentários + reações
+    // Adicionar evento aos botões de reação
+    document.querySelectorAll(".reacao").forEach(btn => {
+        btn.addEventListener("click", () => {
+            enviarReacao(btn.getAttribute("data-reacao"));
+        });
+    });
+
+    // Carregar comentários e reações
     async function carregarComentarios() {
         const res = await fetch(`${scriptURL}?url=${encodeURIComponent(urlPagina)}`);
         const dados = await res.json();
 
-        const lista = document.getElementById("listaComentarios");
-        const reacoes = { "👍": 0, "❤️": 0, "😂": 0, "😮": 0, "😢": 0, "🔥": 0 };
-
+        const lista = document.getElementById("comentarios-list");
         lista.innerHTML = "";
 
-        dados.forEach(c => {
-            if (c.reacao) {
-                // soma as reações
-                if (reacoes[c.reacao] !== undefined) {
-                    reacoes[c.reacao]++;
-                }
-            } else if (c.comentario) {
-                // monta comentário
-                const div = document.createElement("div");
-                div.style.marginBottom = "10px";
-                div.style.padding = "8px";
-                div.style.borderBottom = "1px solid #333";
-                div.innerHTML = `
-                    <strong>${c.nome}</strong> 
-                    <em>(${new Date(c.data).toLocaleString()})</em><br>
-                    ${c.comentario}
-                `;
-                lista.appendChild(div);
-            }
+        // Comentários
+        dados.comentarios.forEach(c => {
+            const div = document.createElement("div");
+            div.style.marginBottom = "10px";
+            div.style.padding = "8px";
+            div.style.borderBottom = "1px solid #333";
+            div.innerHTML = `
+            <strong>${c.nome}</strong> 
+            <em>(${new Date(c.data).toLocaleString()})</em><br>
+            ${c.comentario}
+        `;
+            lista.appendChild(div);
         });
 
         // Atualizar contadores de reações
-        for (const emoji in reacoes) {
-            const span = document.getElementById("count-" + emoji);
-            if (span) span.textContent = reacoes[emoji];
+        const emojiMap = {
+            "👍": "like-count",
+            "❤️": "love-count",
+            "😂": "laugh-count",
+            "😮": "wow-count",
+            "😢": "sad-count",
+            "😡": "angry-count"
+        };
+
+        for (const emoji in emojiMap) {
+            const span = document.getElementById(emojiMap[emoji]);
+            if (span) {
+                span.textContent = dados.reacoes[emoji] || 0;
+            }
         }
     }
 
@@ -176,16 +185,5 @@
 
     #comentarios-list {
         margin-top: 20px;
-    }
-
-    .comentario-item {
-        padding: 12px;
-        background: #2a2a2a;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
-
-    .comentario-item strong {
-        color: #ffcc00;
     }
 </style>
