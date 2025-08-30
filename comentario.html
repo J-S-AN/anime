@@ -1,204 +1,195 @@
-<div id="comentarios-section">
-
-    <!-- Título -->
-    <h2 class="titulo-comentarios">💬 Comentários</h2>
+<div class="comentarios-container">
+    <h2>💬 Comentários</h2>
 
     <!-- Reações -->
-    <div id="reacoes">
-        <button onclick="enviarReacao('👍')">👍 <span id="like-count">0</span></button>
-        <button onclick="enviarReacao('❤️')">❤️ <span id="love-count">0</span></button>
-        <button onclick="enviarReacao('😂')">😂 <span id="haha-count">0</span></button>
-        <button onclick="enviarReacao('😢')">😢 <span id="sad-count">0</span></button>
+    <div class="reacoes">
+        <button class="reacao" data-reacao="👍">👍 <span id="like-count">0</span></button>
+        <button class="reacao" data-reacao="❤️">❤️ <span id="love-count">0</span></button>
+        <button class="reacao" data-reacao="😂">😂 <span id="laugh-count">0</span></button>
+        <button class="reacao" data-reacao="😮">😮 <span id="wow-count">0</span></button>
+        <button class="reacao" data-reacao="😢">😢 <span id="sad-count">0</span></button>
+        <button class="reacao" data-reacao="😡">😡 <span id="angry-count">0</span></button>
     </div>
 
-    <!-- Formulário de Comentário -->
-    <div id="comentario-form">
-        <input type="text" id="nome" placeholder="Seu nome (opcional)">
-        <textarea id="comentario" placeholder="Escreva um comentário..."></textarea>
-        <button onclick="enviarComentario()">💬 Enviar</button>
-    </div>
+    <!-- Formulário -->
+    <form id="comentario-form">
+        <input type="text" id="nome" placeholder="Seu nome">
+        <textarea id="comentario" placeholder="Escreva seu comentário"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
 
-    <!-- Lista de Comentários -->
-    <h3>Comentários</h3>
-    <div id="comentarios-list">
-        <p>Carregando comentários...</p>
-    </div>
+    <!-- Lista -->
+    <div id="comentarios-list"></div>
 </div>
 
+
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec";
-    const urlAtual = window.location.pathname;
-
-    // Carregar comentários e reações
-    async function carregarComentarios() {
-        try {
-            const res = await fetch(`${API_URL}?url=${encodeURIComponent(urlAtual)}`);
-            const data = await res.json();
-
-            const lista = document.getElementById("comentarios-list");
-            lista.innerHTML = "";
-
-            // Caso o Apps Script só devolva array simples
-            const comentarios = data.comentarios || data || [];
-            const reacoes = data.reacoes || {};
-
-            if (comentarios.length === 0) {
-                lista.innerHTML = "<p>Seja o primeiro a comentar!</p>";
-            } else {
-                comentarios.forEach(c => {
-                    const div = document.createElement("div");
-                    div.className = "comentario";
-                    div.innerHTML = `
-                        <b>${c.nome || "Anônimo"}</b><br>
-                        ${c.comentario || ""}<br>
-                        <small>${c.data || ""}</small>
-                    `;
-                    lista.appendChild(div);
-                });
-            }
-
-            // Atualizar contadores de reações
-            document.getElementById("like-count").textContent = reacoes["👍"] || 0;
-            document.getElementById("love-count").textContent = reacoes["❤️"] || 0;
-            document.getElementById("haha-count").textContent = reacoes["😂"] || 0;
-            document.getElementById("sad-count").textContent = reacoes["😢"] || 0;
-
-        } catch (err) {
-            console.error("Erro ao carregar:", err);
-            document.getElementById("comentarios-list").innerHTML = "<p>Erro ao carregar comentários.</p>";
-        }
-    }
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec";
+    const urlPagina = window.location.pathname;
 
     // Enviar comentário
-    async function enviarComentario() {
+    document.getElementById("formComentario").addEventListener("submit", async (e) => {
+        e.preventDefault();
         const nome = document.getElementById("nome").value;
         const comentario = document.getElementById("comentario").value;
 
         if (!comentario.trim()) return alert("Digite um comentário!");
 
-        try {
-            await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify({ url: urlAtual, nome, comentario }),
-                headers: { "Content-Type": "application/json" }
-            });
+        await fetch(scriptURL, {
+            method: "POST",
+            body: JSON.stringify({ url: urlPagina, nome, comentario, reacao: "" }),
+        });
 
-            document.getElementById("comentario").value = "";
-            carregarComentarios(); // Atualiza imediatamente
-        } catch (err) {
-            alert("Erro ao enviar comentário!");
-            console.error(err);
-        }
-    }
+        document.getElementById("comentario").value = "";
+        carregarComentarios();
+    });
 
     // Enviar reação
     async function enviarReacao(reacao) {
-        try {
-            await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify({ url: urlAtual, reacao }),
-                headers: { "Content-Type": "application/json" }
-            });
+        await fetch(scriptURL, {
+            method: "POST",
+            body: JSON.stringify({ url: urlPagina, nome: "Anônimo", comentario: "", reacao }),
+        });
+        carregarComentarios();
+    }
 
-            carregarComentarios(); // Atualiza imediatamente
-        } catch (err) {
-            alert("Erro ao enviar reação!");
-            console.error(err);
+    // Carregar comentários + reações
+    async function carregarComentarios() {
+        const res = await fetch(`${scriptURL}?url=${encodeURIComponent(urlPagina)}`);
+        const dados = await res.json();
+
+        const lista = document.getElementById("listaComentarios");
+        const reacoes = { "👍": 0, "❤️": 0, "😂": 0, "😮": 0, "😢": 0, "🔥": 0 };
+
+        lista.innerHTML = "";
+
+        dados.forEach(c => {
+            if (c.reacao) {
+                // soma as reações
+                if (reacoes[c.reacao] !== undefined) {
+                    reacoes[c.reacao]++;
+                }
+            } else if (c.comentario) {
+                // monta comentário
+                const div = document.createElement("div");
+                div.style.marginBottom = "10px";
+                div.style.padding = "8px";
+                div.style.borderBottom = "1px solid #333";
+                div.innerHTML = `
+                    <strong>${c.nome}</strong> 
+                    <em>(${new Date(c.data).toLocaleString()})</em><br>
+                    ${c.comentario}
+                `;
+                lista.appendChild(div);
+            }
+        });
+
+        // Atualizar contadores de reações
+        for (const emoji in reacoes) {
+            const span = document.getElementById("count-" + emoji);
+            if (span) span.textContent = reacoes[emoji];
         }
     }
 
-    // Inicializar com atualização automática
+    // Atualiza a cada 5 segundos
     carregarComentarios();
-    setInterval(carregarComentarios, 5000); // Atualiza a cada 5s
+    setInterval(carregarComentarios, 5000);
 </script>
 
 
+
+
 <style>
-        #comentarios-section {
-        max-width: 700px;
-        margin: 20px auto;
-        padding: 20px;
+    .comentarios-container {
+        max-width: 600px;
+        margin: 30px auto;
         background: #1e1e1e;
-        color: #fff;
+        padding: 20px;
         border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        font-family: Arial, sans-serif;
+        color: #f1f1f1;
+        font-family: "Segoe UI", sans-serif;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     }
 
-    .titulo-comentarios {
+    .comentarios-container h2 {
         text-align: center;
-        font-size: 20px;
         margin-bottom: 15px;
-        color: #fff;
+        color: #ffcc00;
     }
 
-    #reacoes {
+    .reacoes {
         display: flex;
-        justify-content: center; /* Centraliza os botões */
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 12px;
         margin-bottom: 20px;
-        flex-wrap: wrap;
     }
 
-    #reacoes button {
-        font-size: 18px;
-        padding: 8px 14px;
-        border: none;
-        border-radius: 8px;
+    .reacao {
         background: #2a2a2a;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 20px;
         color: #fff;
+        font-size: 18px;
         cursor: pointer;
-        transition: 0.2s;
+        transition: transform 0.2s, background 0.3s;
     }
 
-    #reacoes button:hover {
+    .reacao:hover {
         background: #444;
+        transform: scale(1.1);
+    }
+
+    .reacao span {
+        font-weight: bold;
+        margin-left: 6px;
+        color: #ffcc00;
     }
 
     #comentario-form {
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
     #comentario-form input,
     #comentario-form textarea {
-        width: 100%;
         padding: 10px;
-        margin: 6px 0;
-        border-radius: 6px;
-        border: none;
+        border-radius: 8px;
+        border: 1px solid #555;
+        background: #2a2a2a;
+        color: #f1f1f1;
         font-size: 14px;
     }
 
-    #comentario-form textarea {
-        min-height: 70px;
-        resize: vertical;
-    }
-
     #comentario-form button {
-        width: 100%;
+        background: #ffcc00;
+        color: #000;
         padding: 12px;
-        background: #007BFF;
         border: none;
         border-radius: 8px;
-        color: #fff;
-        font-size: 16px;
+        font-weight: bold;
         cursor: pointer;
-        transition: 0.2s;
+        transition: background 0.3s;
     }
 
     #comentario-form button:hover {
-        background: #0056b3;
+        background: #ffaa00;
     }
 
-    .comentario {
-        padding: 10px;
-        margin-bottom: 10px;
+    #comentarios-list {
+        margin-top: 20px;
+    }
+
+    .comentario-item {
+        padding: 12px;
         background: #2a2a2a;
         border-radius: 8px;
+        margin-bottom: 10px;
     }
 
-    .comentario small {
-        color: #aaa;
-        font-size: 12px;
+    .comentario-item strong {
+        color: #ffcc00;
     }
 </style>
