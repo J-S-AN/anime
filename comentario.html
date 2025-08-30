@@ -29,7 +29,7 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec";
     const urlAtual = window.location.pathname;
 
-    // Carregar comentários da planilha
+    // Carregar comentários e reações
     async function carregarComentarios() {
         try {
             const res = await fetch(`${API_URL}?url=${encodeURIComponent(urlAtual)}`);
@@ -38,30 +38,34 @@
             const lista = document.getElementById("comentarios-list");
             lista.innerHTML = "";
 
-            if (!data.comentarios || data.comentarios.length === 0) {
+            // Caso o Apps Script só devolva array simples
+            const comentarios = data.comentarios || data || [];
+            const reacoes = data.reacoes || {};
+
+            if (comentarios.length === 0) {
                 lista.innerHTML = "<p>Seja o primeiro a comentar!</p>";
-                return;
+            } else {
+                comentarios.forEach(c => {
+                    const div = document.createElement("div");
+                    div.className = "comentario";
+                    div.innerHTML = `
+                        <b>${c.nome || "Anônimo"}</b><br>
+                        ${c.comentario || ""}<br>
+                        <small>${c.data || ""}</small>
+                    `;
+                    lista.appendChild(div);
+                });
             }
 
-            data.comentarios.forEach(c => {
-                const div = document.createElement("div");
-                div.className = "comentario";
-                div.innerHTML = `
-                    <b>${c.nome || "Anônimo"}</b> 
-                    <br>${c.comentario}
-                    <br><small>${c.data}</small>
-                `;
-                lista.appendChild(div);
-            });
-
             // Atualizar contadores de reações
-            document.getElementById("like-count").textContent = data.reacoes["👍"] || 0;
-            document.getElementById("love-count").textContent = data.reacoes["❤️"] || 0;
-            document.getElementById("haha-count").textContent = data.reacoes["😂"] || 0;
-            document.getElementById("sad-count").textContent = data.reacoes["😢"] || 0;
+            document.getElementById("like-count").textContent = reacoes["👍"] || 0;
+            document.getElementById("love-count").textContent = reacoes["❤️"] || 0;
+            document.getElementById("haha-count").textContent = reacoes["😂"] || 0;
+            document.getElementById("sad-count").textContent = reacoes["😢"] || 0;
 
         } catch (err) {
             console.error("Erro ao carregar:", err);
+            document.getElementById("comentarios-list").innerHTML = "<p>Erro ao carregar comentários.</p>";
         }
     }
 
@@ -72,31 +76,42 @@
 
         if (!comentario.trim()) return alert("Digite um comentário!");
 
-        await fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ url: urlAtual, nome, comentario }),
-            headers: { "Content-Type": "application/json" }
-        });
+        try {
+            await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ url: urlAtual, nome, comentario }),
+                headers: { "Content-Type": "application/json" }
+            });
 
-        document.getElementById("comentario").value = "";
-        carregarComentarios();
+            document.getElementById("comentario").value = "";
+            carregarComentarios(); // Atualiza imediatamente
+        } catch (err) {
+            alert("Erro ao enviar comentário!");
+            console.error(err);
+        }
     }
 
     // Enviar reação
     async function enviarReacao(reacao) {
-        await fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify({ url: urlAtual, reacao }),
-            headers: { "Content-Type": "application/json" }
-        });
+        try {
+            await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({ url: urlAtual, reacao }),
+                headers: { "Content-Type": "application/json" }
+            });
 
-        carregarComentarios();
+            carregarComentarios(); // Atualiza imediatamente
+        } catch (err) {
+            alert("Erro ao enviar reação!");
+            console.error(err);
+        }
     }
 
-    // Inicializar
+    // Inicializar com atualização automática
     carregarComentarios();
     setInterval(carregarComentarios, 5000); // Atualiza a cada 5s
 </script>
+
 
 <style>
         #comentarios-section {
