@@ -1,113 +1,90 @@
-<form id="commentForm">
-  <input type="text" name="nome" placeholder="Seu nome" required>
-  <input type="email" name="email" placeholder="Seu e-mail" required>
-  <textarea name="comentario" placeholder="Escreva seu comentário..." required></textarea>
-  
-  <!-- Campo oculto para identificar o episódio/anime -->
-  <input type="hidden" name="pagina" id="pagina">
-  
-  <button type="submit">Enviar</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Comentários</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #fff; }
+    #comentarios-list { margin-top: 20px; }
+    .comentario { padding: 10px; border-bottom: 1px solid #333; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; margin-right: 10px; }
+    .comentario-header { display: flex; align-items: center; }
+    .comentario-nome { font-weight: bold; }
+    .comentario-texto { margin-left: 50px; }
+  </style>
+</head>
+<body>
+  <h3>Comentários</h3>
+  <form id="comentario-form">
+    <input type="hidden" name="episodio" id="episodio">
+    <input type="text" name="nome" placeholder="Seu nome" required>
+    <input type="email" name="email" placeholder="Seu e-mail" required>
+    <textarea name="mensagem" placeholder="Escreva seu comentário" required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
 
-<ul id="comentarios-list"></ul>
+  <div id="comentarios-list">Carregando comentários...</div>
 
-<script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec";
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxt2_JLXL9jyl2NDr_uPnZ26zcED95LFCt9z6pt1Gv8FcGsXw2S0LsiUzr2s2nnw3Pvwg/exec"; // <- troque pelo seu deploy
 
-// Definir a URL da página onde está embedado
-document.getElementById("pagina").value = window.location.href;
-
-// Envio do comentário
-document.getElementById("commentForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  document.getElementById("comentarios-list").innerHTML = "<li>Enviando comentário...</li>";
-
-  await fetch(scriptURL, { method: "POST", body: formData });
-
-  // Atualizar comentários imediatamente após envio
-  carregarComentarios();
-});
-
-// Carregar comentários
-async function carregarComentarios() {
-  document.getElementById("comentarios-list").innerHTML = "<li>Carregando comentários...</li>";
-  const resp = await fetch(scriptURL + "?pagina=" + encodeURIComponent(window.location.href));
-  const comentarios = await resp.json();
-
-  if (comentarios.length === 0) {
-    document.getElementById("comentarios-list").innerHTML = "<li>Seja o primeiro a comentar!</li>";
-    return;
-  }
-
-  document.getElementById("comentarios-list").innerHTML = comentarios.map(c => `
-    <li>
-      <img src="https://www.gravatar.com/avatar/${c.hash}?s=40&d=identicon" style="border-radius:50%;vertical-align:middle;margin-right:8px;">
-      <strong>${c.nome}</strong><br>
-      ${c.comentario}
-    </li>
-  `).join("");
-}
-
-// Primeiro carregamento
-carregarComentarios();
-</script>
-
-
-<style>
-    #comentarios {
-        max-width: 600px;
-        margin: auto;
-        padding: 10px;
+    // 🔹 Identifica episódio pelo URL
+    function getEpisodioFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("episodio") || "desconhecido";
     }
 
-    #comentarios-list {
-        margin-top: 15px;
+    document.getElementById("episodio").value = getEpisodioFromURL();
+
+    // 🔹 Carregar comentários
+    async function carregarComentarios() {
+      const episodio = getEpisodioFromURL();
+      try {
+        const res = await fetch(`${scriptURL}?action=list&episodio=${episodio}`);
+        const data = await res.json();
+        const list = document.getElementById("comentarios-list");
+        list.innerHTML = "";
+
+        if (data.length === 0) {
+          list.innerHTML = "<p>Seja o primeiro a comentar!</p>";
+          return;
+        }
+
+        data.forEach(c => {
+          const div = document.createElement("div");
+          div.classList.add("comentario");
+          div.innerHTML = `
+            <div class="comentario-header">
+              <img class="avatar" src="https://www.gravatar.com/avatar/${c.hash}?s=40&d=identicon">
+              <span class="comentario-nome">${c.nome}</span>
+            </div>
+            <div class="comentario-texto">${c.mensagem}</div>
+          `;
+          list.appendChild(div);
+        });
+      } catch (e) {
+        console.error("Erro ao carregar comentários:", e);
+      }
     }
 
-    .comentario,
-    .resposta {
-        border-bottom: 1px solid #ddd;
-        padding: 10px;
-        display: flex;
-        align-items: flex-start;
-    }
+    carregarComentarios();
 
-    .resposta {
-        margin-left: 40px;
-        background: #f9f9f9;
-        border-radius: 5px;
-    }
+    // 🔹 Enviar comentário
+    document.getElementById("comentario-form").addEventListener("submit", async e => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
 
-    .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
+      try {
+        await fetch(scriptURL, { method: "POST", body: formData });
+        form.reset();
 
-    form {
-        margin-top: 15px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    input,
-    textarea {
-        margin: 5px 0;
-        padding: 8px;
-    }
-
-    button {
-        padding: 8px;
-        background: #007BFF;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    button:hover {
-        background: #0056b3;
-    }
-</style>
+        // Recarregar comentários após envio
+        carregarComentarios();
+      } catch (e) {
+        alert("Erro ao enviar comentário.");
+      }
+    });
+  </script>
+</body>
+</html>
