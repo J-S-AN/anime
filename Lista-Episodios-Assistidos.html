@@ -9,82 +9,134 @@
     <meta name="google-adsense-account" content="ca-pub-8906506021952813">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #fff;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+            color: #f1f1f1;
             padding: 20px;
             text-align: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
         }
 
         #filtros {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .btn-filtro {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
+            background: #222;
+            color: #fff;
+            border: 2px solid #00d4ff;
+            padding: 10px 18px;
+            font-size: 15px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
             margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-filtro:hover {
+            background: #00d4ff;
+            color: #000;
+            transform: translateY(-2px);
         }
 
         .btn-filtro.ativo {
-            background-color: #28a745;
+            background: #00d4ff;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.7);
         }
 
         #lista-episodios-assistidos {
             list-style: none;
             padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         #lista-episodios-assistidos li {
-            background: #333;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
+            background: #1e1e1e;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #lista-episodios-assistidos li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
         }
 
         .btn-remover {
-            background-color: red;
+            background: #ff4444;
             color: white;
             border: none;
             cursor: pointer;
-            padding: 5px;
-            border-radius: 3px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-remover:hover {
+            background: #cc0000;
         }
 
         .btn-voltar {
-            background-color: #007bff;
-            color: white;
+            background: #00d4ff;
+            color: #000;
             border: none;
-            padding: 10px;
-            font-size: 16px;
+            padding: 10px 16px;
+            font-size: 15px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background: #00a3cc;
+            transform: scale(1.05);
         }
 
         .btn-carregar {
             display: none;
-            background-color: #ffc107;
-            color: black;
+            background: #ffc107;
+            color: #000;
             border: none;
-            padding: 10px;
-            font-size: 16px;
+            padding: 10px 18px;
+            font-size: 15px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-carregar:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        p {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #aaa;
         }
     </style>
 </head>
 
 <body>
+
+    
 
     <button class="btn-voltar" onclick="history.back()">⬅️ Voltar</button>
 
@@ -130,12 +182,13 @@
                 }
             }
 
-            todosOsEpisodios.sort((a, b) => a.nomeAnime.localeCompare(b.nomeAnime) || parseInt(a.episodio) - parseInt(b.episodio));
+            todosOsEpisodios.sort((a, b) =>
+                a.nomeAnime.localeCompare(b.nomeAnime) ||
+                parseInt(a.episodio) - parseInt(b.episodio)
+            );
 
-            // Em vez de sempre resetar para "Todos", usa o filtro que já estava ativo
             filtrarEpisodios(filtroAtual);
         }
-
 
         function filtrarEpisodios(filtro) {
             filtroAtual = filtro;
@@ -150,7 +203,8 @@
             }
 
             if (episodiosFiltrados.length === 0) {
-                document.getElementById("lista-episodios-assistidos").innerHTML = `<p>Nenhum episódio encontrado para ${filtro}.</p>`;
+                document.getElementById("lista-episodios-assistidos").innerHTML =
+                    `<p>Nenhum episódio encontrado para ${filtro}.</p>`;
                 document.getElementById("btn-carregar-mais").style.display = "none";
                 return;
             }
@@ -169,7 +223,7 @@
             lista.slice(0, maxExibir).forEach(ep => {
                 let item = document.createElement("li");
                 item.innerHTML = `${ep.nomeAnime} (${ep.idioma}) - Episódio ${ep.episodio} ✅
-                    <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
+          <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
                 listaAssistidos.appendChild(item);
             });
 
@@ -184,7 +238,7 @@
             episodiosFiltrados.slice(episodiosExibidos, maxExibir).forEach(ep => {
                 let item = document.createElement("li");
                 item.innerHTML = `${ep.nomeAnime} (${ep.idioma}) - Episódio ${ep.episodio} ✅
-                    <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
+          <button class="btn-remover" onclick="removerEpisodio('${ep.chave}')">❌</button>`;
                 listaAssistidos.appendChild(item);
             });
 
@@ -194,15 +248,13 @@
 
         function removerEpisodio(chave) {
             localStorage.removeItem(chave);
-            carregarEpisodiosAssistidos(); // Vai chamar filtrarEpisodios() com o filtro atual
+            carregarEpisodiosAssistidos();
         }
-
-
 
         document.addEventListener("DOMContentLoaded", carregarEpisodiosAssistidos);
     </script>
 
-    <p>Versão 3.0</p>
+    <p>Versão 4.0</p>
 
 </body>
 
