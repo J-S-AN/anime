@@ -128,23 +128,96 @@
             <a href="episodio-31.html" class="nav-button">Próximo<i class="fas fa-arrow-right"></i>
             </a>
         </div>
-                <!-- Disqus Comment Section -->
-                <div id="disqus_thread"></div>
-                <script>
-                    var disqus_config = function () {
-                        this.page.url = window.location.href;  // Replace PAGE_URL with your page's canonical URL variable
-                        this.page.identifier = window.location.pathname; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                    };
-                    (function () {
-                        var d = document, s = d.createElement('script');
-                        s.src = 'https://jsy-anime.disqus.com/embed.js';
-                        s.setAttribute('data-timestamp', +new Date());
-                        (d.head || d.body).appendChild(s);
-                    })();
-                </script>
-                <noscript>Por favor, habilite o JavaScript para visualizar os comentários fornecidos pelo <a href="https://disqus.com/?ref_noscript">Disqus.</a></noscript>
-        <!-- Disqus Comment Section -->
+
+<!-- Comentários do site -->
+<div id="commentSection">
+    <form id="commentForm">
+        <input type="text" name="author" placeholder="Seu nome" required><br>
+        <textarea name="comment" placeholder="Escreva seu comentário" required></textarea><br>
+        <input type="hidden" name="page_url" id="page_url">
+        <button type="submit">Enviar comentário</button>
+    </form>
+
+    <div id="comments">
+        <p>Carregando comentários...</p>
     </div>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbz1GlpAS6hSuyYB2mbHH6E10_DpDNLzbDGfmjR1290hu7yt5MOQhlyshIlfh5oI6Eh0/exec";
+
+    // coloca a URL atual no hidden
+    document.getElementById("page_url").value = window.location.pathname;
+
+    // enviar comentário
+    document.getElementById("commentForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+
+        e.target.reset();
+        carregarComentarios();
+    });
+
+    // carregar comentários
+    async function carregarComentarios() {
+        const urlAtual = window.location.pathname;
+        const res = await fetch(`${API_URL}?url=${encodeURIComponent(urlAtual)}`);
+        const data = await res.json();
+
+        if (data.length === 0) {
+            document.getElementById("comments").innerHTML = "<p>Seja o primeiro a comentar!</p>";
+            return;
+        }
+
+        // pega só os últimos 10
+        const recentes = data.slice(-10);
+
+        let html = "";
+        recentes.forEach(c => {
+            html += `<p><b>${c.author}</b>: ${c.comment}</p>`;
+        });
+
+        // botão "Carregar mais"
+        if (data.length > 10) {
+            html += `<button id="loadMore">Carregar mais</button>`;
+        }
+
+        document.getElementById("comments").innerHTML = html;
+
+        // evento do botão
+        const btn = document.getElementById("loadMore");
+        if (btn) {
+            btn.addEventListener("click", () => {
+                let extra = "";
+                data.forEach(c => {
+                    const inicial = c.author ? c.author.charAt(0).toUpperCase() : "U";
+
+                    html += `
+    <div class="comment">
+      <div class="avatar">${inicial}</div>
+      <div class="comment-content">
+        <b>${c.author}</b>
+        <span>${c.comment}</span>
+      </div>
+    </div>
+  `;
+                });
+
+                document.getElementById("comments").innerHTML = extra;
+            });
+        }
+    }
+
+    carregarComentarios();
+</script>
+<!-- Comentários do site -->
+
     <div>
         <!-- Exemplo de inclusão do rodapé com JavaScript -->
         <script>
