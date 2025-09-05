@@ -1,5 +1,5 @@
 /* Estilo do pop-up */
-#popup {
+#popup2 {
     position: fixed;
     top: 0;
     left: 0;
@@ -20,7 +20,7 @@
     padding: 20px;
 }
 
-#popup button {
+#close-popup {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
@@ -30,7 +30,7 @@
     cursor: pointer;
 }
 
-#popup button:hover {
+#close-popup:hover {
     background-color: #666;
 }
 
