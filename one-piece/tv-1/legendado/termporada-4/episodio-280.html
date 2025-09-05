@@ -46,26 +46,24 @@
     </div>
 
     <div class="players">
-        <button class="active" onclick="switchPlayer(0)">Celular</button>
-        <!--
-        <button onclick="switchPlayer(1)">Drive</button>
-        -->
+        <button onclick="switchPlayer(0)">Celular</button>
+        <button class="active" onclick="switchPlayer(1)">Drive</button>
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dxfNKvHRpoWFrYYQTlkasIwHDOOzBUShE7a4mjdnWh3bjLZjAL3uJuzK8igoox3eEr8tz0Qc2amPT3m0BTRy4VivgkLfUREu8niy6XjK4VNoWi6jLTktf63zwXKJdLtyxCTRaxFM8aM6dE&img=https://image.tmdb.org/t/p/w1280/kAMkFBUrQWbUWJfSyBxBSycQMUL.jpg" allowfullscreen></iframe>
+        <iframe id="player" src="https://drive.google.com/file/d/1f5AjGOG5K3CzPNFaeZeXRkpeYiwS25xP/preview" allowfullscreen></iframe>
     </div>
 
-    <!--<div class="download-below">
-        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
-    </div>-->
+    <div class="download-below">
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1f5AjGOG5K3CzPNFaeZeXRkpeYiwS25xP&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>
 
     <script>
     
 var players = [
     { src: 'https://www.blogger.com/video.g?token=AD6v5dxfNKvHRpoWFrYYQTlkasIwHDOOzBUShE7a4mjdnWh3bjLZjAL3uJuzK8igoox3eEr8tz0Qc2amPT3m0BTRy4VivgkLfUREu8niy6XjK4VNoWi6jLTktf63zwXKJdLtyxCTRaxFM8aM6dE&img=https://image.tmdb.org/t/p/w1280/kAMkFBUrQWbUWJfSyBxBSycQMUL.jpg', download: '' },
 
-    { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
+    { src: 'https://drive.google.com/file/d/1f5AjGOG5K3CzPNFaeZeXRkpeYiwS25xP/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1f5AjGOG5K3CzPNFaeZeXRkpeYiwS25xP&export=download' }
 ];
 
     function switchPlayer(index) {
