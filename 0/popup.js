@@ -15,7 +15,7 @@ function getCookie(name) {
 }
 
 // Gerenciar o pop-up
-const popup = document.getElementById('popup');
+const popup = document.getElementById('popup2');
 const closePopupButton = document.getElementById('close-popup');
 
 if (getCookie('popupClosed') !== 'true') {
