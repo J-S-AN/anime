@@ -104,17 +104,20 @@
         <!--<a href="#EM-BREVE" class="nav-button right">Próxima Temporada →</a>-->
     </div>
 
-    <form id="commentForm">
-        <input type="text" name="author" placeholder="Seu nome" required><br>
-        <textarea name="comment" placeholder="Escreva seu comentário" required></textarea><br>
-        <input type="hidden" name="page_url" id="page_url">
-        <button type="submit">Enviar comentário</button>
-    </form>
-    
-    <div id="comments">
-        <p>Carregando comentários...</p>
+    <div id="commentSection">
+        <form id="commentForm">
+            <input type="text" name="author" placeholder="Seu nome" required><br>
+            <textarea name="comment" placeholder="Escreva seu comentário" required></textarea><br>
+            <input type="hidden" name="page_url" id="page_url">
+            <button type="submit">Enviar comentário</button>
+        </form>
+
+        <div id="comments">
+            <p>Carregando comentários...</p>
+        </div>
     </div>
-    
+
+
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbz1GlpAS6hSuyYB2mbHH6E10_DpDNLzbDGfmjR1290hu7yt5MOQhlyshIlfh5oI6Eh0/exec";
 
@@ -147,13 +150,45 @@
                 return;
             }
 
+            // pega só os últimos 10
+            const recentes = data.slice(-10);
+
             let html = "";
-            data.forEach(c => {
+            recentes.forEach(c => {
                 html += `<p><b>${c.author}</b>: ${c.comment}</p>`;
             });
 
+            // botão "Carregar mais"
+            if (data.length > 10) {
+                html += `<button id="loadMore">Carregar mais</button>`;
+            }
+
             document.getElementById("comments").innerHTML = html;
+
+            // evento do botão
+            const btn = document.getElementById("loadMore");
+            if (btn) {
+                btn.addEventListener("click", () => {
+                    let extra = "";
+                    data.forEach(c => {
+                        const inicial = c.author ? c.author.charAt(0).toUpperCase() : "U";
+
+                        html += `
+    <div class="comment">
+      <div class="avatar">${inicial}</div>
+      <div class="comment-content">
+        <b>${c.author}</b>
+        <span>${c.comment}</span>
+      </div>
+    </div>
+  `;
+                    });
+
+                    document.getElementById("comments").innerHTML = extra;
+                });
+            }
         }
+
 
         carregarComentarios();
     </script>
