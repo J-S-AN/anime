@@ -335,7 +335,7 @@
         })();
 
 
-        // LANÇAMENTOS (últimos 10)
+        // LANÇAMENTOS (últimos 20)
         (function () {
             const el = document.getElementById("lancamentos");
             const url = "https://docs.google.com/spreadsheets/d/1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw/gviz/tq?tqx=out:json&sheet=Página1";
@@ -345,19 +345,34 @@
                 .then(txt => {
                     const json = JSON.parse(txt.substr(47).slice(0, -2));
                     const rows = json.table.rows.reverse().slice(0, 20);
+
                     rows.forEach(row => {
-                        const img = row.c[0]?.v;
-                        const nome = row.c[1]?.v;
-                        const ep = row.c[2]?.v;
-                        const idioma = row.c[3]?.v;
-                        const link = row.c[4]?.v;
+                        const img = row.c[0]?.v || "https://via.placeholder.com/300x160?text=Sem+Imagem";
+                        const nome = row.c[1]?.v || "Sem Nome";
+                        const ep = row.c[2]?.v ?? ""; // pode ser número, "Filme" ou vazio
+                        const idioma = row.c[3]?.v || "";
+                        const link = row.c[4]?.v || "#";
                         const final = row.c[5]?.v === "Final" ? " Final" : "";
 
-                        const titulo = `${nome} - Episódio ${ep}${final} - ${idioma}`;
+                        // 🔹 Tratamento especial para Filme
+                        let titulo = "";
+                        const epStr = String(ep).trim();
+                        if (epStr !== "" && epStr.toLowerCase() === "filme") {
+                            titulo = `${nome} - Filme ${idioma}`;
+                        } else if (epStr === "") {
+                            titulo = `${nome}${final} - ${idioma}`;
+                        } else {
+                            titulo = `${nome} - Episódio ${epStr}${final} - ${idioma}`;
+                        }
+
                         el.appendChild(criarCard({ img, titulo, link }));
                     });
+                })
+                .catch(err => {
+                    console.error("Erro ao carregar lançamentos:", err);
                 });
         })();
+
 
 
         // LISTA DE ANIMES (últimos 10)
@@ -377,9 +392,9 @@
     </script>
 
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
+        <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
+            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+    </div>
 
     <div>
         <!-- Exemplo de inclusão do rodapé com JavaScript -->

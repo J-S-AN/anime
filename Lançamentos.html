@@ -245,21 +245,60 @@
   <div id="pagination"></div>
 
   <!-- SCRIPT GOOGLE SHEETS COM PAGINAÇÃO -->
+  <!-- SUBSTITUA ESTE SCRIPT PELO ANTERIOR -->
   <script>
     const sheetId = '1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw';
     const sheetName = 'Página1';
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
 
     let allRows = [];
     const itemsPerPage = 50;
     let currentPage = 1;
 
+    function showError(msg) {
+      const container = document.getElementById('feed');
+      container.innerHTML = `<div style="color:#ff6b6b;padding:20px;text-align:center;background:#1b1b1b;border-radius:8px;">${msg}</div>`;
+      document.getElementById('pagination').innerHTML = '';
+    }
+
+    function parseGViz(text) {
+      // tenta extrair usando a função padrão do gviz
+      const m = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
+      if (m && m[1]) return JSON.parse(m[1]);
+      // fallback: entre o primeiro "(" e o último ")"
+      const start = text.indexOf('(');
+      const end = text.lastIndexOf(')');
+      if (start !== -1 && end !== -1) return JSON.parse(text.substring(start + 1, end));
+      // última tentativa (antigo método)
+      return JSON.parse(text.substr(47).slice(0, -2));
+    }
+
     fetch(url)
-      .then(res => res.text())
-      .then(data => {
-        const json = JSON.parse(data.substr(47).slice(0, -2));
-        allRows = json.table.rows.reverse(); // Mantém a ordem reversa
+      .then(res => {
+        if (!res.ok) throw new Error('Resposta não OK: ' + res.status);
+        return res.text();
+      })
+      .then(text => {
+        let json;
+        try {
+          json = parseGViz(text);
+        } catch (err) {
+          console.error('Erro ao parsear JSON da planilha:', err);
+          showError('Erro ao interpretar os dados da planilha. Verifique se a planilha está pública e se o ID/aba estão corretos.');
+          return;
+        }
+
+        allRows = Array.isArray(json.table?.rows) ? json.table.rows.reverse() : [];
+        if (allRows.length === 0) {
+          showError('Planilha carregada, mas sem linhas (ou estrutura diferente).');
+          return;
+        }
+        console.log('Planilha carregada. Linhas:', allRows.length);
         renderPage(currentPage);
+      })
+      .catch(err => {
+        console.error('Erro no fetch da planilha:', err);
+        showError('Erro ao carregar planilha: ' + err.message + '. Verifique conexão/permissões.');
       });
 
     function renderPage(page) {
@@ -273,68 +312,57 @@
       const pageItems = allRows.slice(start, end);
 
       pageItems.forEach(row => {
-        const foto = row.c[0]?.v || 'https://via.placeholder.com/300x160?text=Sem+Imagem';
-        const nome = row.c[1]?.v || 'Sem Nome';
-        const ep = row.c[2]?.v || '';
-        const idioma = row.c[3]?.v || '';
-        const link = row.c[4]?.v || '#';
-        const final = row.c[5]?.v === "Final" ? "Final" : "";
+        const foto = row.c?.[0]?.v || 'https://j-s-fo.github.io/foto/anime/0.0.webp';
+        const nome = row.c?.[1]?.v || 'Sem Nome';
+        const ep = row.c?.[2]?.v ?? ''; // pode ser número, "Filme" ou vazio
+        const idioma = row.c?.[3]?.v || '';
+        const link = row.c?.[4]?.v || '#';
+        const final = row.c?.[5]?.v === "Final" ? "Final" : "";
+
+        const epStr = String(ep).trim();
+        let titulo = '';
+        if (epStr !== '' && epStr.toLowerCase() === 'filme') {
+          titulo = `${nome} - Filme ${idioma}`.trim();
+        } else if (epStr === '') {
+          titulo = `${nome} ${final} - ${idioma}`.trim();
+        } else {
+          titulo = `${nome} - Episódio ${epStr} ${final} - ${idioma}`.trim();
+        }
 
         const card = `
-          <a href="${link}">
-            <div class="card">
-              <img src="${foto}" alt="${nome}">
-              <div class="card-content">
-                <p class="titulo">${nome} - Episódio ${ep} ${final} - ${idioma}</p>
-              </div>
+        <a href="${link}" target="_blank" rel="noopener">
+          <div class="card">
+            <img src="${foto}" alt="${nome}">
+            <div class="card-content">
+              <p class="titulo">${titulo}</p>
             </div>
-          </a>
-        `;
-        container.innerHTML += card;
+          </div>
+        </a>
+      `;
+        container.insertAdjacentHTML('beforeend', card);
       });
 
       const totalPages = Math.ceil(allRows.length / itemsPerPage);
-
       if (totalPages > 1) {
-        if (page > 1) {
-          pagination.innerHTML += `<button onclick="renderPage(${page - 1})">◀ Anterior</button> `;
-        }
-
+        if (page > 1) pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${page - 1})">◀ Anterior</button>`);
         let maxVisible = 6;
         let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
         let endPage = startPage + maxVisible - 1;
-
         if (endPage > totalPages) {
           endPage = totalPages;
           startPage = Math.max(1, endPage - maxVisible + 1);
         }
-
         for (let i = startPage; i <= endPage; i++) {
-          pagination.innerHTML += `<button onclick="renderPage(${i})" style="${i === page ? 'font-weight:bold;background:#00ffff;color:#000;' : ''}">${i}</button> `;
+          const style = i === page ? 'font-weight:bold;background:#00ffff;color:#000;' : '';
+          pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${i})" style="${style}">${i}</button>`);
         }
-
-
-        if (page < totalPages) {
-          pagination.innerHTML += `<button onclick="renderPage(${page + 1})">Próxima ▶</button>`;
-        }
+        if (page < totalPages) pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${page + 1})">Próxima ▶</button>`);
       }
 
-      // Rolar suavemente até o topo do menu
       document.querySelector('.menu').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 
-  <!-- SCRIPT MENU MOBILE -->
-  <script>
-    document.getElementById('menu-toggle').onclick = function () {
-      document.getElementById('menu-links').classList.toggle('active');
-    };
-  </script>
-
-  <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
 
   <div>
     <!-- Exemplo de inclusão do rodapé com JavaScript -->
