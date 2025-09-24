@@ -361,6 +361,9 @@
 
       document.querySelector('.menu').scrollIntoView({ behavior: 'smooth' });
     }
+
+    document.getElementById("menu-toggle").onclick = () =>
+      document.getElementById("menu-links").classList.toggle("active");
   </script>
 
 
