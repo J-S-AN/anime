@@ -286,7 +286,7 @@
             const el = document.getElementById("calendario");
             const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
             const hoje = dias[new Date().getDay()];
-            const url = "https://docs.google.com/spreadsheets/d/1dARnONRgC9LsxwlJG6HlJxtSZkn6Sx5eWIGgCSq2D2Q/gviz/tq?tqx=out:json&sheet=Página1";
+            const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=calendario";
 
             fetch(url)
                 .then(r => r.text())
@@ -338,7 +338,7 @@
         // LANÇAMENTOS (últimos 20)
         (function () {
             const el = document.getElementById("lancamentos");
-            const url = "https://docs.google.com/spreadsheets/d/1D3xgQNrlbiyYYcoNdPMd1_4o9NdgeSK41dPG-tSIomw/gviz/tq?tqx=out:json&sheet=Página1";
+            const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
 
             fetch(url)
                 .then(r => r.text())
@@ -378,7 +378,7 @@
         // LISTA DE ANIMES (últimos 10)
         (function () {
             const el = document.getElementById("lista-anime");
-            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqvTS2cMNifove9i88TRAn2eXF3Tw4lSYjvfcDaBO4xrKM1Yz2dF-L97EdE4g-mldnbK0NdgnVALYo/pub?output=csv";
+            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=0&single=true&output=csv";
 
             fetch(url)
                 .then(r => r.text())
