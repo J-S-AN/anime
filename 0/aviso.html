@@ -1,80 +1,128 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aviso Importante - JSY ANIME</title>
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0b0f19; /* Fundo do JSY ANIME */
-    font-family: 'Poppins', Arial, sans-serif;
-    color: #fff;
-  }
-
-  .aviso {
-    background: #141c2b; /* Caixa central */
-    padding: 30px 40px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-    max-width: 400px;
-    width: 90%;
-  }
-
-  h1 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #ffffff;
-  }
-
-  p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 15px;
-    margin-bottom: 25px;
-  }
-
-  .btn {
-    background: linear-gradient(90deg, #2563eb, #00bfff); /* Azul do JSY ANIME */
-    color: white;
-    font-weight: bold;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: 0.3s;
-  }
-
-  .btn:hover {
-    opacity: 0.9;
-    transform: scale(1.03);
-  }
-</style>
-</head>
-<body>
-
-<div class="aviso">
-  <h1>Aviso Importante</h1>
-  <p>O player a seguir contém anúncios próprios. Clique abaixo para continuar.</p>
-  <button class="btn" id="continuar">Continuar</button>
-</div>
-
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const url = params.get('url');
-  document.getElementById('continuar').addEventListener('click', () => {
-    if (url) {
-      window.location.href = decodeURIComponent(url);
-    } else {
-      alert("Nenhum link encontrado!");
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviso do Player</title>
+  <style>
+    :root {
+      --cor-fundo: #0b0f19;
+      --cor-texto: #f0f0f0;
+      --cor-primaria: #007bff;
+      --cor-primaria-hover: #0056b3;
+      --cor-secundaria: #6c757d;
+      --cor-erro: #dc3545;
     }
-  });
-</script>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+    }
+    .container {
+      background-color: #141c2b;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 1.1em;
+      margin-bottom: 30px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+    button {
+      padding: 12px 28px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+    button:hover { transform: translateY(-2px); }
+    #btn-continuar { background-color: var(--cor-primaria); color: white; }
+    #btn-continuar:hover { background-color: var(--cor-primaria-hover); }
+    #btn-continuar:disabled { background-color: var(--cor-secundaria); cursor: not-allowed; transform: none; }
+    #mensagem-erro { color: var(--cor-erro); margin-top: 20px; font-weight: bold; display: none; }
+  </style>
+<link rel="preconnect" href="https://png.strp2p.com/" crossorigin="anonymous"></head>
+<body>
+  <div class="container">
+    <h1 id="titulo">Aviso Importante</h1>
+    <h2 id="subtitulo">O player a seguir contém anúncios próprios. Clique abaixo para continuar.</h2>
+    <button id="btn-continuar">Continuar</button>
+    <p id="mensagem-erro">Não foi possível encontrar o vídeo. Verifique o link e tente novamente.</p>
+  </div>
 
-</body>
-</html>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btnContinuar = document.getElementById('btn-continuar');
+      const mensagemErro = document.getElementById('mensagem-erro');
+      const titulo = document.getElementById('titulo');
+      const subtitulo = document.getElementById('subtitulo');
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const videoUrl = urlParams.get('url');
+
+      /**
+       * NOVIDADE: Função para pré-aquecer a conexão com o servidor de destino.
+       * Isso faz com que o navegador resolva o DNS e estabeleça a conexão
+       * antes mesmo do usuário clicar, reduzindo a latência percebida.
+       */
+      const prepararConexao = (url) => {
+        try {
+          // Extrai a origem da URL (ex: "https://www.meusite.com")
+          const { origin } = new URL(url);
+
+          // Cria a tag <link> para o preconnect
+          const link = document.createElement('link');
+          link.rel = 'preconnect';
+          link.href = origin;
+          link.crossOrigin = 'anonymous'; // Geralmente recomendado
+
+          // Adiciona a tag ao <head> do documento
+          document.head.appendChild(link);
+        } catch (e) {
+          // Se a URL for inválida, apenas ignora. O erro já será tratado depois.
+          console.warn('URL inválida para pré-conexão:', url);
+        }
+      };
+
+      if (videoUrl) {
+        // Chama a função de otimização assim que a página carrega
+        prepararConexao(videoUrl);
+      } else {
+        titulo.textContent = 'Erro!';
+        subtitulo.textContent = 'O link para o vídeo está faltando ou é inválido.';
+        mensagemErro.style.display = 'block';
+        btnContinuar.disabled = true;
+      }
+
+      btnContinuar.addEventListener('click', () => {
+        if (videoUrl) {
+          try {
+            const urlDecodificada = decodeURIComponent(videoUrl);
+            window.location.href = urlDecodificada;
+          } catch (e) {
+            subtitulo.textContent = 'O formato do link está incorreto.';
+            mensagemErro.style.display = 'block';
+            btnContinuar.disabled = true;
+          }
+        }
+      });
+    });
+  </script>
+<script defer="" src="./Aviso do Player_files/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;f8f023a3b57f4aeeadbd1258c1da2c1c&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b02f8c7b61d8ee',t:'MTc1OTg2OTMzNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;" src="./Aviso do Player_files/saved_resource.html"></iframe>
+</body></html>
