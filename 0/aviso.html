@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aviso Importante - JSY ANIME</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b0f19; /* Fundo do JSY ANIME */
+    font-family: 'Poppins', Arial, sans-serif;
+    color: #fff;
+  }
+
+  .aviso {
+    background: #141c2b; /* Caixa central */
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    max-width: 400px;
+    width: 90%;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .btn {
+    background: linear-gradient(90deg, #2563eb, #00bfff); /* Azul do JSY ANIME */
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
+  }
+</style>
+</head>
+<body>
+
+<div class="aviso">
+  <h1>Aviso Importante</h1>
+  <p>O player a seguir contém anúncios próprios. Clique abaixo para continuar.</p>
+  <button class="btn" id="continuar">Continuar</button>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const url = params.get('url');
+  document.getElementById('continuar').addEventListener('click', () => {
+    if (url) {
+      window.location.href = decodeURIComponent(url);
+    } else {
+      alert("Nenhum link encontrado!");
+    }
+  });
+</script>
+
+</body>
+</html>
