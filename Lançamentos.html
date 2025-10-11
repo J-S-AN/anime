@@ -246,125 +246,148 @@
 
   <!-- SCRIPT GOOGLE SHEETS COM PAGINAÇÃO -->
   <!-- SUBSTITUA ESTE SCRIPT PELO ANTERIOR -->
-  <script>
-    const sheetId = '1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo';
-    const sheetName = 'lancamento';
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+<script>
+const sheetId = '1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo';
+const sheetName = 'lancamento';
+const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
 
-    let allRows = [];
-    const itemsPerPage = 50;
-    let currentPage = 1;
+let allRows = [];
+const itemsPerPage = 50;
+let currentPage = 1;
 
-    function showError(msg) {
-      const container = document.getElementById('feed');
-      container.innerHTML = `<div style="color:#ff6b6b;padding:20px;text-align:center;background:#1b1b1b;border-radius:8px;">${msg}</div>`;
-      document.getElementById('pagination').innerHTML = '';
+function showError(msg) {
+  const container = document.getElementById('feed');
+  container.innerHTML = `<div style="color:#ff6b6b;padding:20px;text-align:center;background:#1b1b1b;border-radius:8px;">${msg}</div>`;
+  document.getElementById('pagination').innerHTML = '';
+}
+
+function parseGViz(text) {
+  const m = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
+  if (m && m[1]) return JSON.parse(m[1]);
+  const start = text.indexOf('(');
+  const end = text.lastIndexOf(')');
+  if (start !== -1 && end !== -1) return JSON.parse(text.substring(start + 1, end));
+  return JSON.parse(text.substr(47).slice(0, -2));
+}
+
+// --- Carrega a planilha ---
+fetch(url)
+  .then(res => {
+    if (!res.ok) throw new Error('Resposta não OK: ' + res.status);
+    return res.text();
+  })
+  .then(text => {
+    let json;
+    try {
+      json = parseGViz(text);
+    } catch (err) {
+      console.error('Erro ao parsear JSON da planilha:', err);
+      showError('Erro ao interpretar os dados da planilha. Verifique a planilha pública.');
+      return;
     }
 
-    function parseGViz(text) {
-      // tenta extrair usando a função padrão do gviz
-      const m = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
-      if (m && m[1]) return JSON.parse(m[1]);
-      // fallback: entre o primeiro "(" e o último ")"
-      const start = text.indexOf('(');
-      const end = text.lastIndexOf(')');
-      if (start !== -1 && end !== -1) return JSON.parse(text.substring(start + 1, end));
-      // última tentativa (antigo método)
-      return JSON.parse(text.substr(47).slice(0, -2));
+    allRows = Array.isArray(json.table?.rows) ? json.table.rows.reverse() : [];
+    if (allRows.length === 0) {
+      showError('Planilha carregada, mas sem linhas.');
+      return;
+    }
+    console.log('Planilha carregada. Linhas:', allRows.length);
+
+    // --- Lê hash na URL e renderiza a página correta ---
+    const params = new URLSearchParams(window.location.hash.slice(1));
+    const p = parseInt(params.get("p"), 10);
+    if (!isNaN(p) && p > 0) currentPage = p;
+
+    renderPage(currentPage);
+  })
+  .catch(err => {
+    console.error('Erro no fetch da planilha:', err);
+    showError('Erro ao carregar planilha: ' + err.message);
+  });
+
+// --- Função para renderizar cada página ---
+function renderPage(page) {
+  currentPage = page;
+
+  const container = document.getElementById('feed');
+  const pagination = document.getElementById('pagination');
+  container.innerHTML = '';
+  pagination.innerHTML = '';
+
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageItems = allRows.slice(start, end);
+
+  pageItems.forEach(row => {
+    const foto = row.c?.[0]?.v || 'https://j-s-fo.github.io/foto/anime/0.0.webp';
+    const nome = row.c?.[1]?.v || 'Sem Nome';
+    const ep = row.c?.[2]?.v ?? '';
+    const idioma = row.c?.[3]?.v || '';
+    const link = row.c?.[4]?.v || '#';
+    const final = row.c?.[5]?.v === "Final" ? "Final" : "";
+
+    const epStr = String(ep).trim();
+    let titulo = '';
+    if (epStr.toLowerCase() === 'filme') {
+      titulo = `${nome} - Filme ${idioma}`.trim();
+    } else if (epStr === '') {
+      titulo = `${nome} ${final} - ${idioma}`.trim();
+    } else {
+      titulo = `${nome} - Episódio ${epStr} ${final} - ${idioma}`.trim();
     }
 
-    fetch(url)
-      .then(res => {
-        if (!res.ok) throw new Error('Resposta não OK: ' + res.status);
-        return res.text();
-      })
-      .then(text => {
-        let json;
-        try {
-          json = parseGViz(text);
-        } catch (err) {
-          console.error('Erro ao parsear JSON da planilha:', err);
-          showError('Erro ao interpretar os dados da planilha. Verifique se a planilha está pública e se o ID/aba estão corretos.');
-          return;
-        }
-
-        allRows = Array.isArray(json.table?.rows) ? json.table.rows.reverse() : [];
-        if (allRows.length === 0) {
-          showError('Planilha carregada, mas sem linhas (ou estrutura diferente).');
-          return;
-        }
-        console.log('Planilha carregada. Linhas:', allRows.length);
-        renderPage(currentPage);
-      })
-      .catch(err => {
-        console.error('Erro no fetch da planilha:', err);
-        showError('Erro ao carregar planilha: ' + err.message + '. Verifique conexão/permissões.');
-      });
-
-    function renderPage(page) {
-      const container = document.getElementById('feed');
-      const pagination = document.getElementById('pagination');
-      container.innerHTML = '';
-      pagination.innerHTML = '';
-
-      const start = (page - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      const pageItems = allRows.slice(start, end);
-
-      pageItems.forEach(row => {
-        const foto = row.c?.[0]?.v || 'https://j-s-fo.github.io/foto/anime/0.0.webp';
-        const nome = row.c?.[1]?.v || 'Sem Nome';
-        const ep = row.c?.[2]?.v ?? ''; // pode ser número, "Filme" ou vazio
-        const idioma = row.c?.[3]?.v || '';
-        const link = row.c?.[4]?.v || '#';
-        const final = row.c?.[5]?.v === "Final" ? "Final" : "";
-
-        const epStr = String(ep).trim();
-        let titulo = '';
-        if (epStr !== '' && epStr.toLowerCase() === 'filme') {
-          titulo = `${nome} - Filme ${idioma}`.trim();
-        } else if (epStr === '') {
-          titulo = `${nome} ${final} - ${idioma}`.trim();
-        } else {
-          titulo = `${nome} - Episódio ${epStr} ${final} - ${idioma}`.trim();
-        }
-
-        const card = `
-        <a href="${link}" rel="noopener">
-          <div class="card">
-            <img src="${foto}" alt="${nome}">
-            <div class="card-content">
-              <p class="titulo">${titulo}</p>
-            </div>
+    const card = `
+      <a href="${link}" rel="noopener">
+        <div class="card">
+          <img src="${foto}" alt="${nome}">
+          <div class="card-content">
+            <p class="titulo">${titulo}</p>
           </div>
-        </a>
-      `;
-        container.insertAdjacentHTML('beforeend', card);
-      });
+        </div>
+      </a>
+    `;
+    container.insertAdjacentHTML('beforeend', card);
+  });
 
-      const totalPages = Math.ceil(allRows.length / itemsPerPage);
-      if (totalPages > 1) {
-        if (page > 1) pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${page - 1})">◀ Anterior</button>`);
-        let maxVisible = 6;
-        let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
-        let endPage = startPage + maxVisible - 1;
-        if (endPage > totalPages) {
-          endPage = totalPages;
-          startPage = Math.max(1, endPage - maxVisible + 1);
-        }
-        for (let i = startPage; i <= endPage; i++) {
-          const style = i === page ? 'font-weight:bold;background:#00ffff;color:#000;' : '';
-          pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${i})" style="${style}">${i}</button>`);
-        }
-        if (page < totalPages) pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${page + 1})">Próxima ▶</button>`);
-      }
+  // --- Paginação ---
+  const totalPages = Math.ceil(allRows.length / itemsPerPage);
+  if (totalPages <= 1) return;
 
-      document.querySelector('.menu').scrollIntoView({ behavior: 'smooth' });
-    }
+  const maxVisible = 6;
+  let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
+  let endPage = startPage + maxVisible - 1;
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - maxVisible + 1);
+  }
 
-    document.getElementById("menu-toggle").onclick = () =>
-      document.getElementById("menu-links").classList.toggle("active");
-  </script>
+  if (page > 1) pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${page - 1})">◀ Anterior</button>`);
+
+  for (let i = startPage; i <= endPage; i++) {
+    const style = i === page ? 'font-weight:bold;background:#00ffff;color:#000;' : '';
+    pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${i})" style="${style}">${i}</button>`);
+  }
+
+  if (page < totalPages) pagination.insertAdjacentHTML('beforeend', `<button onclick="renderPage(${page + 1})">Próxima ▶</button>`);
+
+  // Atualiza o hash da URL
+  updateURL();
+
+  document.querySelector('.menu').scrollIntoView({ behavior: 'smooth' });
+}
+
+// --- Atualiza o hash na URL ---
+function updateURL() {
+  const params = new URLSearchParams();
+  params.set("p", currentPage);
+  window.location.hash = "#" + params.toString();
+}
+
+// --- Menu toggle ---
+document.getElementById("menu-toggle").onclick = () =>
+  document.getElementById("menu-links").classList.toggle("active");
+</script>
+
 
   <br>
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
