@@ -28,5 +28,5 @@ if (getCookie('popupClosed') !== 'true') {
 closePopupButton.addEventListener('click', () => {
     popup.style.display = 'none';
     document.body.classList.remove('hidden');
-    setCookie('popupClosed', 'true', 30); // Salva por 1 mês
+    setCookie('popupClosed', 'true', 1);
 });
