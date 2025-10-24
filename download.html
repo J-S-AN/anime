@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>JSY ANIME • Download indisponível</title>
   <meta name="robots" content="noindex, nofollow" />
-  <!-- Favicon -->
   <link rel="icon" href="jose.ico" type="image/x-icon" />
   <style>
     body {
@@ -72,6 +71,21 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    .btn-voltar {
+      margin-top: 25px;
+      background: #4f8cff;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-voltar:hover {
+      background: #3b6fd6;
+    }
   </style>
 </head>
 <body>
@@ -83,6 +97,7 @@
     <p class="contador">Esta página será fechada em <span id="tempo">15</span> segundos...</p>
     <div class="loading"></div>
     <p class="aviso-manual" id="aviso-manual">⚠ Caso a aba não feche sozinha, feche manualmente.</p>
+    <button class="btn-voltar" onclick="window.close()">Fechar agora</button>
   </div>
 
   <script>
@@ -96,8 +111,6 @@
       if (segundos <= 0) {
         clearInterval(timer);
         window.close();
-
-        // Se não fechar, mostra aviso
         setTimeout(() => {
           aviso.style.display = "block";
         }, 1000);
