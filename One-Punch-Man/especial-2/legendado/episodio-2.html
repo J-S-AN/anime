@@ -44,26 +44,24 @@
     </div>
 
     <div class="players">
-        <button class="active" onclick="switchPlayer(0)">Celular</button>
-        <!--
-            <button onclick="switchPlayer(1)">Drive</button>
-        -->
+        <button class="active" onclick="switchPlayer(0)">Drive</button>
+            <button onclick="switchPlayer(1)">Celular</button>
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dyWMjfSLHfs-okL5OeaCX9ObMETo-PV9IDy4Eq7ADix3AuQgVBcnPvYduCiuSETQza_LVznOhBVQC2sXZ8iTfy7pox9QXBF9_6o1ZDpsn6T65d_0cUYfVt0BF3FCVHkRU9AcQ" allowfullscreen></iframe>
+        <iframe id="player" src="https://drive.google.com/file/d/1l3mFxL3Ju04j9TdbSfFGMp3fMtbGYCo0/preview" allowfullscreen></iframe>
     </div>
-<!--
+
     <div class="download-below">
-        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1l3mFxL3Ju04j9TdbSfFGMp3fMtbGYCo0&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
     </div>
--->
+
     <script>
     
 var players = [
-    { src: 'https://www.blogger.com/video.g?token=AD6v5dyWMjfSLHfs-okL5OeaCX9ObMETo-PV9IDy4Eq7ADix3AuQgVBcnPvYduCiuSETQza_LVznOhBVQC2sXZ8iTfy7pox9QXBF9_6o1ZDpsn6T65d_0cUYfVt0BF3FCVHkRU9AcQ', download: '' },
+    { src: 'https://drive.google.com/file/d/1l3mFxL3Ju04j9TdbSfFGMp3fMtbGYCo0/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1l3mFxL3Ju04j9TdbSfFGMp3fMtbGYCo0&export=download' },
 
-    { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dyWMjfSLHfs-okL5OeaCX9ObMETo-PV9IDy4Eq7ADix3AuQgVBcnPvYduCiuSETQza_LVznOhBVQC2sXZ8iTfy7pox9QXBF9_6o1ZDpsn6T65d_0cUYfVt0BF3FCVHkRU9AcQ', download: '' }
 ];
 
     function switchPlayer(index) {
