@@ -19,6 +19,9 @@
             background-color: #111;
             color: #fff;
             font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        h1 {
             padding: 20px;
         }
 
@@ -29,6 +32,7 @@
             padding-bottom: 8px;
             font-size: 22px;
             color: #fff;
+            padding: 20px;
         }
 
         /* Container dos animes */
@@ -38,6 +42,7 @@
             gap: 16px;
             margin-top: 16px;
             justify-content: flex-start;
+            padding: 20px;
         }
 
         /* Card do anime */
@@ -328,33 +333,33 @@
                     display: flex;
                 }
             }
+
             /* Destaque quando o anime estiver vindo do ?id=... */
-/* Destaque com fade suave */
-/* Transição suave padrão */
-.anime {
-  transition: background 1.2s ease, box-shadow 1.2s ease, transform 0.8s ease, opacity 1.2s ease;
-}
+            /* Destaque com fade suave */
+            /* Transição suave padrão */
+            .anime {
+                transition: background 1.2s ease, box-shadow 1.2s ease, transform 0.8s ease, opacity 1.2s ease;
+            }
 
-/* Efeito de destaque (brilho inicial dourado) */
-.anime.destaque {
-  background: linear-gradient(180deg, rgba(255, 223, 107, 0.35), rgba(255, 210, 85, 0.18));
-  border: 1px solid rgba(255, 223, 107, 0.55);
-  box-shadow: 0 0 25px rgba(255, 210, 85, 0.4), 0 0 60px rgba(255, 210, 85, 0.15);
-  transform: scale(1.04);
-  opacity: 1;
-  filter: brightness(1.15);
-}
+            /* Efeito de destaque (brilho inicial dourado) */
+            .anime.destaque {
+                background: linear-gradient(180deg, rgba(255, 223, 107, 0.35), rgba(255, 210, 85, 0.18));
+                border: 1px solid rgba(255, 223, 107, 0.55);
+                box-shadow: 0 0 25px rgba(255, 210, 85, 0.4), 0 0 60px rgba(255, 210, 85, 0.15);
+                transform: scale(1.04);
+                opacity: 1;
+                filter: brightness(1.15);
+            }
 
-/* Fase de saída (fade-out suave, apaga o brilho aos poucos) */
-.anime.destaque.removendo {
-  background: linear-gradient(180deg, rgba(255, 223, 107, 0.1), rgba(255, 210, 85, 0.05));
-  border: 1px solid rgba(255, 223, 107, 0.15);
-  box-shadow: 0 0 10px rgba(255, 210, 85, 0.05);
-  transform: scale(1);
-  opacity: 0.75;
-  filter: brightness(1);
-}
-
+            /* Fase de saída (fade-out suave, apaga o brilho aos poucos) */
+            .anime.destaque.removendo {
+                background: linear-gradient(180deg, rgba(255, 223, 107, 0.1), rgba(255, 210, 85, 0.05));
+                border: 1px solid rgba(255, 223, 107, 0.15);
+                box-shadow: 0 0 10px rgba(255, 210, 85, 0.05);
+                transform: scale(1);
+                opacity: 0.75;
+                filter: brightness(1);
+            }
         </style>
     </header>
 
@@ -368,234 +373,234 @@
     <h1>Lista de Animes em Breve</h1>
     <div id="lista"></div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const planilhaURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=1766022863&output=tsv";
-  const params = new URLSearchParams(window.location.search);
-  const requestedIdRaw = params.get("id"); // pode ser slug (ex: kaiju-8) ou nome
-  const listaDiv = document.getElementById("lista");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const planilhaURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=1766022863&output=tsv";
+            const params = new URLSearchParams(window.location.search);
+            const requestedIdRaw = params.get("id"); // pode ser slug (ex: kaiju-8) ou nome
+            const listaDiv = document.getElementById("lista");
 
-  // Função para criar um slug seguro a partir do nome
-  function slugify(text) {
-    if (!text) return "";
-    return text
-      .toString()
-      .toLowerCase()
-      .normalize("NFD")                 // separa acentos
-      .replace(/[\u0300-\u036f]/g, "")  // remove acentos
-      .replace(/[^a-z0-9]+/g, "-")      // troca tudo que não é alfanum por hífen
-      .replace(/(^-|-$)/g, "");         // remove hífens nas pontas
-  }
-
-  // Função que aplica destaque (muda cor de fundo) e rola até o elemento
-  function highlightAndScroll(element) {
-  if (!element) return;
-  element.scrollIntoView({ behavior: "smooth", block: "center" });
-  element.classList.add("destaque");
-
-  // tempo total do destaque (brilho permanece 10s antes de sumir)
-  const tempoDestaque = 10000;
-
-  // inicia fade-out suave depois do tempo definido
-  setTimeout(() => {
-    element.classList.add("removendo");
-    setTimeout(() => {
-      element.classList.remove("destaque", "removendo");
-    }, 1500); // tempo do fade-out no CSS (1.5s)
-  }, tempoDestaque);
-}
-
-
-  fetch(planilhaURL)
-    .then((response) => response.text())
-    .then((data) => {
-      const linhas = data.trim().split("\n").map((l) => l.split("\t"));
-      if (linhas.length === 0) return;
-      const cabecalho = linhas.shift();
-      const lista = {};
-
-      linhas.forEach((linha) => {
-        const obj = {};
-        cabecalho.forEach((col, idx) => {
-          obj[col.trim()] = linha[idx] ? linha[idx].trim() : "";
-        });
-
-        const nome = obj["Nome"] || "";
-        const temporada = obj["Temporada"] || "";
-        const dia = obj["Data"] || "";
-        const mesNome = obj["Mês"] || "";
-        const ano = obj["Ano"] || "";
-        const capa = obj["Capa"] || "";
-        const link = obj["Link"] || "";
-        const dataLanc = (dia && mesNome) ? `${dia} de ${mesNome}` : "?";
-
-        let chave = "";
-        if (temporada && ano) {
-          chave = `${temporada.toLowerCase()} ${ano}`;
-        } else if (ano) {
-          chave = `${ano}`;
-        } else {
-          chave = "Posterior";
-        }
-
-        if (!lista[chave]) lista[chave] = [];
-        lista[chave].push({ nome, temporada, dataLanc, dia, mesNome, ano, capa, link });
-      });
-
-      // ordenação por estação/ano (mesma lógica que você já tinha)
-      const ordemEstacoes = ["inverno", "primavera", "verão", "outono"];
-      const chavesOrdenadas = Object.keys(lista).sort((a, b) => {
-        if (a === "Posterior") return 1;
-        if (b === "Posterior") return -1;
-        const aPartes = a.split(" ");
-        const bPartes = b.split(" ");
-        const aEstacao = ordemEstacoes.indexOf(aPartes[0]);
-        const bEstacao = ordemEstacoes.indexOf(bPartes[0]);
-        const aAno = parseInt(aPartes[1]) || parseInt(aPartes[0]) || 0;
-        const bAno = parseInt(bPartes[1]) || parseInt(bPartes[0]) || 0;
-        if (aEstacao !== -1 && bEstacao !== -1) {
-          if (aAno !== bAno) return aAno - bAno;
-          return aEstacao - bEstacao;
-        }
-        if (aEstacao !== -1) return -1;
-        if (bEstacao !== -1) return 1;
-        return aAno - bAno;
-      });
-
-      // mapa para localizar elementos por slug
-      const mapaIdParaElemento = {};
-
-      // cria os elementos
-      chavesOrdenadas.forEach((chave) => {
-        const grupo = lista[chave];
-        grupo.sort((a, b) => {
-          const getOrder = (dia, mesNome) => {
-            if (!dia || dia === "?" || !mesNome) return 999999;
-            const diaNum = parseInt(dia);
-            const meses = {
-              "Janeiro": 1, "Fevereiro": 2, "Março": 3, "Abril": 4,
-              "Maio": 5, "Junho": 6, "Julho": 7, "Agosto": 8,
-              "Setembro": 9, "Outubro": 10, "Novembro": 11, "Dezembro": 12
-            };
-            const mes = meses[mesNome] || 0;
-            return mes * 100 + diaNum;
-          };
-          return getOrder(a.dia, a.mesNome) - getOrder(b.dia, b.mesNome);
-        });
-
-        const h2 = document.createElement("h2");
-        h2.textContent = chave.charAt(0).toUpperCase() + chave.slice(1);
-        listaDiv.appendChild(h2);
-
-        const grupoDiv = document.createElement("div");
-        grupoDiv.className = "grupo";
-
-        grupo.forEach((anime) => {
-          const animeDiv = document.createElement("div");
-          animeDiv.className = "anime";
-
-          // gera id seguro (slug) e garante unicidade adicionando sufixo se necessário
-          let baseId = slugify(anime.nome || "sem-nome");
-          let id = baseId;
-          let contador = 1;
-          while (document.getElementById(id) || mapaIdParaElemento[id]) {
-            id = `${baseId}-${contador++}`;
-          }
-          animeDiv.id = id;
-          mapaIdParaElemento[id] = animeDiv; // salva no mapa
-
-          if (anime.dataLanc) {
-            const dataDiv = document.createElement("div");
-            dataDiv.className = "data";
-            dataDiv.textContent = anime.dataLanc;
-            animeDiv.appendChild(dataDiv);
-          }
-
-          const linkEl = document.createElement("a");
-          linkEl.href = anime.link || "#";
-          linkEl.target = "_blank";
-          linkEl.rel = "noopener noreferrer";
-
-          const img = document.createElement("img");
-          img.src = anime.capa || "";
-          img.alt = anime.nome || "";
-          linkEl.appendChild(img);
-
-          const nomeEl = document.createElement("strong");
-          nomeEl.textContent = anime.nome || "Sem nome";
-          linkEl.appendChild(nomeEl);
-
-          animeDiv.appendChild(linkEl);
-          grupoDiv.appendChild(animeDiv);
-        });
-
-        listaDiv.appendChild(grupoDiv);
-      });
-
-      // --- depois que tudo foi criado no DOM ---
-      if (requestedIdRaw) {
-        // normaliza o param também
-        const requestedSlug = slugify(decodeURIComponent(requestedIdRaw));
-        // tentativa 1: buscar direto por id igual ao slug
-        let alvo = document.getElementById(requestedSlug);
-
-        // tentativa 2: se não achou, procurar no mapa comparando slugs dos nomes
-        if (!alvo) {
-          for (const [id, el] of Object.entries(mapaIdParaElemento)) {
-            if (id === requestedSlug) { alvo = el; break; }
-          }
-        }
-
-        // tentativa 3: tentar encontrar comparando slug do texto (fallback robusto)
-        if (!alvo) {
-          // percorre todos e compara slug do nome dentro do card
-          for (const el of Object.values(mapaIdParaElemento)) {
-            const nomeText = (el.querySelector("strong")?.textContent || "");
-            if (slugify(nomeText) === requestedSlug) {
-              alvo = el;
-              break;
+            // Função para criar um slug seguro a partir do nome
+            function slugify(text) {
+                if (!text) return "";
+                return text
+                    .toString()
+                    .toLowerCase()
+                    .normalize("NFD")                 // separa acentos
+                    .replace(/[\u0300-\u036f]/g, "")  // remove acentos
+                    .replace(/[^a-z0-9]+/g, "-")      // troca tudo que não é alfanum por hífen
+                    .replace(/(^-|-$)/g, "");         // remove hífens nas pontas
             }
-          }
-        }
 
-        // Se encontrou, destaca e rola. Se não, faz tentativas por alguns instantes (caso imagens levem mais tempo)
-        if (alvo) {
-          // pequeno delay pra garantir layout final
-          setTimeout(() => highlightAndScroll(alvo), 300);
-        } else {
-          // tenta localizar por até 8 segundos (caso algo demore)
-          const intervalo = setInterval(() => {
-            const tentativa = document.getElementById(requestedSlug) ||
-              Object.values(mapaIdParaElemento).find(el => slugify(el.querySelector("strong")?.textContent || "") === requestedSlug);
-            if (tentativa) {
-              clearInterval(intervalo);
-              setTimeout(() => highlightAndScroll(tentativa), 200);
+            // Função que aplica destaque (muda cor de fundo) e rola até o elemento
+            function highlightAndScroll(element) {
+                if (!element) return;
+                element.scrollIntoView({ behavior: "smooth", block: "center" });
+                element.classList.add("destaque");
+
+                // tempo total do destaque (brilho permanece 10s antes de sumir)
+                const tempoDestaque = 10000;
+
+                // inicia fade-out suave depois do tempo definido
+                setTimeout(() => {
+                    element.classList.add("removendo");
+                    setTimeout(() => {
+                        element.classList.remove("destaque", "removendo");
+                    }, 1500); // tempo do fade-out no CSS (1.5s)
+                }, tempoDestaque);
             }
-          }, 400);
-          setTimeout(() => clearInterval(intervalo), 8000);
+
+
+            fetch(planilhaURL)
+                .then((response) => response.text())
+                .then((data) => {
+                    const linhas = data.trim().split("\n").map((l) => l.split("\t"));
+                    if (linhas.length === 0) return;
+                    const cabecalho = linhas.shift();
+                    const lista = {};
+
+                    linhas.forEach((linha) => {
+                        const obj = {};
+                        cabecalho.forEach((col, idx) => {
+                            obj[col.trim()] = linha[idx] ? linha[idx].trim() : "";
+                        });
+
+                        const nome = obj["Nome"] || "";
+                        const temporada = obj["Temporada"] || "";
+                        const dia = obj["Data"] || "";
+                        const mesNome = obj["Mês"] || "";
+                        const ano = obj["Ano"] || "";
+                        const capa = obj["Capa"] || "";
+                        const link = obj["Link"] || "";
+                        const dataLanc = (dia && mesNome) ? `${dia} de ${mesNome}` : "?";
+
+                        let chave = "";
+                        if (temporada && ano) {
+                            chave = `${temporada.toLowerCase()} ${ano}`;
+                        } else if (ano) {
+                            chave = `${ano}`;
+                        } else {
+                            chave = "Posterior";
+                        }
+
+                        if (!lista[chave]) lista[chave] = [];
+                        lista[chave].push({ nome, temporada, dataLanc, dia, mesNome, ano, capa, link });
+                    });
+
+                    // ordenação por estação/ano (mesma lógica que você já tinha)
+                    const ordemEstacoes = ["inverno", "primavera", "verão", "outono"];
+                    const chavesOrdenadas = Object.keys(lista).sort((a, b) => {
+                        if (a === "Posterior") return 1;
+                        if (b === "Posterior") return -1;
+                        const aPartes = a.split(" ");
+                        const bPartes = b.split(" ");
+                        const aEstacao = ordemEstacoes.indexOf(aPartes[0]);
+                        const bEstacao = ordemEstacoes.indexOf(bPartes[0]);
+                        const aAno = parseInt(aPartes[1]) || parseInt(aPartes[0]) || 0;
+                        const bAno = parseInt(bPartes[1]) || parseInt(bPartes[0]) || 0;
+                        if (aEstacao !== -1 && bEstacao !== -1) {
+                            if (aAno !== bAno) return aAno - bAno;
+                            return aEstacao - bEstacao;
+                        }
+                        if (aEstacao !== -1) return -1;
+                        if (bEstacao !== -1) return 1;
+                        return aAno - bAno;
+                    });
+
+                    // mapa para localizar elementos por slug
+                    const mapaIdParaElemento = {};
+
+                    // cria os elementos
+                    chavesOrdenadas.forEach((chave) => {
+                        const grupo = lista[chave];
+                        grupo.sort((a, b) => {
+                            const getOrder = (dia, mesNome) => {
+                                if (!dia || dia === "?" || !mesNome) return 999999;
+                                const diaNum = parseInt(dia);
+                                const meses = {
+                                    "Janeiro": 1, "Fevereiro": 2, "Março": 3, "Abril": 4,
+                                    "Maio": 5, "Junho": 6, "Julho": 7, "Agosto": 8,
+                                    "Setembro": 9, "Outubro": 10, "Novembro": 11, "Dezembro": 12
+                                };
+                                const mes = meses[mesNome] || 0;
+                                return mes * 100 + diaNum;
+                            };
+                            return getOrder(a.dia, a.mesNome) - getOrder(b.dia, b.mesNome);
+                        });
+
+                        const h2 = document.createElement("h2");
+                        h2.textContent = chave.charAt(0).toUpperCase() + chave.slice(1);
+                        listaDiv.appendChild(h2);
+
+                        const grupoDiv = document.createElement("div");
+                        grupoDiv.className = "grupo";
+
+                        grupo.forEach((anime) => {
+                            const animeDiv = document.createElement("div");
+                            animeDiv.className = "anime";
+
+                            // gera id seguro (slug) e garante unicidade adicionando sufixo se necessário
+                            let baseId = slugify(anime.nome || "sem-nome");
+                            let id = baseId;
+                            let contador = 1;
+                            while (document.getElementById(id) || mapaIdParaElemento[id]) {
+                                id = `${baseId}-${contador++}`;
+                            }
+                            animeDiv.id = id;
+                            mapaIdParaElemento[id] = animeDiv; // salva no mapa
+
+                            if (anime.dataLanc) {
+                                const dataDiv = document.createElement("div");
+                                dataDiv.className = "data";
+                                dataDiv.textContent = anime.dataLanc;
+                                animeDiv.appendChild(dataDiv);
+                            }
+
+                            const linkEl = document.createElement("a");
+                            linkEl.href = anime.link || "#";
+                            linkEl.target = "_blank";
+                            linkEl.rel = "noopener noreferrer";
+
+                            const img = document.createElement("img");
+                            img.src = anime.capa || "";
+                            img.alt = anime.nome || "";
+                            linkEl.appendChild(img);
+
+                            const nomeEl = document.createElement("strong");
+                            nomeEl.textContent = anime.nome || "Sem nome";
+                            linkEl.appendChild(nomeEl);
+
+                            animeDiv.appendChild(linkEl);
+                            grupoDiv.appendChild(animeDiv);
+                        });
+
+                        listaDiv.appendChild(grupoDiv);
+                    });
+
+                    // --- depois que tudo foi criado no DOM ---
+                    if (requestedIdRaw) {
+                        // normaliza o param também
+                        const requestedSlug = slugify(decodeURIComponent(requestedIdRaw));
+                        // tentativa 1: buscar direto por id igual ao slug
+                        let alvo = document.getElementById(requestedSlug);
+
+                        // tentativa 2: se não achou, procurar no mapa comparando slugs dos nomes
+                        if (!alvo) {
+                            for (const [id, el] of Object.entries(mapaIdParaElemento)) {
+                                if (id === requestedSlug) { alvo = el; break; }
+                            }
+                        }
+
+                        // tentativa 3: tentar encontrar comparando slug do texto (fallback robusto)
+                        if (!alvo) {
+                            // percorre todos e compara slug do nome dentro do card
+                            for (const el of Object.values(mapaIdParaElemento)) {
+                                const nomeText = (el.querySelector("strong")?.textContent || "");
+                                if (slugify(nomeText) === requestedSlug) {
+                                    alvo = el;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Se encontrou, destaca e rola. Se não, faz tentativas por alguns instantes (caso imagens levem mais tempo)
+                        if (alvo) {
+                            // pequeno delay pra garantir layout final
+                            setTimeout(() => highlightAndScroll(alvo), 300);
+                        } else {
+                            // tenta localizar por até 8 segundos (caso algo demore)
+                            const intervalo = setInterval(() => {
+                                const tentativa = document.getElementById(requestedSlug) ||
+                                    Object.values(mapaIdParaElemento).find(el => slugify(el.querySelector("strong")?.textContent || "") === requestedSlug);
+                                if (tentativa) {
+                                    clearInterval(intervalo);
+                                    setTimeout(() => highlightAndScroll(tentativa), 200);
+                                }
+                            }, 400);
+                            setTimeout(() => clearInterval(intervalo), 8000);
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.error("Erro ao carregar planilha:", err);
+                });
+        });
+    </script>
+
+
+    <style>
+        .anime.destaque {
+            outline: 3px solid #ffcc00;
+            transition: outline 0.3s ease-in-out;
         }
-      }
-    })
-    .catch((err) => {
-      console.error("Erro ao carregar planilha:", err);
-    });
-});
-</script>
-
-
-<style>
-.anime.destaque {
-    outline: 3px solid #ffcc00;
-    transition: outline 0.3s ease-in-out;
-}
-</style>
+    </style>
 
 
     <br><br>
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
+        <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
+            style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+    </div>
     <br>
 
     <div>
