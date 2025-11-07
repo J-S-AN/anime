@@ -1,8 +1,9 @@
 // === JSY ANIME - SISTEMA DE COMENTÁRIOS COMPLETO ===
-// Inclui Gravatar, respostas, admin e moderação
+// Inclui Gravatar, respostas encadeadas, admin automático e moderação
 // Requer js-sha256 (ex: <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/build/sha256.min.js"></script>)
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbyAlm9dkXM0n4uzQ0z_ttFo86Uw49N5F_kv1F35P44FMm-vV7CQQ987XfatD4B0Dll6pw/exec";
+const scriptURL =
+  "https://script.google.com/macros/s/AKfycbyAlm9dkXM0n4uzQ0z_ttFo86Uw49N5F_kv1F35P44FMm-vV7CQQ987XfatD4B0Dll6pw/exec";
 
 // === Injeta CSS automático ===
 (function addCommentCSS() {
@@ -100,7 +101,7 @@ function getGravatarURL(email) {
 }
 
 // === Enviar comentário ou resposta ===
-async function enviarComentario(nome, email, mensagem, parentId = "", admin = "false") {
+async function enviarComentario(nome, email, mensagem, parentId = "") {
   const page = window.location.href;
 
   const formData = new FormData();
@@ -109,7 +110,6 @@ async function enviarComentario(nome, email, mensagem, parentId = "", admin = "f
   formData.append("mensagem", mensagem);
   formData.append("page", page);
   formData.append("parentId", parentId);
-  formData.append("admin", admin);
 
   const res = await fetch(scriptURL, { method: "POST", body: formData });
   const text = await res.text();
@@ -126,15 +126,15 @@ async function carregarComentarios() {
   const area = document.getElementById("comentarios-lista");
   const contador = document.getElementById("contador-comentarios");
 
-  const comentariosAprovados = comentarios.filter(c => c.aprovado === "true");
+  const comentariosAprovados = comentarios.filter((c) => c.aprovado === "true");
   contador.textContent = comentariosAprovados.length;
 
   // Cria estrutura hierárquica (comentários + respostas)
   const mapa = {};
-  comentariosAprovados.forEach(c => mapa[c.id] = { ...c, respostas: [] });
+  comentariosAprovados.forEach((c) => (mapa[c.id] = { ...c, respostas: [] }));
   const raiz = [];
 
-  comentariosAprovados.forEach(c => {
+  comentariosAprovados.forEach((c) => {
     if (c.parentId) {
       mapa[c.parentId]?.respostas.push(c);
     } else {
@@ -143,7 +143,7 @@ async function carregarComentarios() {
   });
 
   area.innerHTML = "";
-  raiz.forEach(c => area.appendChild(renderComentario(c)));
+  raiz.forEach((c) => area.appendChild(renderComentario(c)));
 }
 
 function renderComentario(c) {
@@ -151,7 +151,8 @@ function renderComentario(c) {
   div.className = "comentario";
 
   const gravatar = getGravatarURL(c.email);
-  const adminBadge = c.admin === "true" ? `<span class="admin-badge">Admin</span>` : "";
+  const adminBadge =
+    c.admin === "true" ? `<span class="admin-badge">Admin</span>` : "";
 
   div.innerHTML = `
     <div class="comentario-header">
@@ -166,10 +167,10 @@ function renderComentario(c) {
 
   const respostasDiv = div.querySelector(".respostas");
   if (c.respostas && c.respostas.length > 0) {
-    c.respostas.forEach(r => respostasDiv.appendChild(renderResposta(r)));
+    c.respostas.forEach((r) => respostasDiv.appendChild(renderResposta(r)));
   }
 
-  div.querySelector(".responder-btn").addEventListener("click", e => {
+  div.querySelector(".responder-btn").addEventListener("click", (e) => {
     const parentId = e.target.getAttribute("data-id");
     const nome = prompt("Seu nome:");
     const email = prompt("Seu e-mail:");
@@ -185,7 +186,8 @@ function renderResposta(r) {
   div.className = "resposta";
 
   const gravatar = getGravatarURL(r.email);
-  const adminBadge = r.admin === "true" ? `<span class="admin-badge">Admin</span>` : "";
+  const adminBadge =
+    r.admin === "true" ? `<span class="admin-badge">Admin</span>` : "";
 
   div.innerHTML = `
     <div class="linha-conexao"></div>
