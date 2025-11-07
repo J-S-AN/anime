@@ -1,206 +1,291 @@
-// === JSY ANIME - SISTEMA DE COMENTÁRIOS COMPLETO ===
-// Inclui Gravatar, respostas encadeadas, admin automático e moderação
-// Requer js-sha256 (ex: <script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/build/sha256.min.js"></script>)
+// === comentarios.js (unificado, HTML+CSS+JS) ===
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxGsObPUZeIxjS9RX3JEDJ03FSdd6N6heKoCBeEvgbSY_Z0fpCvcRXOr13XeL2-vhVGDQ/exec';
+const PAGE = location.href.split('#')[0]; // URL sem hash
 
-const scriptURL =
-  "https://script.google.com/macros/s/AKfycbyAlm9dkXM0n4uzQ0z_ttFo86Uw49N5F_kv1F35P44FMm-vV7CQQ987XfatD4B0Dll6pw/exec";
-
-// === Injeta CSS automático ===
-(function addCommentCSS() {
-  const css = `
-  #comentarios-lista {
-    margin-top: 20px;
+// Injeta HTML + CSS
+(function renderShell(){
+  const root = document.getElementById('jsy-comments');
+  if (!root) {
+    console.warn('Elemento #jsy-comments não encontrado.');
+    return;
   }
 
-  .comentario {
-    background: #1b1b1b;
-    color: #f0f0f0;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 16px;
-    position: relative;
-  }
+  root.innerHTML = `
+    <style>
+      #jsy-comments { max-width: 900px; margin: 30px auto; font-family: Arial, sans-serif; color: #eee; }
+      .jsy-box { background:#0f0f0f; padding:18px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.6); }
+      .jsy-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+      .jsy-header h3 { margin:0; color:#ffd700; }
+      .jsy-form { display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+      .jsy-form input[type="text"], .jsy-form input[type="email"], .jsy-form textarea {
+        background:#141414; border:1px solid #222; padding:10px; color:#fff; border-radius:8px; width:100%;
+      }
+      .jsy-form button { background:#ffd700; color:#000; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:bold; }
+      .jsy-list { margin-top:12px; }
+      .jsy-msg { display:flex; gap:12px; background:#121212; padding:12px; border-radius:10px; margin-bottom:12px; position:relative; }
+      .jsy-avatar { width:44px; height:44px; border-radius:50%; flex-shrink:0; }
+      .jsy-content { flex:1; }
+      .jsy-name { font-weight:700; color:#ffd700; }
+      .jsy-admin { background:#ff5e5e; color:#fff; font-size:11px; padding:2px 6px; border-radius:6px; margin-left:8px; display:inline-block; }
+      .jsy-date { font-size:12px; color:#999; margin-top:4px; }
+      .jsy-text { margin-top:8px; white-space:pre-wrap; color:#ddd; }
+      .jsy-actions { margin-top:8px; display:flex; gap:10px; align-items:center; }
+      .jsy-reply-btn, .jsy-like-btn { background:none; border:none; color:#4db8ff; cursor:pointer; padding:4px 6px; border-radius:6px; }
+      .jsy-like-count { font-size:13px; color:#ffd700; margin-left:6px; }
+      .jsy-reply-box { margin-left:56px; margin-top:8px; }
+      .jsy-reply-line { position:absolute; left:32px; top:0; bottom:0; width:2px; background:#333; border-radius:2px; }
+      .jsy-reply { margin-left:56px; border-left:2px solid #333; padding-left:12px; margin-top:8px; background:#0f0f0f; border-radius:8px; }
+      .jsy-empty { text-align:center; color:#aaa; padding:10px 0; }
+    </style>
 
-  .comentario-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+    <div class="jsy-box">
+      <div class="jsy-header"><h3>Comentários Em Teste do site</h3><div id="jsy-count">0</div></div>
 
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
+      <form id="jsy-form" class="jsy-form" autocomplete="off">
+        <input name="nome" type="text" placeholder="Seu nome (opcional)">
+        <input name="email" type="email" placeholder="Seu e-mail (será usado para avatar)">
+        <textarea name="mensagem" rows="3" placeholder="Escreva seu comentário..." required></textarea>
+        <input type="hidden" name="page" value="${PAGE}">
+        <input type="hidden" name="parentId" value="">
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button type="submit">Enviar comentário</button>
+          <span id="jsy-status" style="color:#aaa;margin-left:8px;"></span>
+        </div>
+      </form>
 
-  .admin-badge {
-    background: #ffcc00;
-    color: #000;
-    font-size: 0.75em;
-    padding: 2px 6px;
-    border-radius: 6px;
-    margin-left: 6px;
-  }
-
-  .resposta {
-    margin-left: 40px;
-    margin-top: 10px;
-    position: relative;
-  }
-
-  .linha-conexao {
-    width: 2px;
-    height: 100%;
-    background: #555;
-    position: absolute;
-    left: -20px;
-    top: 0;
-  }
-
-  .resposta-box {
-    background: #222;
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    gap: 10px;
-  }
-
-  .comentario-texto {
-    margin-top: 6px;
-    white-space: pre-wrap;
-  }
-
-  .responder-btn {
-    background: none;
-    border: none;
-    color: #00c3ff;
-    cursor: pointer;
-    margin-top: 8px;
-    font-size: 0.9em;
-  }
-
-  .responder-btn:hover {
-    text-decoration: underline;
-  }
-
-  #contador-comentarios {
-    font-weight: bold;
-    color: #ffd000;
-  }
-  `;
-  const style = document.createElement("style");
-  style.textContent = css;
-  document.head.appendChild(style);
-})();
-
-// === Função para gerar avatar do Gravatar ===
-function getGravatarURL(email) {
-  const address = String(email).trim().toLowerCase();
-  const hash = sha256(address);
-  return `https://gravatar.com/avatar/${hash}?d=identicon`;
-}
-
-// === Enviar comentário ou resposta ===
-async function enviarComentario(nome, email, mensagem, parentId = "") {
-  const page = window.location.href;
-
-  const formData = new FormData();
-  formData.append("nome", nome);
-  formData.append("email", email);
-  formData.append("mensagem", mensagem);
-  formData.append("page", page);
-  formData.append("parentId", parentId);
-
-  const res = await fetch(scriptURL, { method: "POST", body: formData });
-  const text = await res.text();
-  alert(text);
-  carregarComentarios();
-}
-
-// === Carregar e exibir comentários ===
-async function carregarComentarios() {
-  const page = window.location.href;
-  const res = await fetch(`${scriptURL}?page=${encodeURIComponent(page)}`);
-  const comentarios = await res.json();
-
-  const area = document.getElementById("comentarios-lista");
-  const contador = document.getElementById("contador-comentarios");
-
-  const comentariosAprovados = comentarios.filter((c) => c.aprovado === "true");
-  contador.textContent = comentariosAprovados.length;
-
-  // Cria estrutura hierárquica (comentários + respostas)
-  const mapa = {};
-  comentariosAprovados.forEach((c) => (mapa[c.id] = { ...c, respostas: [] }));
-  const raiz = [];
-
-  comentariosAprovados.forEach((c) => {
-    if (c.parentId) {
-      mapa[c.parentId]?.respostas.push(c);
-    } else {
-      raiz.push(c);
-    }
-  });
-
-  area.innerHTML = "";
-  raiz.forEach((c) => area.appendChild(renderComentario(c)));
-}
-
-function renderComentario(c) {
-  const div = document.createElement("div");
-  div.className = "comentario";
-
-  const gravatar = getGravatarURL(c.email);
-  const adminBadge =
-    c.admin === "true" ? `<span class="admin-badge">Admin</span>` : "";
-
-  div.innerHTML = `
-    <div class="comentario-header">
-      <img src="${gravatar}" class="avatar">
-      <strong>${c.nome}</strong> ${adminBadge}
-      <span class="data">${c.data}</span>
-    </div>
-    <div class="comentario-texto">${c.mensagem}</div>
-    <button class="responder-btn" data-id="${c.id}">Responder</button>
-    <div class="respostas"></div>
-  `;
-
-  const respostasDiv = div.querySelector(".respostas");
-  if (c.respostas && c.respostas.length > 0) {
-    c.respostas.forEach((r) => respostasDiv.appendChild(renderResposta(r)));
-  }
-
-  div.querySelector(".responder-btn").addEventListener("click", (e) => {
-    const parentId = e.target.getAttribute("data-id");
-    const nome = prompt("Seu nome:");
-    const email = prompt("Seu e-mail:");
-    const mensagem = prompt("Sua resposta:");
-    if (mensagem) enviarComentario(nome, email, mensagem, parentId);
-  });
-
-  return div;
-}
-
-function renderResposta(r) {
-  const div = document.createElement("div");
-  div.className = "resposta";
-
-  const gravatar = getGravatarURL(r.email);
-  const adminBadge =
-    r.admin === "true" ? `<span class="admin-badge">Admin</span>` : "";
-
-  div.innerHTML = `
-    <div class="linha-conexao"></div>
-    <div class="resposta-box">
-      <img src="${gravatar}" class="avatar">
-      <div>
-        <strong>${r.nome}</strong> ${adminBadge}
-        <span class="data">${r.data}</span>
-        <div class="comentario-texto">${r.mensagem}</div>
+      <div id="jsy-list" class="jsy-list">
+        <div class="jsy-empty">Carregando comentários...</div>
       </div>
     </div>
   `;
-  return div;
+})();
+
+// Util: SHA-256 (browser) -> hex
+async function sha256hex(message) {
+  const msgUint8 = new TextEncoder().encode(String(message));
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-document.addEventListener("DOMContentLoaded", carregarComentarios);
+// Gera url gravatar (async)
+async function gravatarUrl(email) {
+  if (!email) return 'https://www.gravatar.com/avatar/?d=mp';
+  const hash = await sha256hex(email.trim().toLowerCase());
+  return `https://www.gravatar.com/avatar/${hash}?d=identicon`;
+}
+
+// Função para enviar comentário/resposta
+async function enviarComentario(formEl) {
+  const status = document.getElementById('jsy-status');
+  status.textContent = 'Enviando...';
+  const fd = new FormData(formEl);
+
+  try {
+    const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
+    const text = await res.text();
+    status.textContent = text || 'Enviado';
+    formEl.reset();
+    // limpar parentId oculto
+    formEl.querySelector('input[name="parentId"]').value = '';
+    await carregarComentarios(); // recarrega lista
+    setTimeout(()=> status.textContent = '', 2500);
+  } catch (err) {
+    console.error(err);
+    status.textContent = 'Erro ao enviar';
+  }
+}
+
+// Função para enviar like
+async function enviarLike(id, btn, countEl) {
+  try {
+    const fd = new FormData();
+    fd.append('action', 'like');
+    fd.append('id', id);
+    const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
+    const j = await res.json();
+    if (j && j.ok) {
+      countEl.textContent = j.likes;
+      // feedback simples
+      btn.style.color = '#ff5e5e';
+    }
+  } catch (err) {
+    console.error('Erro like', err);
+  }
+}
+
+// Monta árvore de comentários e replies
+function buildTree(items) {
+  const map = {};
+  items.forEach(i => { i.replies = []; map[i.id] = i; });
+  const roots = [];
+  items.forEach(i => {
+    if (i.parentId) {
+      if (map[i.parentId]) map[i.parentId].replies.push(i);
+      else roots.push(i); // fallback
+    } else roots.push(i);
+  });
+  return roots;
+}
+
+// Renderiza lista de comentários (async porque avatar usa crypto)
+async function renderList(items) {
+  const container = document.getElementById('jsy-list');
+  container.innerHTML = '';
+  if (!items || items.length === 0) {
+    container.innerHTML = '<div class="jsy-empty">Seja o primeiro a comentar!</div>';
+    document.getElementById('jsy-count').textContent = '0';
+    return;
+  }
+
+  const tree = buildTree(items);
+  document.getElementById('jsy-count').textContent = String(items.length);
+
+  for (const c of tree) {
+    const el = await renderComment(c);
+    container.appendChild(el);
+    if (c.replies && c.replies.length) {
+      for (const r of c.replies) {
+        const er = await renderReply(r);
+        container.appendChild(er);
+      }
+    }
+  }
+}
+
+// Render comentário principal
+async function renderComment(c) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'jsy-msg';
+  wrapper.innerHTML = `
+    <div class="jsy-reply-line" style="display:none"></div>
+    <img class="jsy-avatar" src="" alt="avatar">
+    <div class="jsy-content">
+      <div><span class="jsy-name"></span></div>
+      <div class="jsy-date"></div>
+      <div class="jsy-text"></div>
+      <div class="jsy-actions">
+        <button class="jsy-reply-btn">Responder</button>
+        <button class="jsy-like-btn">❤️</button>
+        <span class="jsy-like-count"></span>
+      </div>
+    </div>
+  `;
+
+  // preencher dados (avatar async)
+  const img = wrapper.querySelector('.jsy-avatar');
+  img.src = await gravatarUrl(c.email);
+
+  wrapper.querySelector('.jsy-name').textContent = c.nome || 'Anônimo';
+  if (c.admin === 'true') {
+    const adminTag = document.createElement('span');
+    adminTag.className = 'jsy-admin';
+    adminTag.textContent = 'ADMIN';
+    wrapper.querySelector('.jsy-name').appendChild(adminTag);
+  }
+  wrapper.querySelector('.jsy-date').textContent = c.data;
+  wrapper.querySelector('.jsy-text').textContent = c.mensagem;
+  const likeBtn = wrapper.querySelector('.jsy-like-btn');
+  const likeCount = wrapper.querySelector('.jsy-like-count');
+  likeCount.textContent = String(c.likes || 0);
+
+  // actions
+  likeBtn.addEventListener('click', () => enviarLike(c.id, likeBtn, likeCount));
+
+  const replyBtn = wrapper.querySelector('.jsy-reply-btn');
+  replyBtn.addEventListener('click', () => {
+    // coloca parentId no form e foca textarea
+    const form = document.getElementById('jsy-form');
+    form['parentId'].value = c.id;
+    form.scrollIntoView({ behavior: 'smooth' });
+    form.querySelector('textarea[name="mensagem"]').focus();
+  });
+
+  return wrapper;
+}
+
+// Render reply (visually connected)
+async function renderReply(r) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'jsy-reply';
+  wrapper.innerHTML = `
+    <img class="jsy-avatar" src="" alt="avatar" style="width:36px;height:36px;">
+    <div class="jsy-content">
+      <div><span class="jsy-name"></span></div>
+      <div class="jsy-date"></div>
+      <div class="jsy-text"></div>
+      <div class="jsy-actions">
+        <button class="jsy-like-btn">❤️</button>
+        <span class="jsy-like-count"></span>
+      </div>
+    </div>
+  `;
+
+  const img = wrapper.querySelector('.jsy-avatar');
+  img.src = await gravatarUrl(r.email);
+  wrapper.querySelector('.jsy-name').textContent = r.nome || 'Anônimo';
+  if (r.admin === 'true') {
+    const adminTag = document.createElement('span');
+    adminTag.className = 'jsy-admin';
+    adminTag.textContent = 'ADMIN';
+    wrapper.querySelector('.jsy-name').appendChild(adminTag);
+  }
+  wrapper.querySelector('.jsy-date').textContent = r.data;
+  wrapper.querySelector('.jsy-text').textContent = r.mensagem;
+  const likeBtn = wrapper.querySelector('.jsy-like-btn');
+  const likeCount = wrapper.querySelector('.jsy-like-count');
+  likeCount.textContent = String(r.likes || 0);
+  likeBtn.addEventListener('click', () => enviarLike(r.id, likeBtn, likeCount));
+
+  return wrapper;
+}
+
+// Carrega comentários via GET ?page=...
+async function carregarComentarios() {
+  const url = `${SCRIPT_URL}?page=${encodeURIComponent(PAGE)}`;
+  try {
+    const res = await fetch(url);
+    const items = await res.json();
+    await renderList(items);
+  } catch (err) {
+    console.error('Erro carregar comentários', err);
+    const container = document.getElementById('jsy-list');
+    if (container) container.innerHTML = '<div class="jsy-empty">Erro ao carregar comentários.</div>';
+  }
+}
+
+// Setup envio de formulário
+(function setupForm() {
+  const form = document.getElementById('jsy-form');
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // validar
+    const nome = form.nome.value.trim();
+    const email = form.email.value.trim();
+    const mensagem = form.mensagem.value.trim();
+    if (!mensagem) { alert('Escreva uma mensagem'); return; }
+    // envia
+    const fd = new FormData();
+    fd.append('nome', nome);
+    fd.append('email', email);
+    fd.append('mensagem', mensagem);
+    fd.append('page', PAGE);
+    fd.append('parentId', form.parentId.value || '');
+    try {
+      const res = await fetch(SCRIPT_URL, { method: 'POST', body: fd });
+      const text = await res.text();
+      document.getElementById('jsy-status').textContent = text;
+      form.reset();
+      form.parentId.value = '';
+      await carregarComentarios();
+      setTimeout(()=> document.getElementById('jsy-status').textContent = '', 2500);
+    } catch (err) {
+      console.error('Erro enviar', err);
+      document.getElementById('jsy-status').textContent = 'Erro ao enviar';
+    }
+  });
+})();
+
+// inicializa
+carregarComentarios();
