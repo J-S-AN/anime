@@ -420,42 +420,47 @@
 
 
         // LANÇAMENTOS (últimos 20)
-        (function () {
-            const el = document.getElementById("lancamentos");
-            const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
+(function () {
+    const el = document.getElementById("lancamentos");
+    const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
 
-            fetch(url)
-                .then(r => r.text())
-                .then(txt => {
-                    const json = JSON.parse(txt.substr(47).slice(0, -2));
-                    const rows = json.table.rows.reverse().slice(0, 20);
+    fetch(url)
+        .then(r => r.text())
+        .then(txt => {
+            const json = JSON.parse(txt.substr(47).slice(0, -2));
+            const rows = json.table.rows.reverse().slice(0, 20);
 
-                    rows.forEach(row => {
-                        const img = row.c[0]?.v || "https://via.placeholder.com/300x160?text=Sem+Imagem";
-                        const nome = row.c[1]?.v || "Sem Nome";
-                        const ep = row.c[2]?.v ?? ""; // pode ser número, "Filme" ou vazio
-                        const idioma = row.c[3]?.v || "";
-                        const link = row.c[4]?.v || "#";
-                        const final = row.c[5]?.v === "Final" ? " Final" : "";
+            rows.forEach(row => {
+                const img = row.c[0]?.v || "https://via.placeholder.com/300x160?text=Sem+Imagem";
+                const nome = row.c[1]?.v || "Sem Nome";
+                const ep = row.c[2]?.v ?? ""; // pode ser número, "Filme" ou vazio
+                const idiomaBruto = (row.c[3]?.v || "").trim().toLowerCase();
+                const link = row.c[4]?.v || "#";
+                const final = row.c[5]?.v === "Final" ? " Final" : "";
 
-                        // 🔹 Tratamento especial para Filme
-                        let titulo = "";
-                        const epStr = String(ep).trim();
-                        if (epStr !== "" && epStr.toLowerCase() === "filme") {
-                            titulo = `${nome} - Filme ${idioma}`;
-                        } else if (epStr === "") {
-                            titulo = `${nome}${final} - ${idioma}`;
-                        } else {
-                            titulo = `${nome} - Episódio ${epStr}${final} - ${idioma}`;
-                        }
+                // 🔹 Ajusta idioma exibido
+                const idioma = idiomaBruto.includes("dublado") ? "Dublado" : "";
 
-                        el.appendChild(criarCard({ img, titulo, link }));
-                    });
-                })
-                .catch(err => {
-                    console.error("Erro ao carregar lançamentos:", err);
-                });
-        })();
+                // 🔹 Montagem do título
+                let titulo = "";
+                const epStr = String(ep).trim();
+
+                if (epStr !== "" && epStr.toLowerCase() === "filme") {
+                    titulo = `${nome} - Filme${idioma ? " - " + idioma : ""}`;
+                } else if (epStr === "") {
+                    titulo = `${nome}${final}${idioma ? " - " + idioma : ""}`;
+                } else {
+                    titulo = `${nome} - Episódio ${epStr}${final}${idioma ? " - " + idioma : ""}`;
+                }
+
+                el.appendChild(criarCard({ img, titulo, link }));
+            });
+        })
+        .catch(err => {
+            console.error("Erro ao carregar lançamentos:", err);
+        });
+})();
+
 
 
 
