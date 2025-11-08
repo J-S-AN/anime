@@ -74,6 +74,82 @@
             background-color: #ff4757;
         }
 
+        .nav-buttons2 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border-top: 1px solid #333;
+            
+        }
+
+        .nav-buttons2 a {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-buttons2 a:hover,
+        .nav-buttons2 a.active {
+            background-color: #ff4757;
+        }
+
+        .nav-buttons3 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            
+        }
+
+        .nav-buttons3 a {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-buttons3 a:hover,
+        .nav-buttons3 a.active {
+            background-color: #ff4757;
+        }
+
+        .nav-buttons4 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-buttons4 a {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-buttons4 a:hover,
+        .nav-buttons4 a.active {
+            background-color: #ff4757;
+        }
+
         /* NOVA DIV FIXA PARA NOME E EPISÓDIO */
         #anime-episode-title {
             text-align: center;
