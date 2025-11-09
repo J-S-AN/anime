@@ -338,13 +338,11 @@
         <div id="calendario"></div>
     </div>
 
-    <!-- LANÇAMENTOS -->
     <div class="section">
         <h2>🌀 Lançamentos <a href="Lançamentos.html">Ver Todos</a></h2>
         <div id="lancamentos"></div>
     </div>
 
-    <!-- LISTA DE ANIME -->
     <div class="section">
         <h2>📚 Últimos Adicionados <a href="lista-anime.html">Ver Todos</a></h2>
         <div id="lista-anime"></div>
@@ -352,11 +350,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
-        // Toggle menu mobile
         document.getElementById("menu-toggle").onclick = () =>
             document.getElementById("menu-links").classList.toggle("active");
 
-        // Função para criar card
         function criarCard({ img, titulo, link }) {
             const a = document.createElement("a");
             a.href = link;
@@ -365,7 +361,7 @@
             return a;
         }
 
-        // CALENDÁRIO (carrossel com dia atual)
+        // CALENDÁRIO: carrossel melhorado (1 capa por vez)
         (function () {
             const el = document.getElementById("calendario");
             const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
@@ -380,11 +376,7 @@
                     const hojeAnimes = rows.filter(r => r.c[0]?.v === hoje);
 
                     if (hojeAnimes.length === 0) {
-                        const msg = document.createElement("div");
-                        msg.textContent = "Nenhum anime Hoje.";
-                        msg.style.padding = "10px";
-                        msg.style.color = "#ccc";
-                        el.appendChild(msg);
+                        el.innerHTML = "<div style='padding:10px;color:#ccc'>Nenhum anime hoje.</div>";
                         return;
                     }
 
@@ -395,76 +387,54 @@
                         el.appendChild(criarCard({ img, titulo: nome, link }));
                     });
 
-                    // Carrossel automático
-                    let pos = 0;
-                    let direcao = 1; // 1 = direita, -1 = esquerda
+                    // Carrossel que avança uma capa por vez
+                    let index = 0;
+                    const cards = el.querySelectorAll('.card');
+                    const scrollStep = cards[0]?.offsetWidth + 15 || 200;
 
                     setInterval(() => {
-                        // Altere a posição de scroll suavemente
-                        pos += direcao * 1; // velocidade
-
-                        // Inverte a direção quando chega no fim ou início
-                        if (pos >= el.scrollWidth - el.clientWidth) {
-                            direcao = -1;
-                            pos = el.scrollWidth - el.clientWidth;
-                        } else if (pos <= 0) {
-                            direcao = 1;
-                            pos = 0;
+                        index++;
+                        if (index * scrollStep >= el.scrollWidth - el.clientWidth) {
+                            index = 0;
                         }
-
-                        el.scrollLeft = pos;
-                    }, 30); // velocidade geral
-
+                        el.scrollTo({ left: index * scrollStep, behavior: 'smooth' });
+                    }, 2500); // muda a cada 2.5 segundos
                 });
         })();
 
+        // LANÇAMENTOS
+        (function () {
+            const el = document.getElementById("lancamentos");
+            const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
 
-        // LANÇAMENTOS (últimos 20)
-(function () {
-    const el = document.getElementById("lancamentos");
-    const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
+            fetch(url)
+                .then(r => r.text())
+                .then(txt => {
+                    const json = JSON.parse(txt.substr(47).slice(0, -2));
+                    const rows = json.table.rows.reverse().slice(0, 20);
+                    rows.forEach(row => {
+                        const img = row.c[0]?.v || "https://via.placeholder.com/300x160?text=Sem+Imagem";
+                        const nome = row.c[1]?.v || "Sem Nome";
+                        const ep = row.c[2]?.v ?? "";
+                        const idiomaBruto = (row.c[3]?.v || "").trim().toLowerCase();
+                        const link = row.c[4]?.v || "#";
+                        const final = row.c[5]?.v === "Final" ? " Final" : "";
+                        const idioma = idiomaBruto.includes("dublado") ? "Dublado" : "";
+                        let titulo = "";
 
-    fetch(url)
-        .then(r => r.text())
-        .then(txt => {
-            const json = JSON.parse(txt.substr(47).slice(0, -2));
-            const rows = json.table.rows.reverse().slice(0, 20);
+                        if (String(ep).trim().toLowerCase() === "filme") {
+                            titulo = `${nome} - Filme${idioma ? " - " + idioma : ""}`;
+                        } else if (ep === "") {
+                            titulo = `${nome}${final}${idioma ? " - " + idioma : ""}`;
+                        } else {
+                            titulo = `${nome} - Episódio ${ep}${final}${idioma ? " - " + idioma : ""}`;
+                        }
+                        el.appendChild(criarCard({ img, titulo, link }));
+                    });
+                });
+        })();
 
-            rows.forEach(row => {
-                const img = row.c[0]?.v || "https://via.placeholder.com/300x160?text=Sem+Imagem";
-                const nome = row.c[1]?.v || "Sem Nome";
-                const ep = row.c[2]?.v ?? ""; // pode ser número, "Filme" ou vazio
-                const idiomaBruto = (row.c[3]?.v || "").trim().toLowerCase();
-                const link = row.c[4]?.v || "#";
-                const final = row.c[5]?.v === "Final" ? " Final" : "";
-
-                // 🔹 Ajusta idioma exibido
-                const idioma = idiomaBruto.includes("dublado") ? "Dublado" : "";
-
-                // 🔹 Montagem do título
-                let titulo = "";
-                const epStr = String(ep).trim();
-
-                if (epStr !== "" && epStr.toLowerCase() === "filme") {
-                    titulo = `${nome} - Filme${idioma ? " - " + idioma : ""}`;
-                } else if (epStr === "") {
-                    titulo = `${nome}${final}${idioma ? " - " + idioma : ""}`;
-                } else {
-                    titulo = `${nome} - Episódio ${epStr}${final}${idioma ? " - " + idioma : ""}`;
-                }
-
-                el.appendChild(criarCard({ img, titulo, link }));
-            });
-        })
-        .catch(err => {
-            console.error("Erro ao carregar lançamentos:", err);
-        });
-})();
-
-
-
-
-        // LISTA DE ANIMES (últimos 10)
+        // LISTA DE ANIMES
         (function () {
             const el = document.getElementById("lista-anime");
             const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=0&single=true&output=csv";
@@ -561,8 +531,9 @@
 
     <div id="jsyModalOverlay" class="jsy-modal-overlay">
         <div class="jsy-modal">
-        <h3>Aviso de Horário de Lançamentos</h3>
-        <p>Hoje Não Haverá Lançamentos no Período da Manhã e da Tarde <br> O ADM Está na Praia. Lançamentos Serão Feitos à Noite. <br>Agradecemos Pela Compreensão!</p>
+            <h3>Aviso de Horário de Lançamentos</h3>
+            <p>Hoje Não Haverá Lançamentos no Período da Manhã e da Tarde <br> O ADM Está na Praia. Lançamentos Serão
+                Feitos à Noite. <br>Agradecemos Pela Compreensão!</p>
             <div>
                 <button class="jsy-btn secondary" id="jsyCloseBtn">Fechar</button>
             </div>
