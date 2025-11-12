@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanchigai no Atelier Meister: Eiyuu Party no Moto Zatsuyougakari ga, Jitsu wa Sentou Igai ga SSS Rank Datta to Iu Yoku Aru Hanashi - Episódio 1 - Dublado - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="Kanchigai no Atelier Meister: Eiyuu Party no Moto Zatsuyougakari ga, Jitsu wa Sentou Igai ga SSS Rank Datta to Iu Yoku Aru Hanashi - Episódio 1 - Dublado - JSY ANIME">
+    <meta property="og:description" content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1743/148272l.jpg">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../../0/ep.css">
+    <script src="../../../0/em-breve.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <div class="logo">JSY ANIME</div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="nav-buttons">
+        <a href="menu.html" aria-label="Menu">Menu</a>
+        <a href="episodio-2.html" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div id="anime-episode-title">
+        Kanchigai no Atelier Meister: Eiyuu Party no Moto Zatsuyougakari ga, Jitsu wa Sentou Igai ga SSS Rank Datta to Iu Yoku Aru Hanashi - Episódio 1 - Dublado
+    </div>
+
+    <div class="players">
+        <button class="active" onclick="switchPlayer(0)">Drive</button>
+        <!--
+            <button onclick="switchPlayer(1)">Celular</button>
+            <button onclick="switchPlayer(2)">Tape ads</button>
+            <button onclick="switchPlayer(3)">Dood ads</button>
+        -->
+    </div>
+
+    <div class="video-container">
+        <iframe id="player" src="https://drive.google.com/file/d/1jrpu0A-cnKiuXRDNuNg0_pxAgPy9_g9N/preview" allowfullscreen></iframe>
+    </div>
+
+    <div class="download-below">
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1jrpu0A-cnKiuXRDNuNg0_pxAgPy9_g9N&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>
+
+    <script>
+    
+var players = [
+    { src: 'https://drive.google.com/file/d/1jrpu0A-cnKiuXRDNuNg0_pxAgPy9_g9N/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1jrpu0A-cnKiuXRDNuNg0_pxAgPy9_g9N&export=download' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW', download: '' },
+
+    { src: 'https://streamtape.com/e/29obkY2gaOfZMg4/', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://2371755324.tapecontent.net/.../INTRO+JOSE+STATUS+YT.mp4?dl=1' },
+
+    { src: 'https://vide0.net/e/3lzrvbqa9ia8', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://vide0.net/d/3lzrvbqa9ia8' }
+];
+
+    function switchPlayer(index) {
+        document.getElementById('player').src = players[index].src;
+        document.querySelectorAll('.players button').forEach((b, i) => {
+            b.classList.toggle('active', i === index);
+        });
+        const downloadBtnBottom = document.getElementById('download-below-btn');
+        if (players[index].download) {
+            downloadBtnBottom.href = players[index].download;
+            downloadBtnBottom.style.display = 'inline-block';
+        } else {
+            downloadBtnBottom.style.display = 'none';
+        }
+    }
+    document.getElementById('menu-toggle').onclick = function () {
+        document.getElementById('menu-links').classList.toggle('active');
+    };
+    document.addEventListener("DOMContentLoaded", function () {
+        let anime = "Kanchigai no Atelier Meister: Eiyuu Party no Moto Zatsuyougakari ga, Jitsu wa Sentou Igai ga SSS Rank Datta to Iu Yoku Aru Hanashi";
+        let idioma = "dublado";
+        let temporada = "1";
+        let episodioAtual = window.location.pathname.split("/").pop().replace(".html", "");
+        let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioAtual}`;
+        localStorage.setItem(chaveEpisodio, "true");
+    });
+    </script>
+
+    
+<div class="commentbox"></div>
+<script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
+<script>
+            commentBox('5704043783520256-proj', {
+                textColor: '#fff'
+            });
+        </script>
+
+    
+<script>
+    fetch('../../../footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.body.insertAdjacentHTML('beforeend', data);
+        });
+</script>
+
+
+</body>
+</html>
