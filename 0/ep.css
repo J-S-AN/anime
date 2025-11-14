@@ -22,6 +22,18 @@
             color: #ff4757;
         }
 
+        .logo a {
+            color: inherit;
+            /* mantém a cor original */
+            text-decoration: none;
+            /* remove sublinhado */
+        }
+
+        .logo a:hover {
+            opacity: 0.8;
+            /* opcional: efeito no hover */
+        }
+
         .menu-links {
             display: flex;
             list-style: none;
@@ -81,7 +93,7 @@
             gap: 10px;
             padding: 10px;
             border-top: 1px solid #333;
-            
+
         }
 
         .nav-buttons2 a {
@@ -106,7 +118,7 @@
             justify-content: center;
             gap: 10px;
             padding: 10px;
-            
+
         }
 
         .nav-buttons3 a {
@@ -265,7 +277,8 @@
         }
 
         .footer {
-            background-color: #1f1f1f;;
+            background-color: #1f1f1f;
+            ;
             color: #ccc;
             text-align: center;
             padding: 25px 15px;

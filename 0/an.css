@@ -22,6 +22,18 @@
       color: #ff4757;
   }
 
+  .logo a {
+      color: inherit;
+      /* mantém a cor original */
+      text-decoration: none;
+      /* remove sublinhado */
+  }
+
+  .logo a:hover {
+      opacity: 0.8;
+      /* opcional: efeito no hover */
+  }
+
   .menu-links {
       display: flex;
       list-style: none;
