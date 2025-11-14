@@ -35,6 +35,18 @@
             color: #ff4757;
         }
 
+        .logo a {
+            color: inherit;
+            /* mantém a cor original */
+            text-decoration: none;
+            /* remove sublinhado */
+        }
+
+        .logo a:hover {
+            opacity: 0.8;
+            /* opcional: efeito no hover */
+        }
+
         .menu-links {
             display: flex;
             list-style: none;
@@ -322,7 +334,9 @@
 <body>
     <!-- MENU -->
     <nav class="menu">
-        <div class="logo">JSY ANIME</div>
+        <div class="logo">
+            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+        </div>
         <div class="menu-toggle" id="menu-toggle">&#9776;</div>
         <ul class="menu-links" id="menu-links">
             <li><a href="https://j-s-an.github.io/anime/" style="color: #ff0000;">Início</a></li>

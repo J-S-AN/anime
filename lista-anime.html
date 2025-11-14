@@ -256,12 +256,15 @@
 
     <header>
         <nav class="menu">
-            <div class="logo">JSY ANIME</div>
+            <div class="logo">
+                <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+            </div>
             <div class="menu-toggle" id="menu-toggle">&#9776;</div>
             <ul class="menu-links" id="menu-links">
                 <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
                 <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
-                <li><a href="https://j-s-an.github.io/anime/lista-anime.html" style="color: #ff0000;">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html" style="color: #ff0000;">Lista de Anime</a>
+                </li>
                 <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
             </ul>
         </nav>
@@ -288,6 +291,18 @@
                 font-size: 20px;
                 font-weight: bold;
                 color: #ff4757;
+            }
+
+            .logo a {
+                color: inherit;
+                /* mantém a cor original */
+                text-decoration: none;
+                /* remove sublinhado */
+            }
+
+            .logo a:hover {
+                opacity: 0.8;
+                /* opcional: efeito no hover */
             }
 
             .menu-links {
@@ -381,157 +396,157 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script>
-const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=0&single=true&output=csv';
+    <script>
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=0&single=true&output=csv';
 
-const animeListEl = document.getElementById('anime-list');
-const pagination = document.getElementById('pagination');
-const searchInput = document.getElementById('search-input');
+        const animeListEl = document.getElementById('anime-list');
+        const pagination = document.getElementById('pagination');
+        const searchInput = document.getElementById('search-input');
 
-const filterGenero = document.getElementById('filter-genero');
-const filterTema = document.getElementById('filter-tema');
-const filterExplicito = document.getElementById('filter-explicito');
-const filterDemografia = document.getElementById('filter-demografia');
+        const filterGenero = document.getElementById('filter-genero');
+        const filterTema = document.getElementById('filter-tema');
+        const filterExplicito = document.getElementById('filter-explicito');
+        const filterDemografia = document.getElementById('filter-demografia');
 
-let allData = [];
-let filteredData = [];
-let currentPage = 0;
-const itemsPerPage = 20;
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 0;
+        const itemsPerPage = 20;
 
-// Carrega planilha
-fetch(sheetUrl)
-    .then(r => r.text())
-    .then(csv => {
-        const data = Papa.parse(csv, { header: true }).data;
-        allData = data.filter(d => d.nome && d.link && d.capa).reverse();
-        setupFilters();
-        loadFromURL();
-    });
+        // Carrega planilha
+        fetch(sheetUrl)
+            .then(r => r.text())
+            .then(csv => {
+                const data = Papa.parse(csv, { header: true }).data;
+                allData = data.filter(d => d.nome && d.link && d.capa).reverse();
+                setupFilters();
+                loadFromURL();
+            });
 
-// --- FILTROS ---
-function setupFilters() {
-    const sets = {
-        gênero: new Set(),
-        tema: new Set(),
-        gêneros_explícitos: new Set(),
-        demografia: new Set()
-    };
+        // --- FILTROS ---
+        function setupFilters() {
+            const sets = {
+                gênero: new Set(),
+                tema: new Set(),
+                gêneros_explícitos: new Set(),
+                demografia: new Set()
+            };
 
-    allData.forEach(item => {
-        Object.keys(sets).forEach(key => {
-            (item[key] || '').split(',').map(s => s.trim()).forEach(s => s && sets[key].add(s));
-        });
-    });
+            allData.forEach(item => {
+                Object.keys(sets).forEach(key => {
+                    (item[key] || '').split(',').map(s => s.trim()).forEach(s => s && sets[key].add(s));
+                });
+            });
 
-    [...sets.gênero].sort().forEach(v => filterGenero.add(new Option(v, v)));
-    [...sets.tema].sort().forEach(v => filterTema.add(new Option(v, v)));
-    [...sets["gêneros_explícitos"]].sort().forEach(v => filterExplicito.add(new Option(v, v)));
-    [...sets.demografia].sort().forEach(v => filterDemografia.add(new Option(v, v)));
+            [...sets.gênero].sort().forEach(v => filterGenero.add(new Option(v, v)));
+            [...sets.tema].sort().forEach(v => filterTema.add(new Option(v, v)));
+            [...sets["gêneros_explícitos"]].sort().forEach(v => filterExplicito.add(new Option(v, v)));
+            [...sets.demografia].sort().forEach(v => filterDemografia.add(new Option(v, v)));
 
-    [searchInput, filterGenero, filterTema, filterExplicito, filterDemografia].forEach(el => {
-        el.addEventListener('input', reapplyAndUpdateURL);
-        el.addEventListener('change', reapplyAndUpdateURL);
-    });
-}
+            [searchInput, filterGenero, filterTema, filterExplicito, filterDemografia].forEach(el => {
+                el.addEventListener('input', reapplyAndUpdateURL);
+                el.addEventListener('change', reapplyAndUpdateURL);
+            });
+        }
 
-// --- APLICA FILTROS ---
-function applyFilters() {
-    const q = searchInput.value.trim().toLowerCase();
-    filteredData = allData.filter(item => {
-        const matchesSearch = !q || (item.nome || '').toLowerCase().includes(q);
-        const matchesGenero = !filterGenero.value || (item.gênero || '').includes(filterGenero.value);
-        const matchesTema = !filterTema.value || (item.tema || '').includes(filterTema.value);
-        const matchesExplicito = !filterExplicito.value || (item.gêneros_explícitos || '').includes(filterExplicito.value);
-        const matchesDemografia = !filterDemografia.value || (item.demografia || '').includes(filterDemografia.value);
-        return matchesSearch && matchesGenero && matchesTema && matchesExplicito && matchesDemografia;
-    });
+        // --- APLICA FILTROS ---
+        function applyFilters() {
+            const q = searchInput.value.trim().toLowerCase();
+            filteredData = allData.filter(item => {
+                const matchesSearch = !q || (item.nome || '').toLowerCase().includes(q);
+                const matchesGenero = !filterGenero.value || (item.gênero || '').includes(filterGenero.value);
+                const matchesTema = !filterTema.value || (item.tema || '').includes(filterTema.value);
+                const matchesExplicito = !filterExplicito.value || (item.gêneros_explícitos || '').includes(filterExplicito.value);
+                const matchesDemografia = !filterDemografia.value || (item.demografia || '').includes(filterDemografia.value);
+                return matchesSearch && matchesGenero && matchesTema && matchesExplicito && matchesDemografia;
+            });
 
-    renderPage();
-    updatePagination();
-}
+            renderPage();
+            updatePagination();
+        }
 
-// --- RENDERIZA PÁGINA ---
-function renderPage() {
-    animeListEl.innerHTML = '';
-    const start = currentPage * itemsPerPage;
-    const pageItems = filteredData.slice(start, start + itemsPerPage);
+        // --- RENDERIZA PÁGINA ---
+        function renderPage() {
+            animeListEl.innerHTML = '';
+            const start = currentPage * itemsPerPage;
+            const pageItems = filteredData.slice(start, start + itemsPerPage);
 
-    pageItems.forEach(anime => {
-        const card = document.createElement('a');
-        card.className = 'anime-card';
-        card.href = anime.link;
+            pageItems.forEach(anime => {
+                const card = document.createElement('a');
+                card.className = 'anime-card';
+                card.href = anime.link;
 
-        card.innerHTML = `
+                card.innerHTML = `
             <img src="${anime.capa}" alt="${anime.nome}">
             <div class="anime-title">${anime.nome}</div>
         `;
-        animeListEl.appendChild(card);
-    });
-}
+                animeListEl.appendChild(card);
+            });
+        }
 
-// --- PAGINAÇÃO ---
-function updatePagination() {
-    pagination.innerHTML = '';
-    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-    if (totalPages <= 1) return;
+        // --- PAGINAÇÃO ---
+        function updatePagination() {
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            if (totalPages <= 1) return;
 
-    const maxButtons = 6;
-    let start = Math.max(0, currentPage - Math.floor(maxButtons / 2));
-    let end = Math.min(totalPages - 1, start + maxButtons - 1);
+            const maxButtons = 6;
+            let start = Math.max(0, currentPage - Math.floor(maxButtons / 2));
+            let end = Math.min(totalPages - 1, start + maxButtons - 1);
 
-    for (let i = start; i <= end; i++) {
-        const btn = document.createElement('button');
-        btn.textContent = i + 1;
-        if (i === currentPage) btn.classList.add('active');
-        btn.dataset.page = i;
-        pagination.appendChild(btn);
-    }
-}
+            for (let i = start; i <= end; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i + 1;
+                if (i === currentPage) btn.classList.add('active');
+                btn.dataset.page = i;
+                pagination.appendChild(btn);
+            }
+        }
 
-// --- CLIQUE NOS BOTÕES (delegação) ---
-pagination.addEventListener('click', e => {
-    const btn = e.target.closest('button');
-    if (!btn) return;
-    currentPage = parseInt(btn.dataset.page);
-    renderPage();
-    updatePagination();
-    updateURL();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+        // --- CLIQUE NOS BOTÕES (delegação) ---
+        pagination.addEventListener('click', e => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            currentPage = parseInt(btn.dataset.page);
+            renderPage();
+            updatePagination();
+            updateURL();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-// --- ATUALIZA URL ---
-function updateURL() {
-    const params = new URLSearchParams();
-    if (searchInput.value) params.set('q', searchInput.value);
-    if (filterGenero.value) params.set('genero', filterGenero.value);
-    if (filterTema.value) params.set('tema', filterTema.value);
-    if (filterExplicito.value) params.set('explicito', filterExplicito.value);
-    if (filterDemografia.value) params.set('demografia', filterDemografia.value);
-    if (currentPage > 0) params.set('p', currentPage + 1);
-    window.location.hash = params.toString() ? '#' + params.toString() : '';
-}
+        // --- ATUALIZA URL ---
+        function updateURL() {
+            const params = new URLSearchParams();
+            if (searchInput.value) params.set('q', searchInput.value);
+            if (filterGenero.value) params.set('genero', filterGenero.value);
+            if (filterTema.value) params.set('tema', filterTema.value);
+            if (filterExplicito.value) params.set('explicito', filterExplicito.value);
+            if (filterDemografia.value) params.set('demografia', filterDemografia.value);
+            if (currentPage > 0) params.set('p', currentPage + 1);
+            window.location.hash = params.toString() ? '#' + params.toString() : '';
+        }
 
-// --- CARREGAR VIA URL ---
-function loadFromURL() {
-    const params = new URLSearchParams(window.location.hash.slice(1));
-    searchInput.value = params.get('q') || '';
-    filterGenero.value = params.get('genero') || '';
-    filterTema.value = params.get('tema') || '';
-    filterExplicito.value = params.get('explicito') || '';
-    filterDemografia.value = params.get('demografia') || '';
-    currentPage = Math.max(0, (parseInt(params.get('p')) || 1) - 1);
-    applyFilters();
-}
+        // --- CARREGAR VIA URL ---
+        function loadFromURL() {
+            const params = new URLSearchParams(window.location.hash.slice(1));
+            searchInput.value = params.get('q') || '';
+            filterGenero.value = params.get('genero') || '';
+            filterTema.value = params.get('tema') || '';
+            filterExplicito.value = params.get('explicito') || '';
+            filterDemografia.value = params.get('demografia') || '';
+            currentPage = Math.max(0, (parseInt(params.get('p')) || 1) - 1);
+            applyFilters();
+        }
 
-function reapplyAndUpdateURL() {
-    currentPage = 0;
-    applyFilters();
-    updateURL();
-}
+        function reapplyAndUpdateURL() {
+            currentPage = 0;
+            applyFilters();
+            updateURL();
+        }
 
-// --- HASHCHANGE ---
-window.addEventListener('hashchange', loadFromURL);
-</script>
+        // --- HASHCHANGE ---
+        window.addEventListener('hashchange', loadFromURL);
+    </script>
 
 
     <!-- SEU PRÓXIMO BLOCO DE CÓDIGO -->
