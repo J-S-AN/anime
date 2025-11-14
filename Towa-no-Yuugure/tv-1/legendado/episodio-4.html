@@ -45,16 +45,31 @@
 
     <div class="players">
         <button class="active" onclick="switchPlayer(0)">Drive</button>
+        <!--
+            <button onclick="switchPlayer(1)">Celular</button>
+            <button onclick="switchPlayer(2)">Tape ads</button>
+            <button onclick="switchPlayer(3)">Dood ads</button>
+        -->
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://j-s-an.github.io/anime/players.html" allowfullscreen></iframe>
+        <iframe id="player" src="https://drive.google.com/file/d/1h1ng_amwWe5teplgoC9WNGhrUzT-bPLT/preview" allowfullscreen></iframe>
+    </div>
+
+    <div class="download-below">
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1h1ng_amwWe5teplgoC9WNGhrUzT-bPLT&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
     </div>
 
     <script>
     
 var players = [
-    { src: 'https://j-s-an.github.io/anime/players.html', download: '' }
+    { src: 'https://drive.google.com/file/d/1h1ng_amwWe5teplgoC9WNGhrUzT-bPLT/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1h1ng_amwWe5teplgoC9WNGhrUzT-bPLT&export=download' },
+
+    { src: '', download: '' },
+
+    { src: 'https://streamtape.com/e/29obkY2gaOfZMg4/', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://2371755324.tapecontent.net/.../INTRO+JOSE+STATUS+YT.mp4?dl=1' },
+
+    { src: 'https://vide0.net/e/3lzrvbqa9ia8', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://vide0.net/d/3lzrvbqa9ia8' }
 ];
 
     function switchPlayer(index) {
