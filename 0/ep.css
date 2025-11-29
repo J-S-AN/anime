@@ -162,6 +162,30 @@
             background-color: #ff4757;
         }
 
+        .nav-buttons5 {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .nav-buttons5 a {
+            background-color: #222;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .nav-buttons5 a:hover,
+        .nav-buttons5 a.active {
+            background-color: #ff4757;
+        }
+
         /* NOVA DIV FIXA PARA NOME E EPISÓDIO */
         #anime-episode-title {
             text-align: center;
