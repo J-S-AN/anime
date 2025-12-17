@@ -458,23 +458,36 @@
 
                     // mantém a ordem
                     const ordemEstacoes = ["inverno", "primavera", "verão", "outono"];
+
                     const chavesOrdenadas = Object.keys(lista).sort((a, b) => {
                         if (a === "Posterior") return 1;
                         if (b === "Posterior") return -1;
-                        const aPartes = a.split(" ");
-                        const bPartes = b.split(" ");
-                        const aEstacao = ordemEstacoes.indexOf(aPartes[0]);
-                        const bEstacao = ordemEstacoes.indexOf(bPartes[0]);
-                        const aAno = parseInt(aPartes[1]) || parseInt(aPartes[0]) || 0;
-                        const bAno = parseInt(bPartes[1]) || parseInt(bPartes[0]) || 0;
-                        if (aEstacao !== -1 && bEstacao !== -1) {
-                            if (aAno !== bAno) return aAno - bAno;
-                            return aEstacao - bEstacao;
+
+                        const aPartes = a.toLowerCase().split(" ");
+                        const bPartes = b.toLowerCase().split(" ");
+
+                        const aTemEstacao = ordemEstacoes.includes(aPartes[0]);
+                        const bTemEstacao = ordemEstacoes.includes(bPartes[0]);
+
+                        const aAno = parseInt(aPartes[aPartes.length - 1]) || 0;
+                        const bAno = parseInt(bPartes[bPartes.length - 1]) || 0;
+
+                        // primeiro: ano
+                        if (aAno !== bAno) return aAno - bAno;
+
+                        // depois: estações antes do ano solto
+                        if (aTemEstacao && !bTemEstacao) return -1;
+                        if (!aTemEstacao && bTemEstacao) return 1;
+
+                        // se ambos têm estação, ordenar pela estação
+                        if (aTemEstacao && bTemEstacao) {
+                            return ordemEstacoes.indexOf(aPartes[0]) - ordemEstacoes.indexOf(bPartes[0]);
                         }
-                        if (aEstacao !== -1) return -1;
-                        if (bEstacao !== -1) return 1;
-                        return aAno - bAno;
+
+                        // fallback
+                        return 0;
                     });
+
 
                     const mapaIdParaElemento = {};
 
