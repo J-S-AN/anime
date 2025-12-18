@@ -189,7 +189,7 @@
       color: #ff0000;
       text-decoration: underline;
       text-decoration: none;
-        /* remove sublinhado */
+      /* remove sublinhado */
     }
 
     .footer {
@@ -309,6 +309,39 @@
       font-size: 0.9em;
       color: #777;
     }
+
+    .quality-badges {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: flex;
+      gap: 4px;
+      z-index: 2;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 6px;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .badge.sd {
+      background: #ff4d4d;
+    }
+
+    .badge.hd {
+      background: #00c853;
+    }
+
+    .badge.fhd {
+      background: #2979ff;
+    }
+
+    .card {
+      position: relative;
+    }
   </style>
 </head>
 
@@ -331,9 +364,9 @@
   </header>
 
   <div class="anuncio">
-        📢 <strong> JSY ANIME EM LANÇAMENTO 🎬</strong> — Receba Lançamento no
-        <a href="https://whatsapp.com/channel/0029VakjTxcG8l5DQWBcKO3O" target="_blank">WhatsApp</a> ou
-        <a href="https://t.me/+khy33-_eaUsxYjgx" target="_blank">Telegram</a>
+    📢 <strong> JSY ANIME EM LANÇAMENTO 🎬</strong> — Receba Lançamento no
+    <a href="https://whatsapp.com/channel/0029VakjTxcG8l5DQWBcKO3O" target="_blank">WhatsApp</a> ou
+    <a href="https://t.me/+khy33-_eaUsxYjgx" target="_blank">Telegram</a>
   </div>
 
 
@@ -406,6 +439,7 @@
       });
 
     // --- Função para renderizar cada página ---
+    // --- Função para renderizar cada página ---
     function renderPage(page) {
       currentPage = page;
 
@@ -426,6 +460,24 @@
         const link = row.c?.[4]?.v || '#';
         const final = row.c?.[5]?.v === "Final" ? "Final" : "";
 
+        // 🔹 NOVO: qualidade da planilha
+        const qualidadeRaw = row.c?.[6]?.v || '';
+        const qualidades = qualidadeRaw
+          .toUpperCase()
+          .split(',')
+          .map(q => q.trim());
+
+        let badgesHTML = '';
+        if (qualidades.includes('SD')) {
+          badgesHTML += `<span class="badge sd">SD</span>`;
+        }
+        if (qualidades.includes('HD')) {
+          badgesHTML += `<span class="badge hd">HD</span>`;
+        }
+        if (qualidades.includes('FHD')) {
+          badgesHTML += `<span class="badge fhd">FHD</span>`;
+        }
+
         const epStr = String(ep).trim();
         let titulo = '';
 
@@ -437,16 +489,21 @@
           titulo = `${nome} - Episódio ${epStr} ${final}`;
         }
 
-        // 🔹 Regras de idioma
+        // 🔹 Idioma
         if (idioma.includes("dublado")) {
           titulo += " - Dublado";
         }
-        // se for legendado, não adiciona nada e remove se existir
         titulo = titulo.replace(/-?\s*Legendado/i, '').trim();
 
         const card = `
       <a href="${link}" rel="noopener">
         <div class="card">
+          
+          <!-- Selos de qualidade -->
+          <div class="quality-badges">
+            ${badgesHTML}
+          </div>
+
           <img src="${foto}" alt="${nome}">
           <div class="card-content">
             <p class="titulo">${titulo}</p>
@@ -454,6 +511,7 @@
         </div>
       </a>
     `;
+
         container.insertAdjacentHTML('beforeend', card);
       });
 
@@ -503,7 +561,7 @@
     <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
       style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
   </div>
-  <script>(function(s){s.dataset.zone='10263011',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <script>(function (s) { s.dataset.zone = '10263011', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <br>
 
   <div>
