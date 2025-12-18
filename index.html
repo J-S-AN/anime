@@ -304,6 +304,40 @@
             transform: scale(1.2);
         }
 
+        .quality-badges {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            display: flex;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 6px;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        .badge.sd {
+            background: #ff4d4d;
+        }
+
+        .badge.hd {
+            background: #00c853;
+        }
+
+        .badge.fhd {
+            background: #2979ff;
+        }
+
+        .card {
+            position: relative;
+        }
+
+
         /* NOVO MENU DE LINKS */
         .footer-menu {
             margin: 10px 0 15px;
@@ -439,6 +473,38 @@
         })();
 
         // LANÇAMENTOS
+        function criarCard({ img, titulo, link, qualidade = [] }) {
+
+            let badgesHTML = "";
+
+            if (qualidade.includes("SD"))
+                badgesHTML += `<span class="badge sd">SD</span>`;
+
+            if (qualidade.includes("HD"))
+                badgesHTML += `<span class="badge hd">HD</span>`;
+
+            if (qualidade.includes("FHD"))
+                badgesHTML += `<span class="badge fhd">FHD</span>`;
+
+            const a = document.createElement("a");
+            a.href = link;
+            a.rel = "noopener";
+            a.className = "card";
+
+            a.innerHTML = `
+        <div class="quality-badges">
+            ${badgesHTML}
+        </div>
+        <img src="${img}" alt="${titulo}">
+        <div class="card-content">
+            <p class="titulo">${titulo}</p>
+        </div>
+    `;
+
+            return a;
+        }
+
+        // LANÇAMENTOS
         (function () {
             const el = document.getElementById("lancamentos");
             const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
@@ -448,27 +514,39 @@
                 .then(txt => {
                     const json = JSON.parse(txt.substr(47).slice(0, -2));
                     const rows = json.table.rows.reverse().slice(0, 20);
+
                     rows.forEach(row => {
-                        const img = row.c[0]?.v || "https://via.placeholder.com/300x160?text=Sem+Imagem";
-                        const nome = row.c[1]?.v || "Sem Nome";
+                        const img = row.c[0]?.v || "";
+                        const nome = row.c[1]?.v || "";
                         const ep = row.c[2]?.v ?? "";
-                        const idiomaBruto = (row.c[3]?.v || "").trim().toLowerCase();
+                        const idiomaBruto = (row.c[3]?.v || "").toLowerCase();
                         const link = row.c[4]?.v || "#";
-                        const final = row.c[5]?.v === "Final" ? " Final" : "";
+                        const status = row.c[5]?.v || "";
+                        const finalTxt = status === "Final" ? " Final" : "";
+
+                        // ✅ QUALIDADE (COLUNA G)
+                        const qualidade = row.c[6]?.v
+                            ? row.c[6].v.toUpperCase().split(",").map(q => q.trim())
+                            : [];
+
                         const idioma = idiomaBruto.includes("dublado") ? "Dublado" : "";
                         let titulo = "";
 
                         if (String(ep).trim().toLowerCase() === "filme") {
                             titulo = `${nome} - Filme${idioma ? " - " + idioma : ""}`;
                         } else if (ep === "") {
-                            titulo = `${nome}${final}${idioma ? " - " + idioma : ""}`;
+                            titulo = `${nome}${finalTxt}${idioma ? " - " + idioma : ""}`;
                         } else {
-                            titulo = `${nome} - Episódio ${ep}${final}${idioma ? " - " + idioma : ""}`;
+                            titulo = `${nome} - Episódio ${ep}${finalTxt}${idioma ? " - " + idioma : ""}`;
                         }
-                        el.appendChild(criarCard({ img, titulo, link }));
+
+                        el.appendChild(
+                            criarCard({ img, titulo, link, qualidade })
+                        );
                     });
                 });
         })();
+
 
         // LISTA DE ANIMES
         (function () {
@@ -491,7 +569,7 @@
         <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
             style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
     </div>
-    <script>(function(s){s.dataset.zone='10263011',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function (s) { s.dataset.zone = '10263011', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <br>
 
     <div>
