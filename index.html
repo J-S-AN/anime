@@ -569,9 +569,10 @@
         <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
             style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
     </div>
+    <!--
     <script>(function (s) { s.dataset.zone = '10263011', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <br>
-
+-->
     <div>
         <!-- Exemplo de inclusão do rodapé com JavaScript -->
         <script>
@@ -583,7 +584,7 @@
         </script>
     </div>
 
-    <!-- ===== POPUP AVISO DE FÉRIAS ===== -->
+    <!-- ===== POPUP AVISO DE FÉRIAS ===== border: 2px solid #e6b800;  -->
     <style>
         .jsy-modal-overlay {
             position: fixed;
@@ -607,7 +608,7 @@
             color: #fff;
             border-radius: 12px;
             padding: 20px;
-            border: 2px solid #e6b800;
+            border: 2px solid #ff0000; 
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
         }
@@ -644,6 +645,7 @@
         }
     </style>
 
+<!--
     <div id="jsyModalOverlay" class="jsy-modal-overlay">
         <div class="jsy-modal">
             <h3>Aviso de Horário de Lançamentos</h3>
@@ -654,10 +656,24 @@
             </div>
         </div>
     </div>
+-->
+    <div id="jsyModalOverlay" class="jsy-modal-overlay">
+    <div class="jsy-modal">
+        <h3>🎄 Feliz Natal 🎄</h3>
+        <p>
+            Que seu Natal seja cheio de alegria e paz! ✨<br><br>
+            Obrigado por fazer parte da <strong>JSY ANIME</strong> 💖
+        </p>
+        <div>
+            <button class="jsy-btn secondary" id="jsyCloseBtn">Fechar</button>
+        </div>
+    </div>
+</div>
+
 
     <script>
         (function () {
-            const DIA_AVISO = 99; // altere o dia (0=Dom, 1=Seg, ..., 6=Sáb)
+            const DIA_AVISO = 3; // altere o dia (0=Dom, 1=Seg, ..., 6=Sáb)
             const overlay = document.getElementById('jsyModalOverlay');
             const closeBtn = document.getElementById('jsyCloseBtn');
             const dontShowBtn = document.getElementById('jsyDontShowBtn');
