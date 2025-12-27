@@ -568,10 +568,7 @@
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
         <iframe data-aa='2409970' src='//acceptable.a-ads.com/2409970/?size=Adaptive'
             style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-    </div>
-
-    <script>(function (s) { s.dataset.zone = '10263011', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <br>
+    </div><br>
 
     <div>
         <!-- Exemplo de inclusão do rodapé com JavaScript -->
@@ -584,7 +581,7 @@
         </script>
     </div>
 
-    <!-- ===== POPUP AVISO DE FÉRIAS ===== border: 2px solid #e6b800;  -->
+    <!-- ===== POPUP AVISO ===== -->
     <style>
         .jsy-modal-overlay {
             position: fixed;
@@ -608,7 +605,7 @@
             color: #fff;
             border-radius: 12px;
             padding: 20px;
-            border: 2px solid #ff0000;
+            border: 2px solid #e6b800;
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
         }
@@ -645,76 +642,89 @@
         }
     </style>
 
-    <!--
-    <div id="jsyModalOverlay" class="jsy-modal-overlay" style="display:none;">
+    <!-- ===== MODAL ===== -->
+
+    <div class="jsy-modal-overlay" data-start="2026-01-01T05:00" data-end="2026-01-01T19:00"
+        data-key="jsy_adm_praia">
+    
         <div class="jsy-modal">
-            <h3>🎆 Feliz Ano Novo 2026 🎆</h3>
+            <h3>Aviso de Horário de Lançamentos</h3>
             <p>
-                Que 2026 venha com muita paz, saúde e conquistas! ✨<br><br>
-                Obrigado por fazer parte da <strong>JSY ANIME</strong> 💖
+                Hoje não haverá lançamentos no período da manhã e da tarde.<br>
+                O ADM está na praia 🏖️<br><br>
+                Os lançamentos serão feitos à noite.<br>
+                Agradecemos pela compreensão!
             </p>
             <div>
-                <button class="jsy-btn secondary" id="jsyCloseBtn">Fechar</button>
+                <button class="jsy-btn secondary jsyCloseBtn">Fechar</button>
             </div>
         </div>
     </div>
-    -->
+
+
+    <div class="jsy-modal-overlay" data-start="2026-12-24" data-end="2026-12-25" data-key="jsy_natal">
+    
+        <div class="jsy-modal">
+            <h3>🎄 Feliz Natal 🎄</h3>
+            <p>
+                Desejamos a todos um Natal cheio de paz e alegria.<br><br>
+                <strong>JSY ANIME</strong> agradece seu apoio 💖
+            </p>
+            <div>
+                <button class="jsy-btn secondary jsyCloseBtn">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL ===== -->
+
     <script>
         (function () {
-            const DIA_AVISO = 6; // altere o dia (0=Dom, 1=Seg, ..., 6=Sáb)
-            const overlay = document.getElementById('jsyModalOverlay');
-            const closeBtn = document.getElementById('jsyCloseBtn');
-            const dontShowBtn = document.getElementById('jsyDontShowBtn');
+            const modais = document.querySelectorAll('.jsy-modal-overlay');
+            const now = new Date();
 
-            function getWeekId(d) {
-                const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-                date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
-                const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-                const weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
-                return `${date.getUTCFullYear()}-W${weekNo}`;
-            }
+            modais.forEach(overlay => {
+                const startRaw = overlay.dataset.start;
+                const endRaw = overlay.dataset.end;
 
-            const hoje = new Date();
-            const hojeDia = hoje.getDay();
-            const semanaId = getWeekId(hoje);
-            const key = 'jsy_aviso_week';
-            const suprimido = localStorage.getItem(key);
+                const startDate = new Date(startRaw);
+                const endDate = new Date(endRaw);
 
-            // Mostra apenas no dia definido e se ainda não foi suprimido
-            if (hojeDia === DIA_AVISO && suprimido !== semanaId) {
-                setTimeout(() => overlay.classList.add('active'), 500);
-            }
+                const storageKey = overlay.dataset.key || 'jsy_modal_default';
+                const suppressed = localStorage.getItem(storageKey);
 
-            closeBtn.onclick = () => overlay.classList.remove('active');
-            dontShowBtn.onclick = () => {
-                localStorage.setItem(key, semanaId);
-                overlay.classList.remove('active');
-            };
+                if (now >= startDate && now <= endDate && !suppressed) {
+                    setTimeout(() => overlay.classList.add('active'), 500);
+                }
 
-            // Fechar com ESC
+                const closeBtn = overlay.querySelector('.jsyCloseBtn');
+                const dontShowBtn = overlay.querySelector('.jsyDontShowBtn');
+
+                if (closeBtn) {
+                    closeBtn.onclick = () => overlay.classList.remove('active');
+                }
+
+                if (dontShowBtn) {
+                    dontShowBtn.onclick = () => {
+                        localStorage.setItem(storageKey, 'true');
+                        overlay.classList.remove('active');
+                    };
+                }
+            });
+
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') overlay.classList.remove('active');
+                if (e.key === 'Escape') {
+                    document
+                        .querySelectorAll('.jsy-modal-overlay.active')
+                        .forEach(m => m.classList.remove('active'));
+                }
             });
         })();
     </script>
 
-
-
-    <!--
-    <div id="jsyModalOverlay" class="jsy-modal-overlay">
-        <div class="jsy-modal">
-            <h3>Aviso de Horário de Lançamentos</h3>
-            <p>Hoje Não Haverá Lançamentos no Período da Manhã e da Tarde <br> O ADM Está na Praia. Lançamentos Serão
-                Feitos à Noite. <br>Agradecemos Pela Compreensão!</p>
-            <div>
-                <button class="jsy-btn secondary" id="jsyCloseBtn">Fechar</button>
-            </div>
-        </div>
-    </div>
-    -->
-
     <!-- ===== FIM DO POPUP ===== -->
 
+    <script>(function (s) { s.dataset.zone = '10263011', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
 </body>
 
