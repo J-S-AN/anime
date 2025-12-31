@@ -644,9 +644,8 @@
 
     <!-- ===== MODAL ===== -->
 
-    <div class="jsy-modal-overlay" data-start="2026-01-01T05:00" data-end="2026-01-01T19:00"
-        data-key="jsy_adm_praia">
-    
+    <div class="jsy-modal-overlay" data-start="2026-01-01T05:00" data-end="2026-01-01T19:00" data-key="jsy_adm_praia">
+
         <div class="jsy-modal">
             <h3>Aviso de Horário de Lançamentos</h3>
             <p>
@@ -663,7 +662,7 @@
 
 
     <div class="jsy-modal-overlay" data-start="2026-12-24" data-end="2026-12-25" data-key="jsy_natal">
-    
+
         <div class="jsy-modal">
             <h3>🎄 Feliz Natal 🎄</h3>
             <p>
@@ -676,48 +675,70 @@
         </div>
     </div>
 
+    <div class="jsy-modal-overlay" data-start="2025-12-31" data-end="2026-101-01" data-key="jsy_ano_novo">
+
+        <div class="jsy-modal">
+            <h3>🎆 Feliz Ano Novo 2026 🎆</h3>
+            <p>
+                Que 2026 venha com muita paz, saúde e conquistas! ✨<br><br>
+                Obrigado por fazer parte da <strong>JSY ANIME</strong> 💖
+            </p>
+            <div>
+                <button class="jsy-btn secondary jsyCloseBtn">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="jsyModalOverlay" class="jsy-modal-overlay">
+        <div class="jsy-modal">
+            <h3>🎆 Feliz Ano Novo 2026 🎆</h3>
+            <p>
+                Que 2026 venha com muita paz, saúde e conquistas! ✨<br><br>
+                Obrigado por fazer parte da <strong>JSY ANIME</strong> 💖
+            </p>
+            <div>
+                <button class="jsy-btn secondary" id="jsyCloseBtn">Fechar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== MODAL ===== -->
 
     <script>
         (function () {
-            const modais = document.querySelectorAll('.jsy-modal-overlay');
-            const now = new Date();
+            const DIA_AVISO = 3; // altere o dia (0=Dom, 1=Seg, ..., 6=Sáb)
+            const overlay = document.getElementById('jsyModalOverlay');
+            const closeBtn = document.getElementById('jsyCloseBtn');
+            const dontShowBtn = document.getElementById('jsyDontShowBtn');
 
-            modais.forEach(overlay => {
-                const startRaw = overlay.dataset.start;
-                const endRaw = overlay.dataset.end;
+            function getWeekId(d) {
+                const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+                date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+                const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+                const weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+                return `${date.getUTCFullYear()}-W${weekNo}`;
+            }
 
-                const startDate = new Date(startRaw);
-                const endDate = new Date(endRaw);
+            const hoje = new Date();
+            const hojeDia = hoje.getDay();
+            const semanaId = getWeekId(hoje);
+            const key = 'jsy_aviso_week';
+            const suprimido = localStorage.getItem(key);
 
-                const storageKey = overlay.dataset.key || 'jsy_modal_default';
-                const suppressed = localStorage.getItem(storageKey);
+            // Mostra apenas no dia definido e se ainda não foi suprimido
+            if (hojeDia === DIA_AVISO && suprimido !== semanaId) {
+                setTimeout(() => overlay.classList.add('active'), 500);
+            }
 
-                if (now >= startDate && now <= endDate && !suppressed) {
-                    setTimeout(() => overlay.classList.add('active'), 500);
-                }
+            closeBtn.onclick = () => overlay.classList.remove('active');
+            dontShowBtn.onclick = () => {
+                localStorage.setItem(key, semanaId);
+                overlay.classList.remove('active');
+            };
 
-                const closeBtn = overlay.querySelector('.jsyCloseBtn');
-                const dontShowBtn = overlay.querySelector('.jsyDontShowBtn');
-
-                if (closeBtn) {
-                    closeBtn.onclick = () => overlay.classList.remove('active');
-                }
-
-                if (dontShowBtn) {
-                    dontShowBtn.onclick = () => {
-                        localStorage.setItem(storageKey, 'true');
-                        overlay.classList.remove('active');
-                    };
-                }
-            });
-
+            // Fechar com ESC
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    document
-                        .querySelectorAll('.jsy-modal-overlay.active')
-                        .forEach(m => m.classList.remove('active'));
-                }
+                if (e.key === 'Escape') overlay.classList.remove('active');
             });
         })();
     </script>
