@@ -1,17 +1,103 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
+        <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecionando...</title>
-    <meta http-equiv="refresh" content="0;url=https://j-s-an.github.io/anime/em-breve.html?id=anime-61325">
-    <style>
-        body {
-            background-color: #111;
-        }
-    </style>
+    <title>Douse, Koishite Shimaunda. 2nd Season - Dublado - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="Douse, Koishite Shimaunda. 2nd Season - Dublado - JSY ANIME">
+    <meta property="og:description"
+        content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1054/153719l.jpg">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../../0/menu.css">
+    <script src="../../../0/em-breve2.js"></script>
 </head>
 <body>
-    <p style="color: #ffffff; font-size: 1.7em;"> Redirecionando... Se não acontecer automaticamente, <a style="color: #ff0000;" href="https://j-s-an.github.io/anime/em-breve.html?id=anime-61325">clique aqui</a>. - JSY ANIME</p>
+        <header>
+        <nav class="menu">
+            <div class="logo">
+            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+        </div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="header">
+        <a href="https://sites.google.com/view/jsy-anime/anime/douse-koishite/TV-2">← Voltar Pro Anime</a>
+        <span>Douse, Koishite Shimaunda. 2nd Season - Dublado</span>
+    </div>
+    
+    <div class="episodes">
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi8vbwdLx1nxMWZdrZ0oSD5E4ifWj7GsNhtU-_jqJD8Z_0pYUPb1Gz5iV88jArnABcf6OT2CnLj08QRFrqQhi7OkFc1maqqiUNsMpL23aXk52xD041kOiyPHkCDwUTkVQh4jw-viGAZHozyGhceCHp0_peb8U5Q6x-IVO2L0YxefY7hb4AFgLFA1rRYnOw/w400-h210/JSY.webp" alt="Temporada">
+            <div class="episode-title">Anterior Temporada</div>
+            <a href="../../tv-1/dublado/menu.html">Temporada 1</a>
+        </div>
+        <div class="episode">
+            <img src="https://j-s-fo.github.io/foto/JOSE%20STATUS%20ANIME.png" alt="Episódio 0">
+            <div class="episode-title">EM BREVE LANÇAMENTO</div>
+            <a href="#EM-BREVE">EM BREVE</a>
+        </div>
+        <!--
+        <div class="episode">
+            <img src="https://j-s-fo.github.io/foto/JOSE%20STATUS%20ANIME.png" alt="Episódio 1">
+            <div class="episode-title">Episódio 1</div>
+            <a href="episodio-1.html">Assistir</a>
+        </div>
+        -->
+    </div>
+    
+    <div>
+
+        <script>
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+    </script>
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let anime = "Douse, Koishite Shimaunda. 2nd Season";
+            let idioma = "dublado";
+            let temporada = "1";
+    
+            let episodios = document.querySelectorAll(".episode a");
+    
+            episodios.forEach(function (link) {
+                let episodioNome = link.getAttribute("href").replace(".html", "");
+                let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+    
+                if (localStorage.getItem(chaveEpisodio)) {
+                    link.innerText = "Assistido ✅";
+                    link.classList.add("assistido");
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
