@@ -337,6 +337,21 @@
             position: relative;
         }
 
+        .language-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 3;
+        }
+
+        .badge.dub {
+            background: #ff9800;
+            color: #000;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
 
         /* NOVO MENU DE LINKS */
         .footer-menu {
@@ -473,18 +488,18 @@
         })();
 
         // LANÇAMENTOS
-        function criarCard({ img, titulo, link, qualidade = [] }) {
+        function criarCard({ img, titulo, link, qualidade = [], dublado = false }) {
 
-            let badgesHTML = "";
+            let badgesQualidade = "";
+            let badgeIdioma = "";
 
-            if (qualidade.includes("SD"))
-                badgesHTML += `<span class="badge sd">SD</span>`;
+            // Qualidade
+            if (qualidade.includes("SD")) badgesQualidade += `<span class="badge sd">SD</span>`;
+            if (qualidade.includes("HD")) badgesQualidade += `<span class="badge hd">HD</span>`;
+            if (qualidade.includes("FHD")) badgesQualidade += `<span class="badge fhd">FHD</span>`;
 
-            if (qualidade.includes("HD"))
-                badgesHTML += `<span class="badge hd">HD</span>`;
-
-            if (qualidade.includes("FHD"))
-                badgesHTML += `<span class="badge fhd">FHD</span>`;
+            // Idioma
+            if (dublado) badgeIdioma = `<span class="badge dub">DUB</span>`;
 
             const a = document.createElement("a");
             a.href = link;
@@ -493,8 +508,13 @@
 
             a.innerHTML = `
         <div class="quality-badges">
-            ${badgesHTML}
+            ${badgesQualidade}
         </div>
+
+        <div class="language-badge">
+            ${badgeIdioma}
+        </div>
+
         <img src="${img}" alt="${titulo}">
         <div class="card-content">
             <p class="titulo">${titulo}</p>
@@ -503,6 +523,7 @@
 
             return a;
         }
+
 
         // LANÇAMENTOS
         (function () {
@@ -519,7 +540,8 @@
                         const img = row.c[0]?.v || "";
                         const nome = row.c[1]?.v || "";
                         const ep = row.c[2]?.v ?? "";
-                        const idiomaBruto = (row.c[3]?.v || "").toLowerCase();
+                        const idiomaBruto = (row.c?.[3]?.v || "").toLowerCase();
+                        const dublado = idiomaBruto.includes("dublado");
                         const link = row.c[4]?.v || "#";
                         const status = row.c[5]?.v || "";
                         const finalTxt = status === "Final" ? " Final" : "";
@@ -529,19 +551,22 @@
                             ? row.c[6].v.toUpperCase().split(",").map(q => q.trim())
                             : [];
 
-                        const idioma = idiomaBruto.includes("dublado") ? "Dublado" : "";
                         let titulo = "";
 
                         if (String(ep).trim().toLowerCase() === "filme") {
-                            titulo = `${nome} - Filme${idioma ? " - " + idioma : ""}`;
-                        } else if (ep === "") {
-                            titulo = `${nome}${finalTxt}${idioma ? " - " + idioma : ""}`;
-                        } else {
-                            titulo = `${nome} - Episódio ${ep}${finalTxt}${idioma ? " - " + idioma : ""}`;
+                            titulo = `${nome} - Filme`;
+                        }
+                        else if (ep === "") {
+                            titulo = `${nome}${finalTxt}`;
+                        }
+                        else {
+                            titulo = `${nome} - Episódio ${ep}${finalTxt}`;
                         }
 
+
                         el.appendChild(
-                            criarCard({ img, titulo, link, qualidade })
+                            criarCard({ img, titulo, link, qualidade, dublado })
+
                         );
                     });
                 });

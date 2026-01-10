@@ -342,6 +342,22 @@
     .card {
       position: relative;
     }
+
+    .language-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 3;
+    }
+
+    .badge.dub {
+      background: #ff9800;
+      color: #000;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
   </style>
 </head>
 
@@ -377,8 +393,7 @@
   <div class="episodios" id="feed"></div>
   <div id="pagination"></div>
 
-  <!-- SCRIPT GOOGLE SHEETS COM PAGINAÇÃO -->
-  <!-- SUBSTITUA ESTE SCRIPT PELO ANTERIOR -->
+
   <script>
     const sheetId = '1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo';
     const sheetName = 'lancamento';
@@ -439,7 +454,6 @@
       });
 
     // --- Função para renderizar cada página ---
-    // --- Função para renderizar cada página ---
     function renderPage(page) {
       currentPage = page;
 
@@ -457,6 +471,7 @@
         const nome = row.c?.[1]?.v || 'Sem Nome';
         const ep = row.c?.[2]?.v ?? '';
         let idioma = row.c?.[3]?.v?.toLowerCase() || '';
+        const isDublado = idioma.includes("dublado");
         const link = row.c?.[4]?.v || '#';
         const final = row.c?.[5]?.v === "Final" ? "Final" : "";
 
@@ -488,29 +503,34 @@
         } else {
           titulo = `${nome} - Episódio ${epStr} ${final}`;
         }
-
-        // 🔹 Idioma
-        if (idioma.includes("dublado")) {
-          titulo += " - Dublado";
+        let dubBadgeHTML = '';
+        if (isDublado) {
+          dubBadgeHTML = `<span class="badge dub">DUB</span>`;
         }
-        titulo = titulo.replace(/-?\s*Legendado/i, '').trim();
+
 
         const card = `
-      <a href="${link}" rel="noopener">
-        <div class="card">
-          
-          <!-- Selos de qualidade -->
-          <div class="quality-badges">
-            ${badgesHTML}
-          </div>
+<a href="${link}" rel="noopener">
+  <div class="card">
 
-          <img src="${foto}" alt="${nome}">
-          <div class="card-content">
-            <p class="titulo">${titulo}</p>
-          </div>
-        </div>
-      </a>
-    `;
+    <!-- Qualidade (esquerda) -->
+    <div class="quality-badges">
+      ${badgesHTML}
+    </div>
+
+    <!-- Idioma (direita) -->
+    <div class="language-badge">
+      ${dubBadgeHTML}
+    </div>
+
+    <img src="${foto}" alt="${nome}">
+    <div class="card-content">
+      <p class="titulo">${titulo}</p>
+    </div>
+  </div>
+</a>
+`;
+
 
         container.insertAdjacentHTML('beforeend', card);
       });
