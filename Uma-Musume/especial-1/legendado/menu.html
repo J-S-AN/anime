@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+        <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Musume: Pretty Derby - BNW no Chikai - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="Uma Musume: Pretty Derby - BNW no Chikai - JSY ANIME">
+    <meta property="og:description"
+        content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1733/93479l.jpg">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../../0/menu.css">
+    <script src="../../../0/em-breve2.js"></script>
+</head>
+<body>
+        <header>
+        <nav class="menu">
+            <div class="logo">
+            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+        </div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="header">
+        <a href="https://sites.google.com/view/jsy-anime/anime/uma-musume/ESPECIAL-1">← Voltar Pro Anime</a>
+        <span>Uma Musume: Pretty Derby - BNW no Chikai</span>
+    </div>
+    
+    <div class="episodes">
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicsUQW8sckHbig6inLgj8rwewjYwHM3a6-zh99P-0BKzagy50b3wHQs-50ubTLbNib_srI-NYD5Kapi2nqfzJMKsSDcXk14qHCFb6x8FVBahYj5y-0f8eKpq77xo41WYLglZN2mIpX-g_6nXdHY4p_9cSOEY6QALHrUeQ2n5pSvlfJvs0BhKAJ2xbqJH8/s320/01.webp" alt="Episódio 1">
+            <div class="episode-title">Episódio 1</div>
+            <a href="episodio-1.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7KLYBebI5WEHM4jPK7uR8umJEywG9vo-Bv84iIvVwFaJcna4s7PtIdMHS63av-tzu-2aQFRnOM64lzl-O-VWOMq2gpkvdSq_Ua7AZHiQGVHz0IsFpR6J56NjfP6T-kRMSQbjif9X6huCuoF6Yg8atJAm7uB8ViZ8vEdTaAZovNQwji8ZDz8HrBlLD_6c/s320/02.webp" alt="Episódio 2">
+            <div class="episode-title">Episódio 2</div>
+            <a href="episodio-2.html">Assistir</a>
+        </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiD31iag-PDz3HeueHts7ILNNJ8kb1er-vETKYW6hxA8q1SirpU1QDHkQ-eeQF6AyzEjQD823UJs69R0hza80qvpAYqDAuUmHk6-ciybv7uTxsaDavfFJVbxq1PaJ-OCJf9hlWuaIk4__lzWT-UMpiMhQa07hD6FPo8hwXV0pgkK3MrWnNHUd80u1mRuDc/s320/03.webp" alt="Episódio 3">
+            <div class="episode-title">Episódio 3 Final</div>
+            <a href="episodio-3.html">Assistir</a>
+        </div>
+    </div>
+    
+    <div>
+
+        <script>
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
+    </script>
+        <script>
+            fetch('../../../footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.body.insertAdjacentHTML('beforeend', data);
+                });
+        </script>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let anime = "Uma Musume: Pretty Derby - BNW no Chikai";
+            let idioma = "legendado";
+            let temporada = "1";
+    
+            let episodios = document.querySelectorAll(".episode a");
+    
+            episodios.forEach(function (link) {
+                let episodioNome = link.getAttribute("href").replace(".html", "");
+                let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+    
+                if (localStorage.getItem(chaveEpisodio)) {
+                    link.innerText = "Assistido ✅";
+                    link.classList.add("assistido");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
