@@ -247,26 +247,27 @@
             font-size: 0.9em;
             color: #777;
         }
-        .btn-embreve {
-    background: linear-gradient(135deg, #ff9800, #ff5722);
-    color: #fff;
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
-}
 
-.btn-embreve:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
-    opacity: 0.95;
-}
+        .btn-embreve {
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+        }
+
+        .btn-embreve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.4);
+            opacity: 0.95;
+        }
     </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -389,7 +390,7 @@
 
         <!-- Campo de pesquisa -->
         <div id="search-container">
-            <input type="text" id="search-input" placeholder="Pesquisar anime pelo nome inglês">
+            <input type="text" id="search-input" placeholder="Pesquisar anime">
         </div>
 
         <!-- Filtros -->
@@ -476,7 +477,13 @@
         function applyFilters() {
             const q = searchInput.value.trim().toLowerCase();
             filteredData = allData.filter(item => {
-                const matchesSearch = !q || (item.nome || '').toLowerCase().includes(q);
+                const nomePrincipal = (item.nome || '').toLowerCase();
+                const nomeAlternativo = (item.nome_alternativo || '').toLowerCase();
+
+                const matchesSearch = !q ||
+                    nomePrincipal.includes(q) ||
+                    nomeAlternativo.includes(q);
+
                 const matchesGenero = !filterGenero.value || (item.gênero || '').includes(filterGenero.value);
                 const matchesTema = !filterTema.value || (item.tema || '').includes(filterTema.value);
                 const matchesExplicito = !filterExplicito.value || (item.gêneros_explícitos || '').includes(filterExplicito.value);
@@ -571,7 +578,7 @@
         window.addEventListener('hashchange', loadFromURL);
     </script>
 
-    <script>(function(s){s.dataset.zone='10263011',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function (s) { s.dataset.zone = '10263011', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
 
     <!-- SEU PRÓXIMO BLOCO DE CÓDIGO -->
