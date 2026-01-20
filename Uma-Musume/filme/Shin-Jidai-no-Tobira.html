@@ -45,13 +45,18 @@
 
     <div class="players">
         <button class="active" onclick="switchPlayer(0)">Trailer</button>
-            <button onclick="switchPlayer(1)">Drive Legendado</button>
-            <!--
-            <button onclick="switchPlayer(2)">Celular Legendado</button>
-            <button onclick="switchPlayer(3)">Drive Dublado</button>
-            <button onclick="switchPlayer(3)">Celular Dublado</button>
-            -->
     </div>
+    <div id="anime-episode-title">
+        Players
+    </div>
+    <div class="players">
+        <button onclick="switchPlayer(1)">Drive Legendado</button>
+    </div>
+    <!--
+    <div class="players">
+        <button onclick="switchPlayer(2)">Drive Dublado</button>
+    </div>
+    -->
 
     <div class="video-container">
         <iframe id="player" src="https://www.youtube.com/embed/Mbq51ikrOg0?si=I8zbtnq8kr2SRqrt" allowfullscreen></iframe>
@@ -78,11 +83,7 @@ var players = [
 
     { src: 'https://drive.google.com/file/d/1S1xONpfBM7Z4PBbJlQiR_-4Ei7VfiROZ/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1S1xONpfBM7Z4PBbJlQiR_-4Ei7VfiROZ&export=download' },
 
-    { src: '', download: '' },
-
-    { src: 'https://drive.google.com/file/d/1nBFIg_hdfFTuIatakTtrmE4CXSGS5V-X/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1nBFIg_hdfFTuIatakTtrmE4CXSGS5V-X&export=download' },
-
-    { src: '', download: '' }
+    { src: 'https://drive.google.com/file/d/1nBFIg_hdfFTuIatakTtrmE4CXSGS5V-X/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1nBFIg_hdfFTuIatakTtrmE4CXSGS5V-X&export=download' }
 ];
 
     function switchPlayer(index) {

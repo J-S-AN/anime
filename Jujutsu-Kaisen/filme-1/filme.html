@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
     <meta charset="UTF-8">
@@ -11,20 +12,23 @@
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta property="og:title" content="Jujutsu Kaisen 0 Movie - JSY ANIME">
-    <meta property="og:description" content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:description"
+        content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
     <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1786/119045l.jpg">
     <meta property="og:url" content="https://bit.ly/J-S-Y">
     <meta property="og:type" content="website">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../0/ep.css">
     <script src="../../0/em-breve.js"></script>
 </head>
+
 <body>
     <header>
         <nav class="menu">
             <div class="logo">
-            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
-        </div>
+                <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+            </div>
             <div class="menu-toggle" id="menu-toggle">&#9776;</div>
             <ul class="menu-links" id="menu-links">
                 <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
@@ -36,7 +40,8 @@
     </header>
 
     <div class="nav-buttons">
-        <a href="https://sites.google.com/view/jsy-anime/anime/Jujutsu-Kaisen/FILME-1" aria-label="Menu">← Voltar Pro Anime</a>
+        <a href="https://sites.google.com/view/jsy-anime/anime/Jujutsu-Kaisen/FILME-1" aria-label="Menu">← Voltar Pro
+            Anime</a>
     </div>
 
     <div id="anime-episode-title">
@@ -50,85 +55,90 @@
         Players
     </div>
     <div class="players">
-            <button onclick="switchPlayer(1)">Drive Legendado</button>
-            <button onclick="switchPlayer(2)">streamtape Legendado</button>
-            <button onclick="switchPlayer(3)">streamup Legendado</button>
+        <button onclick="switchPlayer(1)">Drive Legendado</button>
+        <button onclick="switchPlayer(2)">streamtape Legendado</button>
+        <button onclick="switchPlayer(3)">streamup Legendado</button>
     </div>
     <div class="players">
-            <button onclick="switchPlayer(4)">Drive Dublado</button>
-            <button onclick="switchPlayer(5)">streamtape Dublado</button>
-            <button onclick="switchPlayer(6)">streamup Dublado</button>
+        <button onclick="switchPlayer(4)">Drive Dublado</button>
+        <button onclick="switchPlayer(5)">streamtape Dublado</button>
+        <button onclick="switchPlayer(6)">streamup Dublado</button>
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://www.youtube.com/embed/e8nij7jRB6M?si=vq_EFFmHIsDVVEDj" allowfullscreen></iframe>
+        <iframe id="player" src="https://www.youtube.com/embed/e8nij7jRB6M?si=vq_EFFmHIsDVVEDj"
+            allowfullscreen></iframe>
     </div>
 
     <div class="download-below">
-        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i
+                class="fas fa-download"></i> Download</a>
     </div>
 
     <div class="nav-buttons2">
-        <a href="../tv-1/legendado/menu.html" aria-label="Próximo episódio"> Jujutsu Kaisen <i class="fas fa-arrow-right"></i></a>
+        <a href="../tv-1/legendado/menu.html" aria-label="Próximo episódio"> Jujutsu Kaisen <i
+                class="fas fa-arrow-right"></i></a>
     </div>
     <div class="nav-buttons4">
-        <a href="../tv-1/dublado/menu.html" aria-label="Próximo episódio"> Jujutsu Kaisen - Dublado <i class="fas fa-arrow-right"></i></a>
+        <a href="../tv-1/dublado/menu.html" aria-label="Próximo episódio"> Jujutsu Kaisen - Dublado <i
+                class="fas fa-arrow-right"></i></a>
     </div>
 
     <script>
-    
-var players = [
-    { src: 'https://www.youtube.com/embed/e8nij7jRB6M?si=vq_EFFmHIsDVVEDj', download: '' },
 
-    { src: 'https://drive.google.com/file/d/1-1Wk5w5HYXqZPfGdiUKy2XmkF87YgSF5/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1-1Wk5w5HYXqZPfGdiUKy2XmkF87YgSF5&export=download' },
+        var players = [
+            { src: 'https://www.youtube.com/embed/e8nij7jRB6M?si=vq_EFFmHIsDVVEDj', download: '' },
 
-    { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://streamtape.com/e/4XkXKqLlZghdwB/', download: '' },
+            { src: 'https://drive.google.com/file/d/1-1Wk5w5HYXqZPfGdiUKy2XmkF87YgSF5/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1-1Wk5w5HYXqZPfGdiUKy2XmkF87YgSF5&export=download' },
 
-    { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://strmup.cc/2468b2f1f6a16', download: '' },
+            { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://streamtape.com/e/4XkXKqLlZghdwB/', download: '' },
 
-    { src: 'https://drive.google.com/file/d/1IDlES9JQ3c-rrXRpCSoZKdbVJwhpQKaW/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1IDlES9JQ3c-rrXRpCSoZKdbVJwhpQKaW&export=download' },
+            { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://strmup.cc/2468b2f1f6a16', download: '' },
 
-    { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://streamtape.com/e/zPLgY8xvKZiYzv6/', download: '' },
+            { src: 'https://drive.google.com/file/d/1IDlES9JQ3c-rrXRpCSoZKdbVJwhpQKaW/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1IDlES9JQ3c-rrXRpCSoZKdbVJwhpQKaW&export=download' },
 
-    { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://strmup.cc/768d13781a6f1', download: '' }
-];
+            { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://streamtape.com/e/zPLgY8xvKZiYzv6/', download: '' },
 
-    function switchPlayer(index) {
-        document.getElementById('player').src = players[index].src;
-        document.querySelectorAll('.players button').forEach((b, i) => {
-            b.classList.toggle('active', i === index);
-        });
-        const downloadBtnBottom = document.getElementById('download-below-btn');
-        if (players[index].download) {
-            downloadBtnBottom.href = players[index].download;
-            downloadBtnBottom.style.display = 'inline-block';
-        } else {
-            downloadBtnBottom.style.display = 'none';
+            { src: 'https://j-s-an.github.io/anime/0/aviso.html?url=https://strmup.cc/768d13781a6f1', download: '' }
+        ];
+
+        function switchPlayer(index) {
+            document.getElementById('player').src = players[index].src;
+            document.querySelectorAll('.players button').forEach((b, i) => {
+                b.classList.toggle('active', i === index);
+            });
+            const downloadBtnBottom = document.getElementById('download-below-btn');
+            if (players[index].download) {
+                downloadBtnBottom.href = players[index].download;
+                downloadBtnBottom.style.display = 'inline-block';
+            } else {
+                downloadBtnBottom.style.display = 'none';
+            }
         }
-    }
-    document.getElementById('menu-toggle').onclick = function () {
-        document.getElementById('menu-links').classList.toggle('active');
-    };
+        document.getElementById('menu-toggle').onclick = function () {
+            document.getElementById('menu-links').classList.toggle('active');
+        };
     </script>
 
-    
-<div class="commentbox"></div>
-<script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
-<script>
-            commentBox('5704043783520256-proj', {
-                textColor: '#fff'
-            });
-        </script>
 
-    
-<script>
-    fetch('../../footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.body.insertAdjacentHTML('beforeend', data);
+    <div class="commentbox"></div>
+    <script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
+    <script>
+        commentBox('5704043783520256-proj', {
+            textColor: '#fff'
         });
-</script>
+    </script>
+
+
+    <script>
+        fetch('../../footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.body.insertAdjacentHTML('beforeend', data);
+            });
+    </script>
 
 
 </body>
+
 </html>
