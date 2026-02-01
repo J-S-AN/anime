@@ -292,6 +292,32 @@
             font-size: 0.9em;
             color: #777;
         }
+        .badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 6px;
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+.badge.pausado {
+    background: #ff4757;
+    color: #fff;
+}
+
+.badge.hiato {
+    background: #ffa502;
+    color: #000;
+}
+
+.card {
+    position: relative;
+}
+
     </style>
 </head>
 
@@ -316,80 +342,98 @@
     <main id="conteudo"></main>
 
     <script>
-        document.getElementById("menu-toggle").onclick = () =>
-            document.getElementById("menu-links").classList.toggle("active");
+    document.getElementById("menu-toggle").onclick = () =>
+        document.getElementById("menu-links").classList.toggle("active");
 
-        const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-        const hoje = dias[new Date().getDay()];
-        const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=calendario";
+    const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    const hoje = dias[new Date().getDay()];
+    const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=calendario";
 
-        function criarCard({ img, titulo, link }) {
-            const a = document.createElement("a");
-            a.href = link;
-            a.className = "card";
-            a.innerHTML = `<img src="${img}" alt="${titulo}"><div class="card-content">${titulo}</div>`;
-            return a;
-        }
+    // CARD COM BADGE
+    function criarCard({ img, titulo, link, status }) {
+        const a = document.createElement("a");
+        a.href = link;
+        a.className = "card";
 
-        function criarDia(dia, animes) {
-            const container = document.createElement("div");
-            container.className = "dia-semana";
+        const badge = status && status !== "ativo"
+            ? `<div class="badge ${status}">${status}</div>`
+            : "";
 
-            const h2 = document.createElement("h2");
-            h2.textContent = (dia === hoje ? "⭐ " : "") + dia;
-            container.appendChild(h2);
+        a.innerHTML = `
+            ${badge}
+            <img src="${img}" alt="${titulo}">
+            <div class="card-content">${titulo}</div>
+        `;
+        return a;
+    }
 
-            const lista = document.createElement("div");
-            lista.className = "lista-animes";
+    function criarDia(dia, animes) {
+        const container = document.createElement("div");
+        container.className = "dia-semana";
 
-            if (animes.length === 0) {
-                lista.innerHTML = `<div style="color:#888;padding:10px;">Nenhum anime neste dia.</div>`;
-            } else {
-                animes.forEach(anime => {
-                    const card = criarCard({ img: anime.img, titulo: anime.nome, link: anime.link });
-                    lista.appendChild(card);
-                });
-            }
+        const h2 = document.createElement("h2");
+        h2.textContent = (dia === hoje ? "⭐ " : "") + dia;
+        container.appendChild(h2);
 
-            container.appendChild(lista);
-            return container;
-        }
+        const lista = document.createElement("div");
+        lista.className = "lista-animes";
 
-        fetch(url)
-            .then(r => r.text())
-            .then(txt => {
-                const json = JSON.parse(txt.substr(47).slice(0, -2));
-                const rows = json.table.rows;
-
-                const diasAnimes = {};
-                dias.forEach(d => diasAnimes[d] = []);
-
-                rows.forEach(row => {
-                    const dia = row.c[0]?.v;
-                    const nome = row.c[1]?.v;
-                    const img = row.c[2]?.v;
-                    const link = row.c[3]?.v;
-                    if (dia && nome && img && link && dias.includes(dia)) {
-                        diasAnimes[dia].push({ nome, img, link });
-                    }
-                });
-
-                const conteudo = document.getElementById("conteudo");
-
-                // Reorganiza os dias a partir de hoje
-                const indexHoje = dias.indexOf(hoje);
-                const ordemDias = [...dias.slice(indexHoje), ...dias.slice(0, indexHoje)];
-
-                ordemDias.forEach((dia, i) => {
-                    conteudo.appendChild(criarDia(dia, diasAnimes[dia] || []));
-                });
-
-            })
-            .catch(err => {
-                document.getElementById("conteudo").innerHTML = `<div class="erro">Erro ao carregar calendário: ${err}</div>`;
-                console.error("Erro ao carregar planilha:", err);
+        if (animes.length === 0) {
+            lista.innerHTML = `<div style="color:#888;padding:10px;">Nenhum anime neste dia.</div>`;
+        } else {
+            animes.forEach(anime => {
+                const card = criarCard(anime);
+                lista.appendChild(card);
             });
-    </script>
+        }
+
+        container.appendChild(lista);
+        return container;
+    }
+
+    fetch(url)
+        .then(r => r.text())
+        .then(txt => {
+            const json = JSON.parse(txt.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+
+            const diasAnimes = {};
+            dias.forEach(d => diasAnimes[d] = []);
+
+            rows.forEach(row => {
+                const dia = row.c[0]?.v;
+                const nome = row.c[1]?.v;
+                const img = row.c[2]?.v;
+                const link = row.c[3]?.v;
+                const status = row.c[4]?.v?.toLowerCase() || "ativo";
+
+                if (dia && nome && img && link && dias.includes(dia)) {
+                    diasAnimes[dia].push({
+                        nome,
+                        img,
+                        link,
+                        status
+                    });
+                }
+            });
+
+            const conteudo = document.getElementById("conteudo");
+
+            // Reorganiza os dias a partir de hoje
+            const indexHoje = dias.indexOf(hoje);
+            const ordemDias = [...dias.slice(indexHoje), ...dias.slice(0, indexHoje)];
+
+            ordemDias.forEach(dia => {
+                conteudo.appendChild(criarDia(dia, diasAnimes[dia] || []));
+            });
+        })
+        .catch(err => {
+            document.getElementById("conteudo").innerHTML =
+                `<div class="erro">Erro ao carregar calendário: ${err}</div>`;
+            console.error("Erro ao carregar planilha:", err);
+        });
+</script>
+
 
     <br>
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">

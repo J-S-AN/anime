@@ -393,6 +393,43 @@
             text-decoration: none;
             /* remove sublinhado */
         }
+
+        /* ===== BADGE STATUS (CALENDÁRIO) ===== */
+
+        #calendario .card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* badge base */
+        .badge2 {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 5px 9px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            text-transform: uppercase;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+        }
+
+        /* status */
+        .badge2.hiato {
+            background: #ffa502;
+            color: #000;
+        }
+
+        .badge2.pausado {
+            background: #ff4757;
+            color: #fff;
+        }
+
+        .badge2.ativo {
+            display: none;
+        }
     </style>
 </head>
 
@@ -434,19 +471,55 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
     <script>
+        /* ================= MENU ================= */
         document.getElementById("menu-toggle").onclick = () =>
             document.getElementById("menu-links").classList.toggle("active");
 
-        function criarCard({ img, titulo, link }) {
+        /* ================= CARD: CALENDÁRIO / LISTA ================= */
+        function criarCardSimples({ img, titulo, link, status = "ativo" }) {
             const a = document.createElement("a");
             a.href = link;
             a.className = "card";
-            a.innerHTML = `<img src="${img}" alt="${titulo}"><div class="card-content">${titulo}</div>`;
+
+            const badge = status !== "ativo"
+                ? `<div class="badge2 ${status}">${status}</div>`
+                : "";
+
+            a.innerHTML = `
+    ${badge}
+    <img src="${img}" alt="${titulo}">
+    <div class="card-content">${titulo}</div>
+  `;
             return a;
         }
 
-        // CALENDÁRIO: carrossel melhorado (1 capa por vez)
+
+        /* ================= CARD: LANÇAMENTOS ================= */
+        function criarCardLancamento({ img, titulo, link, qualidade = [], dublado = false }) {
+            let badgesQualidade = "";
+            let badgeIdioma = "";
+
+            if (qualidade.includes("SD")) badgesQualidade += `<span class="badge sd">SD</span>`;
+            if (qualidade.includes("HD")) badgesQualidade += `<span class="badge hd">HD</span>`;
+            if (qualidade.includes("FHD")) badgesQualidade += `<span class="badge fhd">FHD</span>`;
+            if (dublado) badgeIdioma = `<span class="badge dub">DUB</span>`;
+
+            const a = document.createElement("a");
+            a.href = link;
+            a.rel = "noopener";
+            a.className = "card";
+            a.innerHTML = `
+    <div class="quality-badges">${badgesQualidade}</div>
+    <div class="language-badge">${badgeIdioma}</div>
+    <img src="${img}" alt="${titulo}">
+    <div class="card-content"><p class="titulo">${titulo}</p></div>
+  `;
+            return a;
+        }
+
+        /* ================= CALENDÁRIO ================= */
         (function () {
             const el = document.getElementById("calendario");
             const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
@@ -457,75 +530,38 @@
                 .then(r => r.text())
                 .then(txt => {
                     const json = JSON.parse(txt.substr(47).slice(0, -2));
-                    const rows = json.table.rows;
-                    const hojeAnimes = rows.filter(r => r.c[0]?.v === hoje);
+                    const rows = json.table.rows.filter(r => r.c[0]?.v === hoje);
 
-                    if (hojeAnimes.length === 0) {
-                        el.innerHTML = "<div style='padding:10px;color:#ccc'>Nenhum anime hoje.</div>";
+                    if (!rows.length) {
+                        el.innerHTML = "<div style='color:#aaa'>Nenhum anime hoje.</div>";
                         return;
                     }
 
-                    hojeAnimes.forEach(r => {
-                        const img = r.c[2]?.v;
-                        const nome = r.c[1]?.v;
-                        const link = r.c[3]?.v;
-                        el.appendChild(criarCard({ img, titulo: nome, link }));
+                    rows.forEach(r => {
+                        el.appendChild(criarCardSimples({
+                            img: r.c[2]?.v,
+                            titulo: r.c[1]?.v,
+                            link: r.c[3]?.v,
+                            status: r.c[4]?.v
+                                ?.toString()
+                                .trim()
+                                .toLowerCase() || "ativo"
+                        }));
+
                     });
 
-                    // Carrossel que avança uma capa por vez
-                    let index = 0;
-                    const cards = el.querySelectorAll('.card');
-                    const scrollStep = cards[0]?.offsetWidth + 15 || 200;
+                    let i = 0;
+                    const cards = el.querySelectorAll(".card");
+                    const step = cards[0].offsetWidth + 15;
 
                     setInterval(() => {
-                        index++;
-                        if (index * scrollStep >= el.scrollWidth - el.clientWidth) {
-                            index = 0;
-                        }
-                        el.scrollTo({ left: index * scrollStep, behavior: 'smooth' });
-                    }, 2500); // muda a cada 2.5 segundos
+                        i = (i + 1) % cards.length;
+                        el.scrollTo({ left: i * step, behavior: "smooth" });
+                    }, 2500);
                 });
         })();
 
-        // LANÇAMENTOS
-        function criarCard({ img, titulo, link, qualidade = [], dublado = false }) {
-
-            let badgesQualidade = "";
-            let badgeIdioma = "";
-
-            // Qualidade
-            if (qualidade.includes("SD")) badgesQualidade += `<span class="badge sd">SD</span>`;
-            if (qualidade.includes("HD")) badgesQualidade += `<span class="badge hd">HD</span>`;
-            if (qualidade.includes("FHD")) badgesQualidade += `<span class="badge fhd">FHD</span>`;
-
-            // Idioma
-            if (dublado) badgeIdioma = `<span class="badge dub">DUB</span>`;
-
-            const a = document.createElement("a");
-            a.href = link;
-            a.rel = "noopener";
-            a.className = "card";
-
-            a.innerHTML = `
-        <div class="quality-badges">
-            ${badgesQualidade}
-        </div>
-
-        <div class="language-badge">
-            ${badgeIdioma}
-        </div>
-
-        <img src="${img}" alt="${titulo}">
-        <div class="card-content">
-            <p class="titulo">${titulo}</p>
-        </div>
-    `;
-
-            return a;
-        }
-
-
-        // LANÇAMENTOS
+        /* ================= LANÇAMENTOS ================= */
         (function () {
             const el = document.getElementById("lancamentos");
             const url = "https://docs.google.com/spreadsheets/d/1QPSqwuXb-2De4SvQ3WuJVbQbWMtPsv3SxjTeGtpuTVo/gviz/tq?tqx=out:json&sheet=lancamento";
@@ -533,47 +569,33 @@
             fetch(url)
                 .then(r => r.text())
                 .then(txt => {
-                    const json = JSON.parse(txt.substr(47).slice(0, -2));
-                    const rows = json.table.rows.reverse().slice(0, 20);
+                    const rows = JSON.parse(txt.substr(47).slice(0, -2))
+                        .table.rows.reverse().slice(0, 20);
 
                     rows.forEach(row => {
-                        const img = row.c[0]?.v || "";
                         const nome = row.c[1]?.v || "";
-                        const ep = row.c[2]?.v ?? "";
-                        const idiomaBruto = (row.c?.[3]?.v || "").toLowerCase();
-                        const dublado = idiomaBruto.includes("dublado");
-                        const link = row.c[4]?.v || "#";
-                        const status = row.c[5]?.v || "";
-                        const finalTxt = status === "Final" ? " Final" : "";
+                        const ep = row.c[2]?.v;
+                        const idioma = (row.c[3]?.v || "").toLowerCase();
+                        const qualidade = row.c[6]?.v ? row.c[6].v.toUpperCase().split(",") : [];
+                        const finalTxt = row.c[5]?.v === "Final" ? " Final" : "";
 
-                        // ✅ QUALIDADE (COLUNA G)
-                        const qualidade = row.c[6]?.v
-                            ? row.c[6].v.toUpperCase().split(",").map(q => q.trim())
-                            : [];
+                        let titulo =
+                            ep === "Filme" ? `${nome} - Filme` :
+                                ep ? `${nome} - Episódio ${ep}${finalTxt}` :
+                                    `${nome}${finalTxt}`;
 
-                        let titulo = "";
-
-                        if (String(ep).trim().toLowerCase() === "filme") {
-                            titulo = `${nome} - Filme`;
-                        }
-                        else if (ep === "") {
-                            titulo = `${nome}${finalTxt}`;
-                        }
-                        else {
-                            titulo = `${nome} - Episódio ${ep}${finalTxt}`;
-                        }
-
-
-                        el.appendChild(
-                            criarCard({ img, titulo, link, qualidade, dublado })
-
-                        );
+                        el.appendChild(criarCardLancamento({
+                            img: row.c[0]?.v,
+                            titulo,
+                            link: row.c[4]?.v,
+                            qualidade,
+                            dublado: idioma.includes("dublado")
+                        }));
                     });
                 });
         })();
 
-
-        // LISTA DE ANIMES
+        /* ================= LISTA DE ANIMES ================= */
         (function () {
             const el = document.getElementById("lista-anime");
             const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=0&single=true&output=csv";
@@ -581,13 +603,22 @@
             fetch(url)
                 .then(r => r.text())
                 .then(csv => {
-                    const data = Papa.parse(csv, { header: true }).data.reverse().slice(0, 10);
-                    data.forEach(anime => {
-                        el.appendChild(criarCard({ img: anime.capa, titulo: anime.nome, link: anime.link }));
+                    Papa.parse(csv, {
+                        header: true,
+                        complete: res => {
+                            res.data.reverse().slice(0, 10).forEach(anime => {
+                                el.appendChild(criarCardSimples({
+                                    img: anime.capa,
+                                    titulo: anime.nome,
+                                    link: anime.link
+                                }));
+                            });
+                        }
                     });
                 });
         })();
     </script>
+
 
     <br>
     <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
