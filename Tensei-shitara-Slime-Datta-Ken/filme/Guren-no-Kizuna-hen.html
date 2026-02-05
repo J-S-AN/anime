@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tensei shitara Slime Datta Ken Movie: Guren no Kizuna-hen - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="Tensei shitara Slime Datta Ken Movie: Guren no Kizuna-hen - JSY ANIME">
+    <meta property="og:description" content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1951/126477l.jpg">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../0/ep.css">
+    <script src="../../0/em-breve.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <div class="logo">
+            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+        </div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="nav-buttons">
+        <a href="https://sites.google.com/view/jsy-anime/anime/Tensei-shitara-Slime-Datta-Ken/FILME-1" aria-label="Menu">← Voltar Pro Anime</a>
+    </div>
+
+    <div id="anime-episode-title">
+        Tensei shitara Slime Datta Ken Movie: Guren no Kizuna-hen
+    </div>
+
+    <div class="players">
+        <button class="active" onclick="switchPlayer(0)">Trailer</button>
+    </div>
+    <div id="anime-episode-title">
+        Players
+    </div>
+    <div class="players">
+        <button onclick="switchPlayer(1)">Drive Legendado</button>
+    </div>
+    <div class="players">
+        <button onclick="switchPlayer(2)">Drive Dublado</button>
+    </div>
+
+    <div class="video-container">
+        <iframe id="player" src="https://www.youtube.com/embed/nJEGXG_vXbo" allowfullscreen></iframe>
+    </div>
+
+    <div class="download-below">
+        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>
+<!--
+    <div class="nav-buttons2">
+        <a href="#" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior Termporada</a>
+    </div>
+    <div class="nav-buttons3">
+        <a href="#" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior Termporada - Dublado</a>
+    </div>
+    <div class="nav-buttons4">
+        <a href="#" aria-label="Próximo episódio"> Próximo Filme - ambos <i class="fas fa-arrow-right"></i></a>
+    </div>
+-->
+    <script>
+    
+var players = [
+    { src: 'https://www.youtube.com/embed/nJEGXG_vXbo', download: '' },
+
+    { src: 'https://drive.google.com/file/d/1k2xDSfdzn4jQjslj8H2a5-DRsd5Pwh0e/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1k2xDSfdzn4jQjslj8H2a5-DRsd5Pwh0e&export=download' },
+
+    { src: 'https://drive.google.com/file/d/1rh25SGETpsuOySo7hTjQSWMnrwidF9Ws/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1rh25SGETpsuOySo7hTjQSWMnrwidF9Ws&export=download' }
+];
+
+    function switchPlayer(index) {
+        document.getElementById('player').src = players[index].src;
+        document.querySelectorAll('.players button').forEach((b, i) => {
+            b.classList.toggle('active', i === index);
+        });
+        const downloadBtnBottom = document.getElementById('download-below-btn');
+        if (players[index].download) {
+            downloadBtnBottom.href = players[index].download;
+            downloadBtnBottom.style.display = 'inline-block';
+        } else {
+            downloadBtnBottom.style.display = 'none';
+        }
+    }
+    document.getElementById('menu-toggle').onclick = function () {
+        document.getElementById('menu-links').classList.toggle('active');
+    };
+    </script>
+
+    
+<div class="commentbox"></div>
+<script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
+<script>
+            commentBox('5704043783520256-proj', {
+                textColor: '#fff'
+            });
+        </script>
+
+    
+<script>
+    fetch('../../footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.body.insertAdjacentHTML('beforeend', data);
+        });
+</script>
+
+
+</body>
+</html>
