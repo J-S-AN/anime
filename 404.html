@@ -162,7 +162,6 @@
             <h1>404</h1>
             <p>Oops! A página que você procura não foi encontrada.</p>
             <a id="backButton" href="#" class="button">Voltar</a>
-            <div id="sugestoes" style="margin-top:30px;"></div>
         </div>
     </div>
 
@@ -193,68 +192,6 @@
             location.reload();
         }, 60000);
     </script>
-
-    <script>
-    // URL quebrada
-    const caminho = window.location.pathname
-        .toLowerCase()
-        .replace(/[-_/]/g, ' ');
-
-    // Planilha CSV (SUA)
-    const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSioAlFGQbJ-9pSAM0oux7B6ppVzWjBmJU2meX0fK2f7pSIyhr3Ymw0yC5SXyqORNok9mr_oVw7hBhg/pub?gid=0&single=true&output=csv";
-
-    fetch(csvURL)
-        .then(res => res.text())
-        .then(csv => {
-            const linhas = csv.split("\n").slice(1);
-
-            const animes = linhas.map(linha => {
-                const colunas = linha.split(",");
-                return {
-                    nome: colunas[0]?.trim(),
-                    link: colunas[1]?.trim()
-                };
-            }).filter(a => a.nome && a.link);
-
-            sugerirAnimes(animes);
-        })
-        .catch(err => {
-            console.error("Erro ao carregar planilha:", err);
-        });
-
-    function sugerirAnimes(lista) {
-        const sugestoes = lista.filter(anime => {
-            const palavraChave = anime.nome.toLowerCase().split(" ")[0];
-            return caminho.includes(palavraChave);
-        }).slice(0, 5);
-
-        mostrarSugestoes(sugestoes);
-    }
-
-    function mostrarSugestoes(lista) {
-        const div = document.getElementById("sugestoes");
-
-        if (!div) return;
-
-        if (lista.length === 0) {
-            div.innerHTML = `
-                <p>Não encontramos o episódio, mas você pode:</p>
-                <a href="/anime/lista-anime.html" class="button">Ver lista completa</a>
-            `;
-            return;
-        }
-
-        div.innerHTML = `
-            <p>Talvez você esteja procurando por:</p>
-            ${lista.map(a =>
-                `<a href="${a.link}" class="button" style="margin:5px;display:inline-block;">
-                    ${a.nome}
-                </a>`
-            ).join("")}
-        `;
-    }
-</script>
-
 
 </body>
 </html>
