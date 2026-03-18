@@ -315,6 +315,11 @@
             color: #000;
         }
 
+        .badge.em-breve {
+            background: #00e1ff;
+            color: #000;
+        }
+
         .card {
             position: relative;
         }
@@ -355,8 +360,12 @@
             a.href = link;
             a.className = "card";
 
+            const statusClass = status
+                ? status.toLowerCase().replace(/\s+/g, '-')
+                : '';
+
             const badge = status && status !== "ativo"
-                ? `<div class="badge ${status}">${status}</div>`
+                ? `<div class="badge ${statusClass}">${status}</div>`
                 : "";
 
             a.innerHTML = `
