@@ -103,6 +103,11 @@
             <div class="episode-title">Episódio 12 Final</div>
             <a href="episodio-12.html">Assistir</a>
         </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiw7WsKpDyRyCNa-3aoLlLFwa64SkxU2tl5jCIc7HZ2XirOgg0oOMMyVO7FOBklx8ic9urrqHu1CyqYSOa9uaIxe1OE4BkcKC6q9ZNBzP3tIkzvjwGTEL1EVyfOjgeZAy7kdjO3C38kXI7JfygRyRTmAP3QCfTNcEM2GyqkoAWGLpemp3C3VzFVHhZTI0c/s320/aFvwSRCbafVdOwSSVuFwOjaLAA4.webp">
+            <div class="episode-title">Special Episódio 13</div>
+            <a href="Special.html">Assistir</a>
+        </div>
     </div>
     
     <div>
@@ -125,6 +130,26 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let anime = "Tensei Akujo no Kuro Rekishi";
+            let idioma = "legendado";
+            let temporada = "1";
+    
+            let episodios = document.querySelectorAll(".episode a");
+    
+            episodios.forEach(function (link) {
+                let episodioNome = link.getAttribute("href").replace(".html", "");
+                let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
+    
+                if (localStorage.getItem(chaveEpisodio)) {
+                    link.innerText = "Assistido ✅";
+                    link.classList.add("assistido");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let anime = "Tensei Akujo no Kuro Rekishi OVA";
             let idioma = "legendado";
             let temporada = "1";
     
