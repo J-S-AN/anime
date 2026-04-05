@@ -36,7 +36,7 @@
     <div class="nav-buttons">
         <a href="episodio-1155.html" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior</a>
         <a href="menu.html" aria-label="Menu">Menu</a>
-        <a href="episodio-1157.html" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
+        <a href="#EM-BREVE" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
     </div>
 
     <div id="anime-episode-title">
@@ -45,25 +45,23 @@
 
     <div class="players">
         <button class="active" onclick="switchPlayer(0)">Blog</button>
-        <!--
         <button onclick="switchPlayer(1)">Drive</button>
-        -->
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW" allowfullscreen></iframe>
+        <iframe id="player" src="https://j-s-an.github.io/anime/players.html" allowfullscreen></iframe>
     </div>
 
     <!--<div class="download-below">
-        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1rRoeMNMb1B_U2THM7cY5ZdElkNTKs5ze&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
     </div>-->
 
     <script>
     
 var players = [
-    { src: 'https://www.blogger.com/video.g?token=AD6v5dzEhd9LxWCfCYYicRWmxjOGV2c0tbMt2OmPGPc3ZzqeVYol0WR2LFH4Qr6CeLVW_ycu9kVJVaSalj8lHXtG1VIGkkU7GUx05mwqrwr-ftM_ApFxSKWHXjFyB2vq_nO_AqYkg6zW', download: '' },
+    { src: 'https://j-s-an.github.io/anime/players.html', download: '' },
 
-    { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
+    { src: 'https://drive.google.com/file/d/1rRoeMNMb1B_U2THM7cY5ZdElkNTKs5ze/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1rRoeMNMb1B_U2THM7cY5ZdElkNTKs5ze&export=download' }
 ];
 
     function switchPlayer(index) {
