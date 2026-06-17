@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     popup.id = "popup";
     popup.innerHTML = `
         <div class="popup-content">
-            <p>ANIME EM HIATO<br> A transmissão está programada para retomar com o episódio 17 em 28 de fevereiro de 2026.</p>
+            <p>ANIME EM HIATO<br> A transmissão está programada para retomar com o episódio 12 em 12 de agosto de 2026.</p>
             <button id="closePopup">Fechar</button>
         </div>
     `;
