@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-        <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kanojo, Okarishimasu 5th Season - Dublado - JSY ANIME</title>
@@ -21,12 +22,13 @@
     <link rel="stylesheet" href="../../../0/menu.css">
     <script src="../../../0/em-breve2.js"></script>
 </head>
+
 <body>
-        <header>
+    <header>
         <nav class="menu">
             <div class="logo">
-            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
-        </div>
+                <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+            </div>
             <div class="menu-toggle" id="menu-toggle">&#9776;</div>
             <ul class="menu-links" id="menu-links">
                 <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
@@ -41,10 +43,11 @@
         <a href="https://sites.google.com/view/jsy-anime/anime/Kanojo-Okarishimasu/TV-5">← Voltar Pro Anime</a>
         <span>Kanojo, Okarishimasu 5th Season - Dublado</span>
     </div>
-    
+
     <div class="episodes">
         <div class="episode">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAv4XYCEhYaTZfIWS9MrwgDASFYJjNUK4cj_VTNkUAAmMtQweCv5aXVC4E6mI4wYw2kBRyXMSaVAhq_yPuvskH0Oq0IETaOOUiGgjxDW7m6gk_LQ13pSOwbiVet66Vb0nWCWkrMud1Svr_wmwwUB8ngkCyHLIUwXIewFXNBQXGhT19AOwkjsRfW3azuqA/w640-h346/Kanojo,%20Okarishimasu.png" alt="Temporada">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAv4XYCEhYaTZfIWS9MrwgDASFYJjNUK4cj_VTNkUAAmMtQweCv5aXVC4E6mI4wYw2kBRyXMSaVAhq_yPuvskH0Oq0IETaOOUiGgjxDW7m6gk_LQ13pSOwbiVet66Vb0nWCWkrMud1Svr_wmwwUB8ngkCyHLIUwXIewFXNBQXGhT19AOwkjsRfW3azuqA/w640-h346/Kanojo,%20Okarishimasu.png"
+                alt="Temporada">
             <div class="episode-title">Anterior Temporada</div>
             <a href="../../tv-4/dublado/menu.html">Temporada 4</a>
         </div>
@@ -108,15 +111,21 @@
             <div class="episode-title">Episódio 12 Final</div>
             <a href="#EM-BREVE">EM BREVE</a>
         </div>
+        <div class="episode">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAv4XYCEhYaTZfIWS9MrwgDASFYJjNUK4cj_VTNkUAAmMtQweCv5aXVC4E6mI4wYw2kBRyXMSaVAhq_yPuvskH0Oq0IETaOOUiGgjxDW7m6gk_LQ13pSOwbiVet66Vb0nWCWkrMud1Svr_wmwwUB8ngkCyHLIUwXIewFXNBQXGhT19AOwkjsRfW3azuqA/w640-h346/Kanojo,%20Okarishimasu.png"
+                alt="Temporada">
+            <div class="episode-title">Próxima Temporada</div>
+            <a href="../../tv-6/dublado/menu.html">Temporada 6</a>
+        </div>
     </div>
-    
+
     <div>
 
         <script>
-        document.getElementById('menu-toggle').onclick = function () {
-            document.getElementById('menu-links').classList.toggle('active');
-        };
-    </script>
+            document.getElementById('menu-toggle').onclick = function () {
+                document.getElementById('menu-links').classList.toggle('active');
+            };
+        </script>
         <script>
             fetch('../../../footer.html')
                 .then(response => response.text())
@@ -132,13 +141,13 @@
             let anime = "Kanojo, Okarishimasu 5th Season";
             let idioma = "dublado";
             let temporada = "1";
-    
+
             let episodios = document.querySelectorAll(".episode a");
-    
+
             episodios.forEach(function (link) {
                 let episodioNome = link.getAttribute("href").replace(".html", "");
                 let chaveEpisodio = `${anime}_${idioma}_T${temporada}_E${episodioNome}`;
-    
+
                 if (localStorage.getItem(chaveEpisodio)) {
                     link.innerText = "Assistido ✅";
                     link.classList.add("assistido");
@@ -148,4 +157,5 @@
     </script>
 
 </body>
+
 </html>
