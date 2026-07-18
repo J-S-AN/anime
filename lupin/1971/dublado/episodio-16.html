@@ -38,7 +38,8 @@
     <div class="nav-buttons">
         <a href="episodio-15.html" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior</a>
         <a href="menu.html" aria-label="Menu">Menu</a>
-        <a href="episodio-17.html" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
+        <a>Próximo <i class="fas fa-arrow-right"></i></a>
+        <!--<a href="episodio-17.html" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>-->
     </div>
 
     <div id="anime-episode-title">
@@ -46,14 +47,15 @@
     </div>
 
     <div class="players">
-        <!--
+        
         <button class="active" onclick="switchPlayer(0)">Blog</button>
+        <!--
             <button onclick="switchPlayer(1)">Drive</button>
         -->
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="" allowfullscreen></iframe>
+        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dxC4vkM4Xm6MoOZeVnCw1Js7_xlji7-v4dR7kgC6Kq2FclsCB1kO4Z9yum37PDMiATHZdeAoTo8uiTWjovX3XDqW12C6ASqKn6StjrPdmvhfC9ExpLfGL5-M99RLlO0lXK9G6M&origin=video-anime-jsy.blogspot.com" allowfullscreen></iframe>
     </div>
 
     <!--<div class="download-below">
@@ -65,7 +67,7 @@
 var players = [
     { src: '', download: '' },
 
-    { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dxC4vkM4Xm6MoOZeVnCw1Js7_xlji7-v4dR7kgC6Kq2FclsCB1kO4Z9yum37PDMiATHZdeAoTo8uiTWjovX3XDqW12C6ASqKn6StjrPdmvhfC9ExpLfGL5-M99RLlO0lXK9G6M&origin=video-anime-jsy.blogspot.com', download: '' }
 ];
 
     function switchPlayer(index) {
