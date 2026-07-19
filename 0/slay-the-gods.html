@@ -87,7 +87,6 @@
 
     .btn-doacao {
       display: block;
-      width: 100%;
       margin-bottom: 15px;
       padding: 14px;
       background: #e53935;
@@ -127,17 +126,17 @@
       Se puder, faça uma doação para ajudar a manter este anime disponível. ❤️
     </h2>
 
-    <a href="SEU_LINK_DA_DOACAO" target="_blank" class="btn-doacao">
-      ❤️ Fazer uma Doação
-    </a>
+    <a href="SEU_LINK_DA_DOACAO" target="_blank" class="btn-doacao" id="btn-doacao">
+    ❤️ Fazer uma Doação
+</a>
 
     <button id="btn-continuar">
       ▶ Continuar para o Player
     </button>
 
-    <div class="notice">
-      📺 Em breve, a versão em <strong>720p</strong> também estará disponível.
-    </div>
+    <div class="notice" id="notice">
+    📺 Em breve, a versão em <strong>720p</strong> também estará disponível.
+</div>
 
     <p id="mensagem-erro">
       Aguarde o administrador resolver o problema do player ou entre em contato pelo Instagram
@@ -151,6 +150,8 @@
       const mensagemErro = document.getElementById('mensagem-erro');
       const titulo = document.getElementById('titulo');
       const subtitulo = document.getElementById('subtitulo');
+      const btnDoacao = document.getElementById('btn-doacao');
+      const notice = document.getElementById('notice');
 
       const urlParams = new URLSearchParams(window.location.search);
       const videoUrl = urlParams.get('url');
@@ -187,7 +188,10 @@
         subtitulo.textContent = 'O link para o vídeo está faltando ou é inválido.';
         mensagemErro.style.display = 'block';
         btnContinuar.disabled = true;
+        btnDoacao.style.display = 'none';
+        notice.style.display = 'none';
       }
+
 
       btnContinuar.addEventListener('click', () => {
         if (videoUrl) {
@@ -198,6 +202,8 @@
             subtitulo.textContent = 'O formato do link está incorreto.';
             mensagemErro.style.display = 'block';
             btnContinuar.disabled = true;
+            btnDoacao.style.display = 'none';
+            notice.style.display = 'none';
           }
         }
       });
