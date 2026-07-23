@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="https://j-s-yt.github.io/J-S-Y/jose.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaguya-sama wa Kokurasetai: First Kiss wa Owaranai - JSY ANIME</title>
+    <meta name="description" content="Assista animes online dublados e legendados gratuitamente.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta property="og:title" content="Kaguya-sama wa Kokurasetai: First Kiss wa Owaranai - JSY ANIME">
+    <meta property="og:description" content="Animes online grátis em português, com qualidade e sem anúncios invasivos.">
+    <meta property="og:image" content="https://cdn.myanimelist.net/images/anime/1670/130060l.jpg">
+    <meta property="og:url" content="https://bit.ly/J-S-Y">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../0/ep.css">
+    <script src="../../0/em-breve.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <div class="logo">
+            <a href="https://j-s-an.github.io/anime/" class="logo-link">JSY ANIME</a>
+        </div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul class="menu-links" id="menu-links">
+                <li><a href="https://j-s-an.github.io/anime/">Início</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Lançamentos.html">Lançamentos</a></li>
+                <li><a href="https://j-s-an.github.io/anime/lista-anime.html">Lista de Anime</a></li>
+                <li><a href="https://j-s-an.github.io/anime/Pedido-de-Anime.html">Pedido de Anime</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="nav-buttons">
+        <a href="https://sites.google.com/view/jsy-anime/anime/kaguya-sama/First-Kiss-wa-Owaranai" aria-label="Menu">← Voltar Pro Anime</a>
+    </div>
+
+    <div id="anime-episode-title">
+        Kaguya-sama wa Kokurasetai: First Kiss wa Owaranai
+    </div>
+
+    <div class="players">
+        <button class="active" onclick="switchPlayer(0)">Trailer</button>
+    </div>
+    <div id="anime-episode-title">
+        Players Legendado
+    </div>
+    <div class="players">
+        <button onclick="switchPlayer(1)">Blog Parte 1</button>
+        <button onclick="switchPlayer(2)">Blog Parte 2</button>
+        <button onclick="switchPlayer(3)">Blog Parte 3</button>
+        <button onclick="switchPlayer(4)">Blog Parte 4</button>
+    </div>
+    <div id="anime-episode-title">
+        Players Dublado
+    </div>
+    <div class="players">
+        <button onclick="switchPlayer(5)">Blog Parte 1</button>
+        <button onclick="switchPlayer(6)">Blog Parte 2</button>
+        <button onclick="switchPlayer(7)">Blog Parte 3</button>
+        <button onclick="switchPlayer(8)">Blog Parte 4</button>
+    </div>
+
+    <div class="video-container">
+        <iframe id="player" src="https://www.youtube.com/embed/8Zy8-00-Pls?si=iWVgqB4eJ0b7T7gU" allowfullscreen></iframe>
+    </div>
+<!--
+    <div class="download-below">
+        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>
+    -->
+
+    <div class="nav-buttons2">
+        <a href="../tv-3/legendado/menu.html" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior Termporada 3</a>
+    </div>
+    <div class="nav-buttons3">
+        <a href="../tv-3/dublado/menu.html" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior Termporada 3 - Dublado</a>
+    </div>
+    <div class="nav-buttons6">
+        <a href="Otona-e-no-Kaidan.html" aria-label="Próximo episódio"> Próximo Especial <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <script>
+    
+var players = [
+    { src: 'https://www.youtube.com/embed/8Zy8-00-Pls?si=iWVgqB4eJ0b7T7gU', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dwcWW9BOiaMnpEqPQiMC4Q-XYUGVwfNq_BwlctV4CGOgLjrDWFpY4PoBAGI_3dIgnEG0g-uWdrTstZs3M7Fs_OqhUKk8TU3j9ZwoiH2m8pM3q_LVC_ZSWfQwT0OKqgpl3KQb6Ps&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dwOH_QP08Mb4LqKV2E3uBJKt41BdNxq3AXXHzTRti44qgzpJGxrhVGVCvEzW29zY9--dNq8PQCl8rdyEa2TYQn6El6FO62TqE78sptvMQ1s3gtZOSh5v6Y2b52xVWDiBsCOqf5d&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dwY_hq-PJ-lUGjLwwXnd20I8lOpOj8u6mn4iphjEybxV11drCUoZO5PAkfwee2bFZ0K9TdkviJ85f7DvGyMU9TEQreO7MN-SRYi2gXOJ49QNIndNZha-shzViVVAYQY2GdVv9s&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dxH_4iS4aGltQlJ240rBm6Eu506nOjV2SU-Ayi0IMMNaW0K5c5EuEu-EWcSBSBbzDLVyTnCV9u9M9c1oEfoUNc3Y8JyAMNPGMdLQMT_tJoCdhKgYjyImfXoeW8Dnbcf8FeiFI8&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dxAKYNrueJXGHV7-yVsShq4y_fEgQSOawOWzWoQonUKUhkgyx067iJR15yApHoOoSWirgaxgXsf9RnHFNI0cJHfXf2846omfIdmHjDPTDll7hF8w-H7rKQ2uO03AzM6vX09edU&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dwONdgbVhPBA21D02EuuE5RVq8Fg1FLVueXhYs03QTfrWDXzsFnNYcIdSuQtN_WyjjuSOl9iiMTQDusNb5mQdfvqu5HlVPjjCbkafVYW77DHpnyGjq3zLkC9MwHHlf81d2Jas5V&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dzMbOtGfgXGulNIqV3baNUoub1buMIAJpO9Oe8eydDIQPHJT3Q9mJAu3y_aZ9CflsdK_YXR1AFFvdEVzIDEUKIPWA0MjvUQt16d72bpg2SOJujgrh3zLEVE_kBDSwVLLBZaoA&origin=video-anime-jsy.blogspot.com', download: '' },
+
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dy3bIml6nRE5fdkpvK6oaPuFPSfZc0K3QbQDf8l9qpCBGZ5m4NC5sv0rjPu-i_sjrlGXJ3dzHzSfL33SDFLl3CwNh43nlBBD4CXsOOTWtABg1ZX4IK9NlIFqSAUcynMgK8zxeY&origin=video-anime-jsy.blogspot.com', download: '' }
+];
+
+    function switchPlayer(index) {
+        document.getElementById('player').src = players[index].src;
+        document.querySelectorAll('.players button').forEach((b, i) => {
+            b.classList.toggle('active', i === index);
+        });
+        const downloadBtnBottom = document.getElementById('download-below-btn');
+        if (players[index].download) {
+            downloadBtnBottom.href = players[index].download;
+            downloadBtnBottom.style.display = 'inline-block';
+        } else {
+            downloadBtnBottom.style.display = 'none';
+        }
+    }
+    document.getElementById('menu-toggle').onclick = function () {
+        document.getElementById('menu-links').classList.toggle('active');
+    };
+    </script>
+
+    
+<div class="commentbox"></div>
+<script src="https://unpkg.com/commentbox.io/dist/commentBox.min.js"></script>
+<script>
+            commentBox('5704043783520256-proj', {
+                textColor: '#fff'
+            });
+        </script>
+
+    
+<script>
+    fetch('../../footer.html')
+        .then(response => response.text())
+        .then(data => {
+            document.body.insertAdjacentHTML('beforeend', data);
+        });
+</script>
+
+
+</body>
+</html>
