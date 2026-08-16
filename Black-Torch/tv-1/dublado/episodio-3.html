@@ -46,28 +46,28 @@
     </div>
 
     <div class="players">
-        <button class="active" onclick="switchPlayer(0)">Blog</button>
+        <button class="active" onclick="switchPlayer(0)">Drive</button>
+        <button onclick="switchPlayer(1)">Blog</button>
         <!--
-            <button onclick="switchPlayer(1)">Drive</button>
             <button onclick="switchPlayer(2)">Tape ads</button>
             <button onclick="switchPlayer(3)">Dood ads</button>
         -->
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dyymqt7p5r25pXLDmw-xGsR0U87tp7r0Iqkl2gN5jrLyp5RsqmzH2N4SoA-dC5U5MNhYbGKuOMaMfcDx1N6Hm92_ztjB8pIbwto13CjqOj5Mm4H_32buT8evS6S2Z3C52-cRNdX&origin=bulbova.blogspot.com" allowfullscreen></iframe>
+        <iframe id="player" src="https://drive.google.com/file/d/1GwqN_yUF2ZtfgcV4zNIvPFImsvm0D3DT/preview" allowfullscreen></iframe>
     </div>
 
-    <!--<div class="download-below">
-        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
-    </div>-->
+    <div class="download-below">
+        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1GwqN_yUF2ZtfgcV4zNIvPFImsvm0D3DT&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>
 
     <script>
     
 var players = [
-    { src: 'https://www.blogger.com/video.g?token=AD6v5dyymqt7p5r25pXLDmw-xGsR0U87tp7r0Iqkl2gN5jrLyp5RsqmzH2N4SoA-dC5U5MNhYbGKuOMaMfcDx1N6Hm92_ztjB8pIbwto13CjqOj5Mm4H_32buT8evS6S2Z3C52-cRNdX&origin=bulbova.blogspot.com', download: '' },
+    { src: 'https://drive.google.com/file/d/1GwqN_yUF2ZtfgcV4zNIvPFImsvm0D3DT/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1GwqN_yUF2ZtfgcV4zNIvPFImsvm0D3DT&export=download' },
 
-    { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' },
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dz_nrDCpnbeDKvS6fuv5fYG4dHe9OfgtnUBj7BlNWlR1_zfLMcl-GRfw1ldcEfOETkm8HsXv0hyYiChth0fVXAzAQQq7NKHelfo1kQGgfNL4C5RHkFrfdn8IoKVD9ZoOuxcZO_Y&origin=bulbova.blogspot.com', download: '' },
 
     { src: 'https://streamtape.com/e/29obkY2gaOfZMg4/', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://2371755324.tapecontent.net/.../INTRO+JOSE+STATUS+YT.mp4?dl=1' },
 
