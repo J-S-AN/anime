@@ -46,32 +46,26 @@
     </div>
 
     <div class="players">
-        <button class="active" onclick="switchPlayer(0)">Drive</button>
-            <button onclick="switchPlayer(1)">Blog</button>
-            <!--
-            <button onclick="switchPlayer(2)">Tape ads</button>
-            <button onclick="switchPlayer(3)">Dood ads</button>
+        <button class="active" onclick="switchPlayer(0)">Blog</button>
+        <!--
+            <button onclick="switchPlayer(1)">Drive</button>
         -->
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="https://drive.google.com/file/d/1g0KLLypNCVI0uebXrxrh74W9kCOGO2gQ/preview" allowfullscreen></iframe>
+        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dyi8G5OmHfrrCpxHlO4qY-S5-Wfg3oriuAEMI1Lzc_ZpxK7OfSHxTkmxVMvSLEsICn_X91YOn2KPdsTJaHCf8SGGr9qeSfkIefEuCdVEW-zXJ_Ch9WA_bH1o8dGRX9mfqVRUNzE&origin=bulbalegend.blogspot.com" allowfullscreen></iframe>
     </div>
 
-    <div class="download-below">
-        <a href="http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1g0KLLypNCVI0uebXrxrh74W9kCOGO2gQ&export=download" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
-    </div>
+    <!--<div class="download-below">
+        <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
+    </div>-->
 
     <script>
     
 var players = [
-    { src: 'https://drive.google.com/file/d/1g0KLLypNCVI0uebXrxrh74W9kCOGO2gQ/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1g0KLLypNCVI0uebXrxrh74W9kCOGO2gQ&export=download' },
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dyi8G5OmHfrrCpxHlO4qY-S5-Wfg3oriuAEMI1Lzc_ZpxK7OfSHxTkmxVMvSLEsICn_X91YOn2KPdsTJaHCf8SGGr9qeSfkIefEuCdVEW-zXJ_Ch9WA_bH1o8dGRX9mfqVRUNzE&origin=bulbalegend.blogspot.com', download: '' },
 
-    { src: 'https://www.blogger.com/video.g?token=AD6v5dzHVcAS5hL448xtMHO_26nYtNgOrYYYKVl2g50dgxxgxZ7Lqjt63AIvX3W_PA6nfr9EHEFFfYJE4nRNXdjmmNw9A6RkZ8kkJqsgZRxSRoOfkQXEe44DzJ42l4gDDHfHJZXcolAY', download: '' },
-
-    { src: 'https://streamtape.com/e/29obkY2gaOfZMg4/', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://2371755324.tapecontent.net/.../INTRO+JOSE+STATUS+YT.mp4?dl=1' },
-
-    { src: 'https://vide0.net/e/3lzrvbqa9ia8', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://vide0.net/d/3lzrvbqa9ia8' }
+    { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
 ];
 
     function switchPlayer(index) {
