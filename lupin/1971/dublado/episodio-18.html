@@ -36,7 +36,7 @@
     </header>
 
     <div class="nav-buttons">
-        <a href="episodio-17.html" aria-label="Episódio anterior"><i class="fas fa-arrow-left"></i> Anterior</a>
+        <a><i class="fas fa-arrow-left"></i> Anterior</a>
         <a href="menu.html" aria-label="Menu">Menu</a>
         <a href="episodio-19.html" aria-label="Próximo episódio">Próximo <i class="fas fa-arrow-right"></i></a>
     </div>
@@ -46,14 +46,16 @@
     </div>
 
     <div class="players">
-        <!--
         <button class="active" onclick="switchPlayer(0)">Blog</button>
+        <!--
             <button onclick="switchPlayer(1)">Drive</button>
+            <button onclick="switchPlayer(2)">Tape ads</button>
+            <button onclick="switchPlayer(3)">Dood ads</button>
         -->
     </div>
 
     <div class="video-container">
-        <iframe id="player" src="" allowfullscreen></iframe>
+        <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dwCHFcJfdOQLSKIOug_MrM-X2Fib1oOv_XIQec4y_noqlw7UlZKCbtu-d6nxzrZp89j0Jiq0sqR_0DPlTv2cSTCG-oNp-RK0yn5RLTunmD1kawVCUUjJ_8nT9cuRmkMJ2Lyyao&origin=video-anime-jsy.blogspot.com" allowfullscreen></iframe>
     </div>
 
     <!--<div class="download-below">
@@ -63,7 +65,7 @@
     <script>
     
 var players = [
-    { src: '', download: '' },
+    { src: 'https://www.blogger.com/video.g?token=AD6v5dwCHFcJfdOQLSKIOug_MrM-X2Fib1oOv_XIQec4y_noqlw7UlZKCbtu-d6nxzrZp89j0Jiq0sqR_0DPlTv2cSTCG-oNp-RK0yn5RLTunmD1kawVCUUjJ_8nT9cuRmkMJ2Lyyao&origin=video-anime-jsy.blogspot.com', download: '' },
 
     { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
 ];
