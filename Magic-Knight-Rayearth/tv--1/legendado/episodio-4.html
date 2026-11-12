@@ -50,8 +50,9 @@
 
     <div class="players">
         <button class="active" onclick="switchPlayer(0)">Blog</button>
+        <button onclick="switchPlayer(1)">Send</button>
         <!--
-            <button onclick="switchPlayer(1)">Drive</button>
+            <button onclick="switchPlayer(2)">Drive</button>
         -->
     </div>
 
@@ -59,14 +60,16 @@
         <iframe id="player" src="https://www.blogger.com/video.g?token=AD6v5dwf_v8diqcOwgW2-NfV8ZjyMhlqObVb19nJ2Tu_lFrCzFlJvyDyMZuJEA1xJY5Ey5oUkzeLdD9wXeHgn2R3MokgonRzwQe9kIy2cniw8RLYl7Ll78G89enLQA1q6-t4yIXB0Dg&origin=bulborn.blogspot.com" allowfullscreen></iframe>
     </div>
 
-    <!--<div class="download-below">
+    <div class="download-below">
         <a href="https://4br.me/ESXw86n0" target="_blank" download id="download-below-btn"><i class="fas fa-download"></i> Download</a>
-    </div>-->
+    </div>
 
     <script>
     
 var players = [
     { src: 'https://www.blogger.com/video.g?token=AD6v5dwf_v8diqcOwgW2-NfV8ZjyMhlqObVb19nJ2Tu_lFrCzFlJvyDyMZuJEA1xJY5Ey5oUkzeLdD9wXeHgn2R3MokgonRzwQe9kIy2cniw8RLYl7Ll78G89enLQA1q6-t4yIXB0Dg&origin=bulborn.blogspot.com', download: '' },
+
+    { src: 'https://j-s-an.github.io/anime/SEND.html', download: 'https://send.now/51ufzvehn3vr' },
 
     { src: 'https://drive.google.com/file/d/1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU/preview', download: 'http://ouo.io/qs/Vk1GsFY7?s=https://drive.usercontent.google.com/u/0/uc?id=1Y3qVRgKpRLTrsGTJ_z6utJgOxvQquMPU&export=download' }
 ];
